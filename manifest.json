@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "CCE निकाल प्रणाली",
+  "short_name": "CCE",
+  "description": "सातत्यपूर्ण सर्वांकष मूल्यमापन (CCE) - निकाल पत्रक, प्रगती पत्रक, गुणपत्रक व नोंदवही",
+  "lang": "mr",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a3d62",
+  "theme_color": "#0a3d62",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "cce-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "cce-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
