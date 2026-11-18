@@ -63,7 +63,7 @@ input,select,textarea{font-size:16px;min-height:44px;border-radius:10px}
 .sm button{display:block;width:100%;text-align:left;padding:12px 18px 12px 58px;font-size:15px;color:var(--mu);border-left:4px solid transparent}
 .sm button.on{color:var(--ac);font-weight:700;background:var(--ac2);border-left-color:#f59e0b}
 .dh{gap:12px;text-align:left;padding-bottom:14px}.dh svg{width:46px;height:46px;flex:none}
-#ld{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;transition:opacity .4s}
+#ld{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;transition:opacity .45s ease}
 #ld.off{opacity:0;pointer-events:none}
 #ld .lw{width:96px;height:96px;display:flex;align-items:center;justify-content:center;animation:cspin 1.6s cubic-bezier(.6,0,.4,1) infinite;filter:drop-shadow(0 6px 14px #0006)}
 #ld .lt{font-size:20px;font-weight:700;letter-spacing:.3px}#ld .ls{font-size:13px;opacity:.8}
@@ -291,7 +291,7 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 @page cvp{size:A4 portrait;margin:0}@page cvl{size:A4 landscape;margin:0}
 @media print{main{padding:0!important}.cov{zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important}.cov.cp{page:cvp;height:296mm!important}.cov.cl{page:cvl;height:209mm!important}}
 @media print{.rpg{page:rec;width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}.rpg:last-child{break-after:auto;page-break-after:auto}}
-@media print{#sh,#md,#ld,#hd,#ov,#dw,.ab,body::before{display:none!important}body{padding:0}}
+@media print{#lp,#sh,#md,#ld,#hd,#ov,#dw,.ab,body::before{display:none!important}body{padding:0}html,body{height:auto!important;min-height:0!important}body{display:block!important}main{flex:none!important}}
 @media print{.np{display:none!important}body{background:#fff;color:#000}.card{border:none;padding:0}th{background:#eee;color:#000}:root{--bd:#444}}
 .rsh{background:#fff;color:#000;width:1060px;box-sizing:border-box;padding:10px 12px;margin:0 auto 14px;border:1px solid var(--bd);box-shadow:0 1px 4px #0002;font-size:11px;line-height:1.25;zoom:var(--z,1)}
 .rsh .rt th,.rsh .rt td{height:7.4mm;font-size:10.5px;padding:0 1px}
@@ -338,16 +338,16 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .pc-r{display:flex;gap:2mm;padding:1.2mm 0;border-bottom:.25mm dotted #8fb;font-size:9.8pt;align-items:baseline}
 .pc-r .l{width:26mm;color:#0b6b6b;font-weight:700;flex:none}.pc-r span{font-weight:700;flex:1}
 .pc-ft{position:absolute;left:0;right:0;bottom:0;height:12mm;background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9.5pt;border-top:1.1mm solid #f59e0b}
-@page{size:A4 landscape;margin:0}
 @page pcl{size:A4 landscape;margin:0}
+/* फक्त मुखपृष्ठ/प्रगती पत्रक (pc1-pc3) साठी : html.pcp */
 @media print{
-  html,body{width:297mm!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
-  body::before,#hd,#ov,#dw,#ft,.ab,.np{display:none!important}
-  main{padding:0!important;margin:0!important;max-width:none!important;width:297mm!important}
-  .sc{overflow:visible!important;zoom:1!important;margin:0!important;padding:0!important;width:297mm!important}
-  .pcs{page:pcl;display:flex!important;width:296.5mm!important;height:208.5mm!important;max-height:208.5mm!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;overflow:hidden!important;page-break-inside:avoid!important;break-inside:avoid!important;break-after:page!important;page-break-after:always!important}
-  .pcs>div{width:148.2mm!important;height:208.5mm!important}
-  .pcs:last-child{break-after:auto!important;page-break-after:auto!important}
+  html.pcp,html.pcp body{width:297mm!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;overflow:visible!important}
+  html.pcp body::before,html.pcp #hd,html.pcp #ov,html.pcp #dw,html.pcp #ft,html.pcp .ab,html.pcp .np{display:none!important}
+  html.pcp main{padding:0!important;margin:0!important;max-width:none!important;width:297mm!important}
+  html.pcp .sc{overflow:visible!important;zoom:1!important;margin:0!important;padding:0!important;width:297mm!important}
+  html.pcp .pcs{page:pcl;display:flex!important;width:296.5mm!important;height:208.5mm!important;max-height:208.5mm!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;overflow:hidden!important;page-break-inside:avoid!important;break-inside:avoid!important;break-after:page!important;page-break-after:always!important}
+  html.pcp .pcs>div{width:148.2mm!important;height:208.5mm!important}
+  html.pcp .pcs:last-child{break-after:auto!important;page-break-after:auto!important}
 }
 
 /* ---------- प्रगती पत्रक - 2 (A4 आडवे : प्रथम सत्र + द्वितीय सत्र) ---------- */
@@ -418,10 +418,80 @@ body.pwa-can .pwa-i{display:flex!important}
 .cbar span{font-weight:700;font-size:13px;color:var(--mu);white-space:nowrap}
 .cbar button{flex:1;min-width:0;min-height:38px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ac2);color:var(--ac);border:1px solid var(--ac);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cbar button.on{background:var(--ac);color:var(--card)}
+
+/* ---------- Landing page (#lp) ---------- */
+#lp{position:fixed;inset:0;z-index:90;background:#eef2f5;overflow-y:auto;-webkit-overflow-scrolling:touch;font-family:'Nirmala UI','Noto Sans Devanagari',system-ui,sans-serif;color:#0f2a3a;transition:opacity .35s ease;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+#lp.off{opacity:0;pointer-events:none}
+#lp *{box-sizing:border-box}
+.lp-w{max-width:480px;margin:0 auto;padding:14px 16px 24px;display:flex;flex-direction:column;gap:14px;min-height:100%}
+.lp-hero{background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;border-radius:20px;padding:16px 16px 18px;text-align:center;box-shadow:0 10px 26px #0a3d6233;position:relative;overflow:hidden}
+.lp-hero::after{content:"";position:absolute;left:50%;bottom:0;width:56px;height:4px;margin-left:-28px;border-radius:4px 4px 0 0;background:#f59e0b}
+.lp-logo{width:54px;height:57px;margin:0 auto 6px;filter:drop-shadow(0 6px 12px #0005)}
+.lp-logo svg{width:100%;height:100%}
+.lp-hero h1{font-size:20px;font-weight:800;line-height:1.25;margin:0 0 4px;letter-spacing:.2px}
+.lp-hero p{font-size:12.5px;line-height:1.5;margin:0;opacity:.92}
+.lp-act{display:flex;flex-direction:column;gap:10px}
+.lp-b{position:relative;overflow:hidden;width:100%;min-height:52px;border-radius:16px;font-size:16px;font-weight:800;font-family:inherit;border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;transition:transform .12s,box-shadow .12s;-webkit-tap-highlight-color:transparent}
+.lp-b[hidden]{display:none}
+.lp-b.pri{background:linear-gradient(180deg,#fbbf24,#f59e0b);color:#2d1b00;box-shadow:0 6px 16px #f59e0b66}
+.lp-b.pri::before{content:"";position:absolute;top:-20%;left:-60%;width:40%;height:140%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:lpsh 2.8s ease-in-out infinite;pointer-events:none}
+@keyframes lpsh{0%{left:-60%}55%,100%{left:130%}}
+.lp-b.alt{background:#fff;color:#0b5c6b;border-color:#0b6b6b;box-shadow:0 3px 10px #0a3d6218}
+.lp-b:active{transform:scale(.98)}
+@media(prefers-reduced-motion:reduce){.lp-b.pri::before{animation:none;display:none}}
+.lp-hint{font-size:13px;line-height:1.5;color:#7a4a00;background:#fff4dc;border:1px solid #f9d78c;border-radius:12px;padding:8px 12px;text-align:center}
+.lp-hint[hidden]{display:none}
+.lp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lp-f{background:#fff;border-radius:16px;padding:13px 12px;box-shadow:0 2px 8px #0a3d6214;border-top:3px solid #f59e0b}
+.lp-f b{display:block;font-size:14px;font-weight:800;color:#0a3d62;margin-bottom:4px;line-height:1.3}
+.lp-f span{display:block;font-size:12px;line-height:1.5;color:#4b5f6b}
+.lp-cr{margin-top:auto;width:100%;background:#fff;border:1.5px solid #cfe0e6;border-radius:999px;padding:13px 16px;font-family:inherit;font-size:14px;color:#0a3d62;cursor:pointer;text-align:center;line-height:1.4;box-shadow:0 2px 8px #0a3d6214}
+.lp-cr b{color:#0b6b6b}
+.lp-cr:active{background:#f3f8fa}
+.lp-m{position:fixed;inset:0;background:#0a1e2ccc;display:flex;align-items:center;justify-content:center;padding:18px;z-index:2;animation:lpf .2s ease}
+.lp-m[hidden]{display:none}
+@keyframes lpf{from{opacity:0}to{opacity:1}}
+.lp-mc{width:100%;max-width:380px;background:#fff;border-radius:22px;padding:0 20px 18px;margin-top:46px;text-align:center;box-shadow:0 16px 40px #0006}
+.lp-av{width:92px;height:92px;border-radius:50%;margin:-46px auto 10px;border:4px solid #fff;box-shadow:0 0 0 3px #f59e0b,0 6px 14px #0004;overflow:hidden;background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800}
+.lp-av img{width:100%;height:100%;object-fit:cover;display:block}
+.lp-mc h2{font-size:19px;font-weight:800;color:#0a3d62;margin:0 0 8px}
+.lp-mc p{font-size:13.5px;line-height:1.65;color:#3d515d;margin:0 0 16px}
+.lp-wa{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border-radius:14px;background:#25d366;color:#053b1a;font-weight:800;font-size:15px;text-decoration:none;margin-bottom:10px}
+.lp-x{width:100%;min-height:44px;border-radius:14px;background:#eef2f5;color:#0a3d62;font-weight:700;font-size:14px;border:0;font-family:inherit;cursor:pointer}
+@media(max-width:340px){.lp-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#lp,.lp-m{transition:none;animation:none}}
 </style>
 </head>
 <body>
 <div id="ld" role="status" aria-label="लोड होत आहे"><div class="lw"><svg xmlns="http://www.w3.org/2000/svg" viewBox="8 2 84 88" width="84" height="88" aria-hidden="true" xmlns:c2pa="http://c2pa.org/manifest"><g stroke="#fff" stroke-width="1.6" stroke-linejoin="round"><path d="M50 8L83 27L50 46L17 27Z" fill="#ff7ff5"/><path d="M17 27L50 46V84L17 65Z" fill="#6fa8ff"/><path d="M50 46L83 27V65L50 84Z" fill="#14bfb7"/></g><g fill="none" stroke="#fff" stroke-width="4.2"><path transform="matrix(1 -.576 1 .576 17 27)" d="M23 8H8v17h15"/><path transform="matrix(1 .576 0 1 17 27)" d="M24 9H9v20h15"/><path transform="matrix(1 -.576 0 1 50 46)" d="M24 9H9v20h15M9 19h12"/></g><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpjMTYwYmQxNi00MDliLTQzNjMtOWRkMS1hOTgzMjg0ZjAxMjQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaAVrZO1F71D3gJWMIBxGF/EAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDphNjUwYTliNS05ZGJkLTRkZGYtOGZjMi05NjA1OWJmZGExNmJscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNos7QEOUCB2z5tfYMgsZlTUgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggMQSpbiD0yxFUS7ERpAAV/3KGXmmiSw0MK34Q44w4bd2kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaLYWAo6tA6bzvDo9CdlQluIAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIJcb7euTTCLTybfJ0KWCEsFHMbN3ltLFR2zFCh+kGdjZZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQJkZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmMxNjBiZDE2LTQwOWItNDM2My05ZGQxLWE5ODMyODRmMDEyNC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjg5ZGQ5MzYwLWEzMzgtNGEwZC1hNzNkLWVmNGQxMjg0MGNhZHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAxBKluIPTLEVRLsRGkABX/coZeaaJLDQwrfhDjjDht3aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggZeghYvc6aYOMDFcyTURAfzKeGHc6elqrt1ie61j9p12iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggbDzOSkzR5x7WwKSB3B7jN4vtgAlNwyLxjCPZyufzGgp0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQH7Iw8mD5Z8cNe+wTUP40yJQOmol1rify8S9lFpTOozow/yhtI5fRyoSDZEPtnINv9GPFhF9/QSaMyqzcqSQ+oU=</c2pa:manifest></metadata></svg></div><div class="lt">CCE निकाल प्रणाली</div><div class="ls">लोड होत आहे…</div></div>
+<div id="lp" role="main" aria-label="CCE निकाल प्रणाली - स्वागत">
+ <div class="lp-w">
+  <section class="lp-hero"><div class="lp-logo" id="lpLogo"></div><h1>CCE निकाल प्रणाली</h1><p>सातत्यपूर्ण सर्वांकष मूल्यमापन — जलद, अचूक आणि पेपरलेस निकाल व नोंदवही</p></section>
+  <div class="lp-act">
+   <button class="lp-b pri" id="lpIns" type="button" onclick="lpInstall()">📲 App इन्स्टॉल करा</button>
+   <button class="lp-b alt" type="button" onclick="lpEnter()">🌐 Continue with web Browser</button>
+   <div id="lpHint" class="lp-hint" hidden></div>
+  </div>
+  <section class="lp-grid" aria-label="वैशिष्ट्ये">
+   <div class="lp-f"><b>👥 विद्यार्थी प्रोफाइल</b><span>फोटो, रजि. नं., वजन-उंची व हजेरी नोंद.</span></div>
+   <div class="lp-f"><b>✏️ FE व SE गुणनोंद</b><span>घटकनिहाय व एकूण गुणांची स्वयंचलित गणना.</span></div>
+   <div class="lp-f"><b>📊 निकाल व प्रगती पत्रक</b><span>A4 प्रिंटसाठी तयार निकाल पत्रक, प्रगती पत्रक - 1 व 2, आणि नोंदवही.</span></div>
+   <div class="lp-f"><b>☁️ सुरक्षित बॅकअप</b><span>JSON फाईल व Google Drive Sync सुविधा.</span></div>
+  </section>
+  <button class="lp-cr" type="button" onclick="lpMod(1)">👨‍💻 संकल्पना व निर्मिती: <b>श्री. सोमनाथ गायकवाड सर</b></button>
+ </div>
+ <div id="lpM" class="lp-m" hidden onclick="if(event.target===this)lpMod(0)">
+  <div class="lp-mc" role="dialog" aria-modal="true" aria-label="निर्मिती व संकल्पना">
+   <div class="lp-av"><img src="Somnath.jpg" alt="श्री. सोमनाथ गायकवाड सर" onerror="lpImg(this)"></div>
+   <h2>श्री. सोमनाथ गायकवाड सर</h2>
+   <p>शिक्षकांचे दैनंदिन सातत्यपूर्ण सर्वांकष मूल्यमापन, गुणनोंद, प्रगती पत्रक आणि नोंदवहीचे कामकाज अधिक सोपे, जलद, अचूक आणि पेपरलेस करण्यासाठी या ॲपची निर्मिती केली आहे.</p>
+   <a class="lp-wa" href="https://wa.me/917020302223" target="_blank" rel="noopener">💬 WhatsApp संपर्क</a>
+   <button class="lp-x" type="button" onclick="lpMod(0)">बंद करा</button>
+  </div>
+ </div>
+</div>
+<script>function lpImg(im){if(!im.dataset.t){im.dataset.t='1';im.src='somnath.jpg';return}var p=im.parentNode;im.remove();p.textContent='सो'}
+try{if(['standalone','fullscreen','minimal-ui'].some(function(m){return matchMedia('(display-mode: '+m+')').matches})||navigator.standalone===true||sessionStorage.getItem('cce-lp')){var _l=document.getElementById('lp');_l&&_l.remove()}}catch(e){}</script>
 <header id="hd" class="np"></header><div id="ov" class="np" onclick="dr(0)"></div><aside id="dw" class="np"></aside>
 <main id="app" class="p-3 max-w-5xl mx-auto"></main>
 <footer id="ft" class="np"><span class="fd"></span><div class="ftx">संकल्पना व निर्मिती : <b>श्री. सोमनाथ गायकवाड सर</b></div></footer>
@@ -546,9 +616,9 @@ const LOGO='<svg width="42" height="42" viewBox="8 2 84 88" aria-hidden="true"><
 S.df=S.df||{mo:'घरकाम',fo:'शेती',ad:'',mq:'',fq:'',cat:''};
 const CATS=['खुला','अनुसूचित जाती (SC)','अनुसूचित जमाती (ST)','विमुक्त जाती (VJ-A)','भटक्या जमाती (NT-B)','भटक्या जमाती (NT-C)','भटक्या जमाती (NT-D)','विशेष मागास प्रवर्ग (SBC)','इतर मागास वर्ग (OBC)','आर्थिक दुर्बल घटक (EWS)'];
 function drUI(o){document.getElementById('dw').classList.toggle('open',!!o);document.getElementById('ov').classList.toggle('open',!!o)}
-function dr(o){if(o){if(!dmOn){dmOn=true;try{history.pushState({nv:1,dm:1,i:navIdx,tab,ss,sem,sub,cur},'')}catch(e){}}}else if(dmOn){dmOn=false;try{history.back()}catch(e){}}drUI(o)}
+function dr(o){if(o){ox='';const dl=document.querySelector('#dw .dl');if(dl)dl.innerHTML=dwList();if(!dmOn){dmOn=true;try{history.pushState({nv:1,dm:1,i:navIdx,tab,ss,sem,sub,cur},'')}catch(e){}}}else if(dmOn){dmOn=false;try{history.back()}catch(e){}}drUI(o)}
 function hs(){const e=document.getElementById('hs');if(e)e.textContent=(S.sc.name||'शाळेचे नाव')+' • '+(S.sc.std||'')+' '+(S.sc.div||'')}
-function drawer(){const sh0=document.getElementById('sh');if(sh0)sh0.remove();if(tab!=='stu')ed=null;if(!(tab==='setup'&&ss==='sp'))spd=null;if(!(tab==='setup'&&ss==='gh'))bdr=null;if(!(tab==='setup'&&ss==='df'))dfd=null;const g0=grp();if(g0){gl[g0.id]=tab;ox=g0.id}
+function drawer(){const sh0=document.getElementById('sh');if(sh0)sh0.remove();if(tab!=='stu')ed=null;if(!(tab==='setup'&&ss==='sp'))spd=null;if(!(tab==='setup'&&ss==='gh'))bdr=null;if(!(tab==='setup'&&ss==='df'))dfd=null;const g0=grp();if(g0){gl[g0.id]=tab;ox=''}
  document.getElementById('hd').innerHTML=`<button id="mb" onclick="dr(1)" aria-label="मेनू">☰</button><button id="nb" class="nvb" onclick="history.back()" aria-label="मागे" title="मागे"${navIdx>0?'':' disabled'}>‹</button>${LOGO}<div class="min-w-0 flex-1"><div class="font-bold text-lg leading-tight truncate">CCE निकाल प्रणाली</div><div id="hs" class="truncate text-xs" style="opacity:.9"></div></div><button class="ib pwa-i" onclick="pwaInstall()" aria-label="App इन्स्टॉल करा" title="App इन्स्टॉल करा">📲</button><button id="nf" class="nvb" onclick="history.forward()" aria-label="पुढे" title="पुढे"${navIdx<navMax?'':' disabled'}>›</button>`;
  document.getElementById('dw').innerHTML=`<div class="dh">${LOGO}<div class="min-w-0"><div class="font-bold">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="text-xs" style="opacity:.85">शैक्षणिक वर्ष ${esc(S.sc.year)}</div></div></div>`+'<button class="dib pwa-i" onclick="pwaInstall()">📲 App इन्स्टॉल करा</button><div class="dl">'+dwList()+'</div>';
  dr(0);hs();window.scrollTo(0,0)}
@@ -1097,7 +1167,7 @@ V.ct=()=>{
  return`<div class="ctcard">
   <div class="cttop">
    <span class="ctbadge">✨ संकल्पना व निर्मिती</span>
-   <img class="ctav" src="Somnath.jpg" alt="श्री. सोमनाथ गायकवाड सर" onerror="this.style.background='#0a3d62'">
+   <img class="ctav" src="somnath.jpg" alt="श्री. सोमनाथ गायकवाड सर" onerror="this.style.background='#0a3d62'">
   </div>
   <div class="ctbody">
    <h2 class="ctname">श्री. सोमनाथ गायकवाड सर</h2>
@@ -1479,8 +1549,8 @@ function clsDel(){clsInit();const j=1-S.ai,o=S.cls[j];if(!o)return;
 function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.length:o.st.length;
  let h=`<div class="card hc np"><div class="sph"><div class="spic">🏫</div><div style="min-width:0;flex:1"><div class="spt">वर्ग व्यवस्थापन</div><div class="sps">सध्याचा वर्ग: <b>${esc(clsName(S.sc))}</b> • विद्यार्थी ${S.st.length}</div></div><span class="spb">${o?'२ वर्ग':'१ वर्ग'}</span></div>`;
  if(o){h+=`<p class="text-sm" style="color:var(--mu);margin:4px 0 10px">वर्ग बदलण्यासाठी वरचा "वर्ग" पट्टा किंवा खालील बटण वापरा. प्रत्येक वर्गाची विद्यार्थी यादी, गुण, हजेरी, नोंदी व पत्रके स्वतंत्र आहेत.</p>
- <div class="wyr" style="cursor:default"><div><div style="font-weight:700;font-size:15px">✔ ${esc(clsName(S.sc))}</div><div class="text-xs" style="color:var(--mu)">सध्याचा वर्ग • विद्यार्थी ${S.st.length}</div></div></div>
- <div class="wyr" style="cursor:default"><div><div style="font-weight:700;font-size:15px">${esc(clsName(o.sc))}</div><div class="text-xs" style="color:var(--mu)">विद्यार्थी ${o.st.length}</div></div><button class="btn alt" style="min-height:38px;padding:4px 12px" onclick="clsSwitch(${j})">🔄 हा वर्ग उघडा</button></div>
+ <div class="wyr" style="cursor:default;width:100%;box-sizing:border-box;margin:0 0 8px"><div><div style="font-weight:700;font-size:15px">✔ ${esc(clsName(S.sc))}</div><div class="text-xs" style="color:var(--mu)">सध्याचा वर्ग • विद्यार्थी ${S.st.length}</div></div></div>
+ <div class="wyr" style="cursor:default;width:100%;box-sizing:border-box;margin:0 0 8px"><div><div style="font-weight:700;font-size:15px">${esc(clsName(o.sc))}</div><div class="text-xs" style="color:var(--mu)">विद्यार्थी ${o.st.length}</div></div><button class="btn alt" style="min-height:38px;padding:4px 12px" onclick="clsSwitch(${j})">🔄 हा वर्ग उघडा</button></div>
  <div class="br" style="margin-top:12px"><button class="btn alt" onclick="clsDel()">🗑 सध्याचा वर्ग काढा</button></div>`}
  else{h+=`<p class="text-sm" style="color:var(--mu);margin:4px 0 10px">दुसरा वर्ग जोडा (कोणतीही इयत्ता). जास्तीत जास्त २ वर्ग ठेवता येतात. आधीच्या वर्गाची माहिती जशीच्या तशी राहते.</p>
  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><div class="spf"><label class="lbl">🏫 दुसऱ्या वर्गाची इयत्ता</label><select id="ncn" class="w-full">${ST.map((s,i)=>`<option value="${i+1}">${s}</option>`).join('')}</select></div><div class="spf"><label class="lbl">🏷️ तुकडी</label><input id="ncd" value="${esc(S.sc.div||'')}" placeholder="उदा. अ"></div></div>
@@ -1488,12 +1558,21 @@ function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.len
  return h+'</div>'}
 const oV5=V.setup;V.setup=()=>ss==='cl'?clPage():oV5();
 clsInit();
-function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;if(!nv)nvPush();try{drawer()}catch(e){}
+function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;document.documentElement.classList.toggle('pcp',/^pc[123]$/.test(t));if(!nv)nvPush();try{drawer()}catch(e){}
  const el=document.getElementById('app');
  if(el){try{el.innerHTML=subbar()+V[t]()}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
 }
 go(S.spOk?'stu':'setup');
-(function(){const l=document.getElementById('ld'),t0=Date.now();let d=0;const hide=()=>{if(d||!l)return;d=1;setTimeout(()=>{l.classList.add('off');setTimeout(()=>l.remove(),450)},Math.max(0,1200-(Date.now()-t0)))};document.readyState==='complete'?hide():addEventListener('load',hide);setTimeout(hide,5000)})();
+/* ---------- Landing page logic ---------- */
+function lpMod(o){const m=document.getElementById('lpM');if(m){m.hidden=!o;const im=m.querySelector('.lp-av img');if(o&&im&&im.complete&&im.naturalWidth===0)lpImg(im)}}
+function lpEnter(){const l=document.getElementById('lp');if(!l)return;try{sessionStorage.setItem('cce-lp','1')}catch(e){}l.classList.add('off');setTimeout(()=>l.remove(),380)}
+function lpHint(m){const h=document.getElementById('lpHint');if(!h)return;h.textContent=m;h.hidden=false}
+function lpInstall(){if(dIP){pwaInstall();return}
+ lpHint(isIOS?'Safari मध्ये Share (⬆) दाबा आणि "Add to Home Screen" निवडा.':'ब्राउझरच्या ⋮ मेनूमधून "Install app / होम स्क्रीनवर जोडा" निवडा.')}
+(function(){const l=document.getElementById('lp');if(!l)return;const lg=document.getElementById('lpLogo'),sv=document.querySelector('#ld svg');if(lg&&sv)lg.innerHTML=sv.outerHTML;
+ addEventListener('appinstalled',()=>{const b=document.getElementById('lpIns');if(b)b.hidden=true;lpHint('✔ App इन्स्टॉल झाला. आता होम स्क्रीनवरून उघडा.')});
+ addEventListener('keydown',e=>{if(e.key==='Escape')lpMod(0)})})();
+(function(){const l=document.getElementById('ld'),t0=Date.now();let d=0;const hide=()=>{if(d||!l)return;d=1;setTimeout(()=>{l.classList.add('off');setTimeout(()=>l.remove(),500)},Math.max(0,2600-(Date.now()-t0)))};document.readyState==='complete'?hide():addEventListener('load',hide);setTimeout(hide,5000)})();
 </script>
 </body>
 </html>
