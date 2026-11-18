@@ -360,9 +360,9 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .p2g th{background:var(--h,#e9e9ef);color:var(--ht,#222);border:.25mm solid var(--ln,#888);font-size:11pt;font-weight:600;padding:1mm;height:9mm;text-align:center}
 .p2g td{border:.25mm solid var(--ln,#888);text-align:center;vertical-align:middle;font-size:11pt;padding:0 1mm;line-height:1.25;word-break:break-word}
 .p2g td.gd{font-weight:700}
-.p2g td.nt{vertical-align:top;padding:0}
-.p2g .nh{border-bottom:.25mm solid var(--ln,#888);padding:1.6mm 1mm;font-size:11pt}
-.p2g .nb{padding:1.8mm 2mm;font-size:10.5pt;line-height:1.35}
+.p2g td.p2nt{vertical-align:top;padding:0}
+.p2g .p2nh{border-bottom:.25mm solid var(--ln,#888);padding:1.6mm 1mm;font-size:11pt}
+.p2g .p2nb{padding:1.8mm 2mm;font-size:10.5pt;line-height:1.35}
 .p2s{margin-top:auto;display:flex;justify-content:space-between;font-size:9.5pt;padding-top:10mm}
 
 /* ---------- प्रगती पत्रक - 3 (रंगीत बाल-मैत्रीपूर्ण डिझाईन, A4 आडवे) ---------- */
@@ -1515,7 +1515,7 @@ function pc2Rows(){const PL=['मराठी','हिंदी','इंग्�
  const out=[];rwList().forEach((r,k)=>{if(k===4)out.push({l:S.sc.n>=6?'सा. विज्ञान':'प. अभ्यास 1 व 2',ix:es});else if(k<9)out.push({l:PL[k],ix:r.i<0?[]:[r.i]});else if(!es.includes(r.i))out.push({l:r.l,ix:r.i<0?[]:[r.i]})});return out}
 function pc2Grade(s,ix,id){let T=0,P=0,has=false;ix.forEach(i=>{const u=S.subs[i],m=S.mk[s+'|'+i+'|'+id]||{},fa=u.f||[],sa=u.s||[],cf=fa.some(v=>v>0),cs=sa.some(v=>v>0),mF=cf?bsum(fa):u.fe,mS=cs?bsum(sa):u.se,h=m.fe!==undefined||m.se!==undefined;if(h){has=true;T+=(+m.fe||0)+(+m.se||0);P+=(mF||0)+(mS||0)}});return has&&P?gr(T*100/P):'-'}
 function pc2Half(x,s,R){const d=S.dsc[s+'|'+x.id]||{},n=R.length,base=Math.floor(n/3),rem=n%3,sz=[base+(rem>0?1:0),base+(rem>1?1:0),base],G=[['s10','विशेष प्रगती'],['s11','आवड छंद'],['s12','सुधारणा आवश्यक']],rh=(126/Math.max(n,1)).toFixed(2);let st=0;const stt=[0,sz[0],sz[0]+sz[1]];
- const rows=R.map((r,k)=>{const gi=stt.indexOf(k),g=gi>=0&&sz[gi]>0?G[gi]:null;let nc='';if(g)nc=`<td class="nt" rowspan="${sz[gi]}"><div class="nh">${g[1]}</div><div class="nb">${esc(d[g[0]]||'')||'-'}</div></td>`;return`<tr style="height:${rh}mm"><td>${k+1}</td><td>${r.l}</td><td class="gd">${pc2Grade(s,r.ix,x.id)}</td>${nc}</tr>`}).join('');
+ const rows=R.map((r,k)=>{const gi=stt.indexOf(k),g=gi>=0&&sz[gi]>0?G[gi]:null;let nc='';if(g)nc=`<td class="p2nt" rowspan="${sz[gi]}"><div class="p2nh">${g[1]}</div><div class="p2nb">${esc(d[g[0]]||'')||'-'}</div></td>`;return`<tr style="height:${rh}mm"><td>${k+1}</td><td>${r.l}</td><td class="gd">${pc2Grade(s,r.ix,x.id)}</td>${nc}</tr>`}).join('');
  return`<div class="p2h"><div class="p2t">● ${s===1?'प्रथम':'द्वितीय'} सत्र ●</div><div class="p2i"><span>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></span></div><div class="p2i"><span>इयत्ता : <b>${esc(S.sc.std)}</b></span><span>तुकडी : <b>${esc(S.sc.div)}</b></span><span>हजेरी क्र.: <b>${esc(x.roll)}</b></span></div>
 <table class="p2g"><colgroup><col style="width:9%"><col style="width:23%"><col style="width:11%"><col style="width:57%"></colgroup><tr><th>अनं.</th><th>विषय</th><th>श्रेणी</th><th>वर्णनात्मक नोंदी</th></tr>${rows}</table>
 <div class="p2s"><span>वर्गशिक्षक स्वाक्षरी</span><span>मुख्याध्यापक स्वाक्षरी</span><span>पालक स्वाक्षरी</span></div></div>`}
