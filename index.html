@@ -781,10 +781,11 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 }
 
 
-#pinLock{position:fixed;inset:0;z-index:250;background:linear-gradient(135deg,#082f49 0%,#0a3d62 50%,#0b6b6b 100%);color:#fff;display:flex;align-items:center;justify-content:center;padding:10px;overflow-y:auto;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;box-sizing:border-box}
+#pinLock{position:fixed;inset:0;z-index:250;background:linear-gradient(135deg,#082f49 0%,#0a3d62 50%,#0b6b6b 100%);color:#fff;display:flex;align-items:center;justify-content:center;padding:10px;overflow:hidden;scrollbar-width:none;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;box-sizing:border-box}
+#pinLock::-webkit-scrollbar{display:none}
 #pinLock[hidden]{display:none}
 #pinLock *{box-sizing:border-box}
-.pl-box{width:100%;max-width:350px;max-height:94dvh;overflow-y:auto;background:#102a43;border:1.5px solid #ffffff33;border-radius:18px;padding:14px 14px 12px;text-align:center;box-shadow:0 14px 36px #0008;margin:auto}
+.pl-box{width:100%;max-width:340px;background:#102a43;border:1.5px solid #ffffff33;border-radius:18px;padding:12px 13px 10px;text-align:center;box-shadow:0 14px 36px #0008;margin:auto}
 .pl-ic{width:40px;height:40px;margin:0 auto 5px;border-radius:12px;background:#ffffff1c;border:1.5px solid #ffd37a;display:flex;align-items:center;justify-content:center;font-size:20px}
 .pl-t{font-size:17.5px;font-weight:800;margin:0 0 2px;line-height:1.2}
 .pl-s{font-size:12px;color:#cbd5e1;margin:0 0 8px;line-height:1.3}
