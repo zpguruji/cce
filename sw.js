@@ -1,5 +1,5 @@
 /* CCE निकाल प्रणाली - Service Worker (offline support) */
-const VER = 'cce-pwa-v2';
+const VER = 'cce-pwa-v3';
 const CORE = ['./', 'index.html', 'manifest.json', 'cce-icon-192.png', 'cce-icon-512.png'];
 const CDN = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
