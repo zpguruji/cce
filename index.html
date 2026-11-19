@@ -94,8 +94,8 @@ input,select,textarea{font-size:16px;min-height:44px;border-radius:10px}
 .ab{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--bd);z-index:15}
 .rn{width:40px;height:40px;border-radius:50%;background:var(--ac2);color:var(--ac);font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
 .bd{display:inline-block;margin-top:2px;margin-right:4px;padding:1px 8px;border-radius:99px;background:#fde8c4;color:#8a5200;font-size:12px}
-.sb{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:19;display:flex;gap:6px;overflow-x:auto;margin:0 -12px 8px;padding:8px 12px;background:var(--bg)}
-.sb button{white-space:nowrap;padding:8px 14px;border-radius:99px;border:1px solid var(--bd);background:var(--card);font-weight:600;font-size:14px;color:var(--mu)}
+.sb{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:19;display:flex;gap:7px;overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -12px 10px;padding:8px 12px;background:var(--bg);border-bottom:1px solid var(--bd)}.sb::-webkit-scrollbar{display:none}
+.sb button{flex:none;white-space:nowrap;padding:7px 14px;min-height:36px;border-radius:99px;border:1.2px solid var(--bd);background:var(--card);font-weight:700;font-size:13.5px;color:var(--mu);transition:all .15s ease}
 .sb button.on{background:var(--ac);color:var(--card);border-color:var(--ac)}
 .ch{font-style:normal;font-size:24px;line-height:1;transition:transform .2s;color:var(--mu)}.ch.o{transform:rotate(90deg)}
 .sm{background:var(--bg);padding:2px 0 6px}
@@ -641,10 +641,208 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
  html.vtp .vtpg.vl{height:192.5mm!important;overflow:hidden}
  html.vtp .vtpg~.vtpg{break-before:page}
 }
+
+/* ---------- डॅशबोर्ड (Dashboard - Compact & Modern) ---------- */
+.db-hero{margin:-12px -12px 12px;padding:13px 14px 14px;color:#fff;background:linear-gradient(135deg,#082f49 0%,#0a3d62 52%,#0b6b6b 100%);border-bottom:3px solid #f59e0b;position:relative;overflow:hidden}
+.db-hero::after{content:"";position:absolute;right:-20px;bottom:-28px;width:95px;height:95px;border-radius:50%;background:radial-gradient(circle,#f59e0b33,transparent 70%);pointer-events:none}
+.db-htop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.db-zp{font-size:12px;color:#fde68a;font-weight:700;display:flex;align-items:center;gap:4px;min-width:0}
+.db-yrpill{background:#f59e0b;color:#2b1a00;font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:99px;white-space:nowrap;flex:none;box-shadow:0 1px 4px #0003}
+.db-sc{font-size:18px;font-weight:800;line-height:1.25;letter-spacing:.1px;margin-bottom:8px}
+.db-grid-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#ffffff14;border:1px solid #ffffff26;border-radius:10px;padding:7px 10px;font-size:12.5px}
+.db-mitem{display:flex;align-items:center;gap:5px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.db-mitem b{color:#ffd37a;font-weight:700}
+.db-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.db-st{background:var(--bg);border:1px solid var(--bd);border-radius:11px;padding:7px 4px;text-align:center;position:relative;overflow:hidden}
+.db-st::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:var(--c,var(--ac))}
+.db-st .ic{font-size:15px;line-height:1}
+.db-st .val{font-size:17px;font-weight:800;color:var(--tx);line-height:1.15;margin:2px 0 1px}
+.db-st .lbl2{font-size:11px;color:var(--mu);font-weight:700;white-space:nowrap}
+.db-qa{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.db-qbtn{background:var(--bg);border:1.2px solid var(--bd);border-radius:12px;padding:8px 3px;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-weight:700;font-size:11.5px;line-height:1.2;color:var(--tx);transition:transform .12s,border-color .15s}
+.db-qbtn:active{transform:scale(.96);border-color:var(--ac);background:var(--ac2)}
+.db-qbtn span{width:32px;height:32px;border-radius:9px;background:var(--ac2);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:16px}
+.db-prg{margin-bottom:9px}
+.db-prg:last-child{margin-bottom:0}
+.db-prgh{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px}
+.db-bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--bd);overflow:hidden}
+.db-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#0a3d62,#14bfb7);transition:width .3s}
+.db-gr{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+@media(min-width:640px){.db-gr{grid-template-columns:repeat(9,1fr)}}
+.db-gcell{background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:6px 2px;text-align:center}
+.db-gcell b{display:block;font-size:12.5px;color:var(--ac)}
+.db-gcell span{display:block;font-size:15px;font-weight:800;margin-top:1px}
+.db-gcell.bad b{color:var(--bad)}
+.db-bday{background:#fff4dc;border:1.5px solid #f59e0b;color:#7a4200;border-radius:10px;padding:8px 10px;font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+
+/* ---------- बोनाफाईड प्रमाणपत्र (Bonafide Certificate) ---------- */
+@page bfp{size:A4 portrait;margin:10mm}
+.bfw{zoom:var(--z,1)}
+.bfpg{width:190mm;min-height:272mm;background:#fff;color:#102a43;margin:0 auto 14px;padding:10mm 12mm;box-sizing:border-box;border:1px solid var(--bd);box-shadow:0 2px 10px #0002;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;position:relative;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.bf-out{border:2.2px solid #0a3d62;padding:2.5mm;height:100%;box-sizing:border-box;background:linear-gradient(180deg,#f8fcff,#fff 22%)}
+.bf-in{border:1px solid #f59e0b;padding:7mm 8mm;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between}
+.bf-top{text-align:center;border-bottom:2px solid #0a3d62;padding-bottom:4mm;margin-bottom:5mm}
+.bf-zp{font-size:11pt;font-weight:700;color:#0b6b6b}
+.bf-sc{font-size:18pt;font-weight:800;color:#0a3d62;line-height:1.25;margin:1.5mm 0}
+.bf-ud{font-size:10pt;font-weight:700;color:#334e68}
+.bf-meta{display:flex;justify-content:space-between;font-size:11pt;font-weight:700;margin:4mm 0 3mm;color:#102a43}
+.bf-title-wrap{text-align:center;margin:3mm 0 6mm}
+.bf-title{display:inline-block;background:linear-gradient(135deg,#0a3d62,#0b6b6b);color:#fff;font-size:17pt;font-weight:800;padding:2.2mm 10mm;border-radius:999px;border:2px solid #f59e0b;letter-spacing:.3px}
+.bf-body-row{display:flex;gap:6mm;align-items:flex-start;margin-bottom:4mm}
+.bf-para{flex:1;font-size:13pt;line-height:2.05;text-align:justify;color:#102a43}
+.bf-para b.hl{color:#0a3d62;border-bottom:1px dotted #0b6b6b;padding:0 2px}
+.bf-ph{width:30mm;height:38mm;flex:none;border:1.5px solid #0a3d62;border-radius:4mm;overflow:hidden;background:#f0f4f8;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fde68a}
+.bf-ph img{width:100%;height:100%;object-fit:cover}
+.bf-tbl{width:100%;border-collapse:collapse;margin:3mm 0 5mm;font-size:11.5pt}
+.bf-tbl td{border:1px solid #9fb3c8;padding:2.2mm 3.5mm;text-align:left}
+.bf-tbl td.k{width:28%;background:#f0f7f8;font-weight:700;color:#0a3d62}
+.bf-tbl td.v{width:22%;font-weight:700}
+.bf-note{font-size:10.5pt;color:#486581;margin-top:2mm;line-height:1.5}
+.bf-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:10mm;padding-top:4mm}
+.bf-sig{text-align:center;min-width:52mm;font-size:11.5pt;font-weight:700;color:#102a43}
+.bf-sig .sp{height:14mm}
+.bf-sig .ln{border-top:1.2px solid #102a43;padding-top:1.5mm}
+@media print{
+ html.bfp,html.bfp body{width:auto!important;background:#fff!important}
+ html.bfp main{padding:0!important;margin:0!important;max-width:none!important;width:auto!important}
+ html.bfp .bfw{zoom:1!important}
+ html.bfp .bfpg{page:bfp;width:190mm!important;height:276mm!important;min-height:0!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}
+ html.bfp .bfpg:last-child{break-after:auto;page-break-after:auto}
+}
+
+/* ---------- विद्यार्थी ओळखपत्र (Student ID Cards - Horizontal & Vertical) ---------- */
+@page idp{size:A4 portrait;margin:6mm}
+.idw{zoom:var(--z,1)}
+.idpg{width:198mm;height:284mm;background:#fff;margin:0 auto 14px;padding:3mm;box-sizing:border-box;border:1px solid var(--bd);box-shadow:0 2px 10px #0002;display:grid;grid-template-columns:repeat(2,92mm);grid-template-rows:repeat(5,54mm);gap:2.2mm;justify-content:center;align-content:center;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.idcard{width:92mm;height:54mm;border:1.2px solid #0a3d62;border-radius:3.5mm;overflow:hidden;background:#fff;color:#102a43;display:flex;flex-direction:column;box-sizing:border-box;position:relative;box-shadow:0 1px 3px #0001}
+.id-hd{background:linear-gradient(135deg,var(--c1,#0a3d62),var(--c2,#0b6b6b));color:#fff;padding:1.6mm 2.5mm;border-bottom:1.5px solid #f59e0b;display:flex;align-items:center;justify-content:space-between;gap:2mm}
+.id-hd .sc{font-size:8.5pt;font-weight:800;line-height:1.45;padding-top:1.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.id-hd .yr{background:#f59e0b;color:#2b1a00;font-size:6.8pt;font-weight:800;padding:.4mm 2mm;border-radius:999px;white-space:nowrap;flex:none}
+.id-sub{background:#e4f1f3;color:#0a3d62;font-size:6.8pt;font-weight:700;text-align:center;padding:.5mm 2mm;border-bottom:.5px solid #cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.id-bd{flex:1;display:flex;gap:2.2mm;padding:1.8mm 2.4mm;align-items:center;min-height:0}
+.id-ph{width:18mm;height:23mm;border:1px solid #0a3d62;border-radius:2mm;overflow:hidden;background:#f0f4f8;display:flex;align-items:center;justify-content:center;flex:none;font-size:15pt;color:#627d98}
+.id-ph img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.id-inf{flex:1;min-width:0;font-size:7.6pt;line-height:1.38}
+.id-nm{font-size:9.2pt;font-weight:800;color:#0a3d62;margin-bottom:.6mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.id-row{display:flex;gap:1mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.id-row b{color:#334e68;font-weight:700;min-width:13mm}
+.id-row span{overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.id-ft{background:#f8fafc;border-top:.6px dashed #9fb3c8;padding:1mm 2.5mm;display:flex;justify-content:space-between;align-items:center;font-size:6.8pt;color:#334e68;font-weight:700}
+
+/* उभे ओळखपत्र (Vertical ID Card - 3x3 = 9 cards per A4 page, 58mm x 90mm) */
+.idpg.vpg{grid-template-columns:repeat(3,60mm);grid-template-rows:repeat(3,90mm);gap:3mm}
+.idv{width:60mm;height:90mm;border:1.3px solid var(--c1,#0a3d62);border-radius:4mm;overflow:hidden;background:#fff;color:#102a43;position:relative;display:flex;flex-direction:column;box-sizing:border-box;box-shadow:0 1px 4px #0002}
+.idv-w2{position:absolute;left:0;top:0;width:100%;height:33mm;background:#f59e0b;clip-path:ellipse(92% 78% at 50% 14%)}
+.idv-w1{position:absolute;left:0;top:0;width:100%;height:31.2mm;background:linear-gradient(155deg,var(--c1,#0a3d62) 20%,var(--c2,#0b6b6b));clip-path:ellipse(92% 78% at 50% 12%)}
+.idv-dots{position:absolute;right:2.5mm;top:2mm;width:10mm;height:10mm;background-image:radial-gradient(#ffffff44 .7px,transparent .7px);background-size:2.4mm 2.4mm;pointer-events:none}
+.idv-top{position:relative;z-index:2;text-align:center;color:#fff;padding:2.2mm 2.5mm 0}
+.idv-zp{font-size:6.2pt;color:#fde68a;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idv-sc{font-size:8.6pt;font-weight:800;line-height:1.42;padding-top:1.5px;margin-top:.3mm;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.idv-bdg{display:inline-block;margin-top:1mm;background:#ffffff24;border:.4px solid #ffffff66;color:#fff;font-size:6.2pt;font-weight:800;padding:.3mm 3mm;border-radius:999px;letter-spacing:.3px}
+.idv-phw{position:relative;z-index:3;margin:1.5mm auto 1mm;width:21mm;height:25.5mm;border-radius:3.5mm;border:1.1mm solid #fff;box-shadow:0 0 0 .65mm #f59e0b,0 2px 6px #0003;overflow:hidden;background:#e4f1f3;display:flex;align-items:center;justify-content:center;font-size:18pt;color:#627d98}
+.idv-phw img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.idv-nm{position:relative;z-index:2;text-align:center;font-size:9.5pt;font-weight:800;color:var(--c1,#0a3d62);padding:0 2.5mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idv-cls{margin:.7mm auto 1.2mm;background:var(--c1,#0a3d62);color:#ffd37a;font-size:7pt;font-weight:800;padding:.4mm 3.5mm;border-radius:999px;white-space:nowrap}
+.idv-box{margin:0 2.8mm;padding:1.2mm 2mm;background:#f8fafc;border:.4px solid #cbd5e1;border-radius:2.2mm;font-size:7.1pt;line-height:1.36;flex:1;display:flex;flex-direction:column;justify-content:center}
+.idv-r{display:flex;gap:1mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idv-r b{color:#486581;font-weight:700;min-width:13.5mm}
+.idv-r span{font-weight:700;color:#102a43;overflow:hidden;text-overflow:ellipsis}
+.idv-ft{margin-top:1.4mm;background:linear-gradient(90deg,var(--c1,#0a3d62),var(--c2,#0b6b6b));color:#fff;padding:1.1mm 2.8mm;border-top:1.2px solid #f59e0b;display:flex;justify-content:space-between;align-items:center;font-size:6.3pt;font-weight:700}
+.idv-ft b{color:#ffd37a}
+
+@media print{
+ html.idp,html.idp body{width:auto!important;background:#fff!important}
+ html.idp main{padding:0!important;margin:0!important;max-width:none!important;width:auto!important}
+ html.idp .idw{zoom:1!important}
+ html.idp .idpg{page:idp;width:198mm!important;height:284mm!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}
+ html.idp .idpg:last-child{break-after:auto;page-break-after:auto}
+}
+
+.snext{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--card);border:1.5px solid var(--bd);box-shadow:0 2px 8px #0a3d6214}
+.snext .snl{font-size:12px;color:var(--mu);font-weight:700}
+.snext .snt{font-size:15.5px;font-weight:800;color:var(--ac);line-height:1.25}
+.snext .btn{white-space:nowrap;flex:none;min-height:42px;padding:8px 16px}
+
+
+@page agp{size:A4 portrait;margin:8mm}
+.agw{zoom:var(--z,1)}
+.agpg{width:194mm;height:280mm;background:#fff;color:#000;box-sizing:border-box;margin:0 auto 14px;border:1px solid #cbd5e1;box-shadow:0 2px 10px #0002;overflow:hidden;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;page:agp}
+.agpg table{width:100%;border-collapse:collapse;table-layout:fixed}
+.agpg th,.agpg td{border:.3mm solid #000;padding:0 1.8mm;font-size:10.5pt;line-height:1.25;overflow:hidden;text-align:center;vertical-align:middle;word-wrap:break-word}
+.agpg th{background:#e5e7eb;font-weight:800;height:9.5mm}
+.agpg td.l{text-align:left;padding-left:2.5mm}
+.ag-notice{margin:0 0 12px;padding:10px 12px;border-radius:12px;background:#fff4dc;border:1.2px solid #f59e0b;color:#6b4200;font-size:13.5px;font-weight:700;line-height:1.45}
+@media print{
+ html.agp,html.agp body{width:auto!important;background:#fff!important}
+ html.agp main{padding:0!important;margin:0!important;max-width:none!important;width:auto!important}
+ html.agp .agw{zoom:1!important}
+ html.agp .agpg{margin:0!important;border:0!important;box-shadow:none!important;height:279.5mm!important;overflow:hidden}
+ html.agp .agpg~.agpg{break-before:page}
+}
+
+
+#pinLock{position:fixed;inset:0;z-index:250;background:linear-gradient(135deg,#082f49 0%,#0a3d62 50%,#0b6b6b 100%);color:#fff;display:flex;align-items:center;justify-content:center;padding:10px;overflow-y:auto;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;box-sizing:border-box}
+#pinLock[hidden]{display:none}
+#pinLock *{box-sizing:border-box}
+.pl-box{width:100%;max-width:350px;max-height:94dvh;overflow-y:auto;background:#102a43;border:1.5px solid #ffffff33;border-radius:18px;padding:14px 14px 12px;text-align:center;box-shadow:0 14px 36px #0008;margin:auto}
+.pl-ic{width:40px;height:40px;margin:0 auto 5px;border-radius:12px;background:#ffffff1c;border:1.5px solid #ffd37a;display:flex;align-items:center;justify-content:center;font-size:20px}
+.pl-t{font-size:17.5px;font-weight:800;margin:0 0 2px;line-height:1.2}
+.pl-s{font-size:12px;color:#cbd5e1;margin:0 0 8px;line-height:1.3}
+.pl-dots{display:flex;justify-content:center;gap:9px;margin-bottom:6px}
+.pl-dot{width:13px;height:13px;border-radius:50%;border:2px solid #ffd37a;background:transparent;transition:all .15s}
+.pl-dot.on{background:#f59e0b;transform:scale(1.12)}
+.pl-err{min-height:17px;font-size:12px;font-weight:700;color:#fca5a5;margin-bottom:6px;line-height:1.2}
+.pl-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
+.pl-k{min-height:40px;border-radius:11px;background:#ffffff18;border:1px solid #ffffff2e;color:#fff;font-size:18px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .12s,transform .1s;padding:0}
+.pl-k:active{background:#f59e0b;color:#2b1a00;transform:scale(.96)}
+.pl-k.fn{font-size:13px;background:#ffffff10;color:#fde68a}
+.pl-link{background:none;border:0;color:#ffd37a;font-size:12.5px;font-weight:700;cursor:pointer;text-decoration:underline;padding:3px 6px;font-family:inherit}
+.pl-rec{margin-top:6px;padding-top:8px;border-top:1px dashed #ffffff33;text-align:left}
+.pl-rec label{display:block;font-size:12px;color:#fde68a;font-weight:700;margin-bottom:4px;line-height:1.25}
+.pl-rec input{width:100%;min-height:36px;padding:6px 10px;border-radius:9px;border:1.5px solid #ffffff44;background:#081c2e;color:#fff;font-size:14px;margin-bottom:6px}
+.pl-rec .btn{min-height:38px;padding:6px 10px;font-size:13.5px}
+.pin-st{padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--bd);margin-bottom:12px;font-size:13.5px;line-height:1.5}
+@media print{#pinLock{display:none!important}}
+
 </style>
 </head>
 <body>
 <div id="ld" role="status" aria-label="लोड होत आहे"><div class="lw"><svg xmlns="http://www.w3.org/2000/svg" viewBox="8 2 84 88" width="84" height="88" aria-hidden="true" xmlns:c2pa="http://c2pa.org/manifest"><g stroke="#fff" stroke-width="1.6" stroke-linejoin="round"><path d="M50 8L83 27L50 46L17 27Z" fill="#ff7ff5"/><path d="M17 27L50 46V84L17 65Z" fill="#6fa8ff"/><path d="M50 46L83 27V65L50 84Z" fill="#14bfb7"/></g><g fill="none" stroke="#fff" stroke-width="4.2"><path transform="matrix(1 -.576 1 .576 17 27)" d="M23 8H8v17h15"/><path transform="matrix(1 .576 0 1 17 27)" d="M24 9H9v20h15"/><path transform="matrix(1 -.576 0 1 50 46)" d="M24 9H9v20h15M9 19h12"/></g><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTpjMTYwYmQxNi00MDliLTQzNjMtOWRkMS1hOTgzMjg0ZjAxMjQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaAVrZO1F71D3gJWMIBxGF/EAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDphNjUwYTliNS05ZGJkLTRkZGYtOGZjMi05NjA1OWJmZGExNmJscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNos7QEOUCB2z5tfYMgsZlTUgAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggMQSpbiD0yxFUS7ERpAAV/3KGXmmiSw0MK34Q44w4bd2kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaLYWAo6tA6bzvDo9CdlQluIAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIJcb7euTTCLTybfJ0KWCEsFHMbN3ltLFR2zFCh+kGdjZZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GQJkZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOmMxNjBiZDE2LTQwOWItNDM2My05ZGQxLWE5ODMyODRmMDEyNC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjg5ZGQ5MzYwLWEzMzgtNGEwZC1hNzNkLWVmNGQxMjg0MGNhZHJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCAxBKluIPTLEVRLsRGkABX/coZeaaJLDQwrfhDjjDht3aJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggZeghYvc6aYOMDFcyTURAfzKeGHc6elqrt1ie61j9p12iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggbDzOSkzR5x7WwKSB3B7jN4vtgAlNwyLxjCPZyufzGgp0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQH7Iw8mD5Z8cNe+wTUP40yJQOmol1rify8S9lFpTOozow/yhtI5fRyoSDZEPtnINv9GPFhF9/QSaMyqzcqSQ+oU=</c2pa:manifest></metadata></svg></div><div class="lt">CCE निकाल प्रणाली</div><div class="ls">लोड होत आहे…</div></div>
+<div id="pinLock" role="dialog" aria-modal="true" aria-label="PIN लॉक" hidden>
+ <div class="pl-box">
+  <div class="pl-ic">🔐</div>
+  <div class="pl-t" id="plTitle">PIN लॉक</div>
+  <div class="pl-s" id="plSub">ॲप उघडण्यासाठी तुमचा 4 अंकी PIN टाका</div>
+  <div id="plMainView">
+   <div class="pl-dots" id="plDots"></div>
+   <div class="pl-err" id="plErr"></div>
+   <div class="pl-pad">
+    <button type="button" class="pl-k" onclick="pinKey('1')">1</button>
+    <button type="button" class="pl-k" onclick="pinKey('2')">2</button>
+    <button type="button" class="pl-k" onclick="pinKey('3')">3</button>
+    <button type="button" class="pl-k" onclick="pinKey('4')">4</button>
+    <button type="button" class="pl-k" onclick="pinKey('5')">5</button>
+    <button type="button" class="pl-k" onclick="pinKey('6')">6</button>
+    <button type="button" class="pl-k" onclick="pinKey('7')">7</button>
+    <button type="button" class="pl-k" onclick="pinKey('8')">8</button>
+    <button type="button" class="pl-k" onclick="pinKey('9')">9</button>
+    <button type="button" class="pl-k fn" onclick="pinClear()">पुसा</button>
+    <button type="button" class="pl-k" onclick="pinKey('0')">0</button>
+    <button type="button" class="pl-k fn" onclick="pinBack()">⌫</button>
+   </div>
+   <button type="button" class="pl-link" onclick="pinToggleRec(true)">🔑 PIN विसरलात? (रिकव्हरी)</button>
+  </div>
+  <div id="plRec" class="pl-rec" style="border-top:0;padding-top:2px;margin-top:2px" hidden>
+   <label>रिकव्हरी कोड / गुप्त उत्तर टाकून नवा PIN सेट करा:</label>
+   <input id="plRecAns" type="text" placeholder="रिकव्हरी कोड / गुप्त उत्तर">
+   <div id="plRecErr" class="pl-err" style="min-height:15px;margin-bottom:4px"></div>
+   <input id="plNewPin" type="password" inputmode="numeric" maxlength="4" placeholder="नवीन 4 अंकी PIN">
+   <button type="button" class="btn" style="width:100%;margin-bottom:6px" onclick="pinRecover()">✔ नवा PIN सेट करा</button>
+   <button type="button" class="pl-link" style="width:100%" onclick="pinToggleRec(false)">‹ PIN लॉककडे परत जा</button>
+  </div>
+ </div>
+</div>
+
 <div id="lp" role="main" aria-label="CCE निकाल प्रणाली - स्वागत">
  <div class="lp-w">
   <section class="lp-hero"><div class="lp-logo" id="lpLogo"></div><h1>CCE निकाल प्रणाली</h1><p>सातत्यपूर्ण सर्वांकष मूल्यमापन — जलद, अचूक आणि पेपरलेस निकाल व नोंदवही</p></section>
@@ -830,12 +1028,13 @@ function slist(){const L=sorted(true);return`<div class="card hc np"><h2>वि�
  ${L.map(x=>`<div class="card mb-2 flex items-center gap-3">${x.ph?`<img class="rn" src="${x.ph}" alt="" style="object-fit:cover">`:`<div class="rn">${esc(x.roll)}</div>`}<div class="flex-1 min-w-0"><div class="font-bold truncate">${esc(x.name)}</div><div class="text-sm truncate" style="color:var(--mu)">रोल ${esc(x.roll)} • ${x.g}${x.reg?' • रजि. '+esc(x.reg):''}${x.mob?' • '+esc(x.mob):''}</div>${(x.to||2)<2?'<span class="bd">LC — प्रथम सत्रानंतर</span>':''}${x.from===2?'<span class="bd">द्वितीय सत्रात दाखल</span>':''}</div><button class="btn alt" onclick="sedit('${x.id}')">बदला</button><button class="btn del" onclick="delStu('${x.id}')" aria-label="काढा">✕</button></div>`).join('')||'<div class="card">अजून विद्यार्थी नाहीत. "＋ नवीन" दाबा किंवा Excel मधून आयात करा.</div>'}`}
 V.stu=()=>ed?sform():slist();
 
-const GR=[{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
+const GR=[{id:'dash',ic:'🏠',n:'डॅशबोर्ड',d:'dash',s:[['dash','डॅशबोर्ड']]},
+{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
 {id:'fill',ic:'✏️',n:'माहिती भरा',d:'stu',s:[['stu','विद्यार्थी प्रोफाइल'],['hw','वजन व उंची'],['at','हजर दिवस'],['fe','आकारिक गुण नोंद'],['se','संकलित गुण नोंद'],['dn','शाब्दीक नोंदी']]},
 {id:'rep',ic:'📊',n:'निकाल पत्रक',d:'res1',s:[['res1','प्रथम सत्र'],['res2','द्वितीय सत्र'],['res0','वार्षिक']]},
 {id:'pc',ic:'🧾',n:'प्रगती पत्रक',d:'pc2',acc:1,s:[['pc2','प्रगती पत्रक'],['pc1','मुखपृष्ठ 1'],['pc3','मुखपृष्ठ 2'],['pc4','मुखपृष्ठ 3'],['pc5','मुखपृष्ठ 4']]},
 {id:'rec',ic:'📒',n:'नोंदवही',d:'rec',acc:1,s:[['cvp','मुखपृष्ठ (उभे)'],['cvl','मुखपृष्ठ (आडवे)'],['idx','अनुक्रमणिका'],['rec','नोंदवही नमुना 1'],['rec2','नोंदवही नमुना 2']]},
-{id:'vt',ic:'📋',n:'विविध तक्ते',d:'vt',s:[['vt','विविध तक्ते']]},
+{id:'vt',ic:'📋',n:'विविध तक्ते',d:'vt',s:[['vt','विविध तक्ते'],['age','वय तक्ता'],['bf','बोनाफाईड'],['id','ओळखपत्र']]},
 {id:'bk',ic:'☁️',n:'बॅकअप',d:'bk',s:[['bk','बॅकअप']]},
 {id:'gd',ic:'📖',n:'App गाईड',d:'gd',s:[['gd','App गाईड']]},
 {id:'ct',ic:'📞',n:'संपर्क',d:'ct',s:[['ct','संपर्क']]},
@@ -846,7 +1045,7 @@ let ox='setup';
 function tg(id){ox=ox===id?'':id;document.querySelector('#dw .dl').innerHTML=dwList()}
 function dwList(){return GR.map(g=>{const multi=g.s.length>1||g.acc,on=grp()===g,open=multi&&ox===g.id;
  return`<button class="di${on?' on':''}" onclick="${multi?`tg('${g.id}')`:`go('${g.d}')`}"><span>${g.ic}</span><b class="flex-1">${g.n}</b>${multi?`<i class="ch${open?' o':''}">›</i>`:''}</button>`+(open?`<div class="sm">${g.s.map(x=>{const st=g.id==='setup',a=st?(tab==='setup'&&x[0]===ss):x[0]===tab;return`<button class="${a?'on':''}" onclick="${st?`ss='${x[0]}';go('setup')`:`go('${x[0]}')`}">${x[1]}</button>`}).join('')}</div>`:'')}).join('')}
-function subbar(){return clsBar();const g=grp();if(!g||g.s.length<2)return'';return`<div class="sb np">${g.s.map(x=>{const st=g.id==='setup',on=st?x[0]===ss:x[0]===tab;return`<button class="${on?'on':''}" onclick="${st?`ss='${x[0]}';go('setup')`:`go('${x[0]}')`}">${x[1]}</button>`}).join('')}</div>`}
+function subbar(){const cb=clsBar();if(tab==='setup')return cb;const g=grp();if(!g||g.s.length<2)return cb;return cb+`<div class="sb np">${g.s.map(x=>{const st=g.id==='setup',on=st?x[0]===ss:x[0]===tab;return`<button class="${on?'on':''}" onclick="${st?`ss='${x[0]}';go('setup')`:`go('${x[0]}')`}">${x[1]}</button>`}).join('')}</div>`}
 const oAll=V.setup;V.setup=()=>{if(ss==='wd')return wdCard();if(ss==='gh')return bhTab();if(ss==='pr')return promoteCard();const d=new DOMParser().parseFromString('<body>'+oAll(),'text/html'),m={sp:['शाळा व वर्ग'],df:['डिफॉल्ट माहिती'],bh:['विषय व गुणभार','श्रेणी तक्ता'],gh:['घटकानुसार गुणभार']}[ss],cs0=[...d.body.children];return m.map(n=>cs0.filter(c=>((c.querySelector('h2')||{}).textContent||'').startsWith(n)).map(c=>c.outerHTML).join('')).join('')};
 function M(i,id,ci,v,el){const u=S.subs[i],c=cols(u)[ci],pv=gv(mk(sem,i,id)||{},c);let n=v===''?'':+v;
  if(n!==''&&(isNaN(n)||n<0||n>c.max)){el.value=pv??'';alert('"'+c.l.replace(/^(FE|SE)\d /,'')+'" साठी पैकी गुण '+c.max+' आहेत; त्यापेक्षा जास्त गुण भरता येणार नाहीत.');return}
@@ -1598,10 +1797,10 @@ function rsPages(s){const L=sorted(s),C=rsCols(),PER=s?15:9,pg=[];for(let i=0;i<
  const sep=pg[pg.length-1].length>(s?6:3),N=pg.length+(sep?1:0),ft=p=>`<div class="rsh-f">पृष्ठ : ${p} /${N} &nbsp; इयत्ता : ${esc(S.sc.std)} | ${s?'सत्र : '+s:'वार्षिक निकाल'}</div>`,sm=()=>`<div class="rsh-b"><div class="sm1">${rsSum(s,L,C)}</div><div class="sg1">${rsign()}</div></div>`;
  let h=pg.map((r,i)=>`<div class="rsh${s?'':' an'}">${rsHead(s)}${rsTable(s,r,C,i*PER)}${!sep&&i===pg.length-1?sm():''}${ft(i+1)}</div>`).join('');
  if(sep)h+=`<div class="rsh${s?'':' an'}">${rsHead(s)}${sm()}${ft(N)}</div>`;return h}
-function resView(s){const bar=rsBar(s);
- if(!sorted(s).length)return bar+'<div class="card">या सत्रासाठी विद्यार्थी नाहीत. आधी विद्यार्थी प्रोफाइल भरा.</div>';
+function resView(s){
+ if(!sorted(s).length)return'<div class="card">या सत्रासाठी विद्यार्थी नाहीत. आधी विद्यार्थी प्रोफाइल भरा.</div>';
  const z=Math.max(.3,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
- return bar+`<div class="card np mb-3"><h2>${sname(s)} निकाल पत्रक</h2><div style="display:flex;gap:10px"><button class="btn alt" style="flex:1;min-width:0;white-space:nowrap" onclick="exRes(${s})">📊 Excel</button><button class="btn" style="flex:1;min-width:0;white-space:nowrap" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:8px 0 0">प्रत्येक पानावर ${s?15:9} विद्यार्थी; शेवटी श्रेणीनिहाय संख्या तक्ता व सही. प्रिंट करताना A4 Landscape (आडवे) निवडा.</p></div><div class="sc" style="--z:${z}">${rsPages(s)}</div>`}
+ return`<div class="card np mb-3"><h2>${sname(s)} निकाल पत्रक</h2><div style="display:flex;gap:10px"><button class="btn alt" style="flex:1;min-width:0;white-space:nowrap" onclick="exRes(${s})">📊 Excel</button><button class="btn" style="flex:1;min-width:0;white-space:nowrap" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:8px 0 0">प्रत्येक पानावर ${s?15:9} विद्यार्थी; शेवटी श्रेणीनिहाय संख्या तक्ता व सही. प्रिंट करताना A4 Landscape (आडवे) निवडा.</p></div><div class="sc" style="--z:${z}">${rsPages(s)}</div>`}
 V.res1=()=>resView(1);V.res2=()=>resView(2);V.res0=()=>resView(0);V.res=V.res1;
 function exRes(s){const L=sorted(s),C=rsCols(),h=['क्र.','नाव','लिंग','हजर दिवस'];C.forEach(c=>{if(c.k===4)h.push(c.n+' आकारिक',c.n+' संकलित',c.n+' एकूण',c.n+' श्रेणी');else h.push(c.n+' एकूण',c.n+' श्रेणी')});
  const a=[h];L.forEach((x,n)=>{const t=S.at[s+'|'+x.id]||{},r=[n+1,x.name,x.g==='मुलगी'?'G':'B',t.p??''];C.forEach(c=>{const d=rsData(s,x,c);if(c.k===4)r.push(d?d.fe:'',d?d.se:'',d?d.t:'',d?d.g:'');else r.push(d?d.t:'',d?d.g:'')});a.push(r)});
@@ -1851,12 +2050,517 @@ function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.len
  <div class="br" style="margin-top:12px"><button class="btn" onclick="clsAdd()">➕ दुसरा वर्ग जोडा</button></div>`}
  return h+'</div>'}
 const oV5=V.setup;V.setup=()=>ss==='cl'?clPage():oV5();
-clsInit();
-function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('vtp',t==='vt');if(!nv)nvPush();try{drawer()}catch(e){}
- const el=document.getElementById('app');
- if(el){try{el.innerHTML=subbar()+V[t]()}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
+
+const SETUP_ORDER=[['sp','शाळा प्रोफाइल'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']];
+function setupNextBar(){
+ const idx=SETUP_ORDER.findIndex(x=>x[0]===ss);
+ if(idx<0||idx>=SETUP_ORDER.length-1)return'';
+ const nx=SETUP_ORDER[idx+1];
+ return`<div class="snext np"><div style="min-width:0"><div class="snl">पुढील घटक</div><div class="snt">➡️ ${esc(nx[1])}</div></div><button type="button" class="btn" onclick="ss='${nx[0]}';go('setup')">Next ›</button></div>`;
 }
-go(S.spOk?'stu':'setup');
+
+const oVSetupFinal=V.setup;V.setup=()=>oVSetupFinal()+setupNextBar()+pinCard();
+clsInit();
+
+/* ---------- बोनाफाईड प्रमाणपत्र (Bonafide Certificate) ---------- */
+function bfS(){
+ if(!S.bf)S.bf={no:'',dt:new Date().toISOString().slice(0,10),pur:'शैक्षणिक व इतर कारणासाठी',stId:''};
+ return S.bf;
+}
+function bfSet(k,v){bfS()[k]=v;save();go('bf')}
+function bfRenderOne(x,b){
+ const c=S.sc,zp=(S.cv||{}).zp||'';
+ const fn=x.fn||fatherOf(x.name)||'';
+ const dobStr=x.dob?dmy(x.dob):'—';
+ const pur=b.pur||'शैक्षणिक व इतर कारणासाठी';
+ return`<div class="bfpg"><div class="bf-out"><div class="bf-in">
+  <div>
+   <div class="bf-top">
+    ${zp?`<div class="bf-zp">${esc(zp)}</div>`:''}
+    <div class="bf-sc">${esc(c.name||'शाळेचे नाव')}</div>
+    <div class="bf-ud">UDISE कोड : ${esc(c.ud)||'—'} &nbsp;|&nbsp; शैक्षणिक वर्ष : ${esc(c.year)||'—'}</div>
+   </div>
+   <div class="bf-meta">
+    <span>जा. क्र. / पत्र क्र. : <b>${esc(b.no)||'________'}</b></span>
+    <span>दिनांक : <b>${esc(dmy(b.dt))||'________'}</b></span>
+   </div>
+   <div class="bf-title-wrap"><div class="bf-title">● बोनाफाईड प्रमाणपत्र ●</div></div>
+   <div class="bf-body-row">
+    <div class="bf-para">
+     प्रमाणित करण्यात येते की, <b class="hl">${esc(x.name)}</b> (आईचे नाव: <b class="hl">${esc(x.mn)||'—'}</b>, वडिलांचे नाव: <b class="hl">${esc(fn)||'—'}</b>) हा / ही विद्यार्थी / विद्यार्थिनी या शाळेत <b class="hl">इयत्ता ${esc(c.std||'')} ${esc(c.div||'')}</b> या वर्गात <b class="hl">शैक्षणिक वर्ष ${esc(c.year||'')}</b> मध्ये नियमितपणे शिकत आहे. शाळेच्या अभिलेखाप्रमाणे त्यांचा / तिचा तपशील खालीलप्रमाणे आहे:
+    </div>
+    <div class="bf-ph">${x.ph?`<img src="${x.ph}" alt="">`:'<span>👤</span>'}</div>
+   </div>
+   <table class="bf-tbl">
+    <tr><td class="k">जनरल रजिस्टर नं.</td><td class="v">${esc(x.reg)||'—'}</td><td class="k">हजेरी / रोल नं.</td><td class="v">${esc(x.roll)||'—'}</td></tr>
+    <tr><td class="k">जन्मतारीख</td><td class="v">${esc(dobStr)}</td><td class="k">लिंग</td><td class="v">${esc(x.g)||'—'}</td></tr>
+    <tr><td class="k">जात व संवर्ग</td><td class="v" colspan="3">${esc(x.jt||'—')}${x.cat?' ('+esc(x.cat)+')':''}</td></tr>
+    <tr><td class="k">पत्ता</td><td class="v" colspan="3">${esc(x.ad)||'—'}</td></tr>
+    <tr><td class="k">दाखल्याचे कारण</td><td class="v" colspan="3">${esc(pur)}</td></tr>
+   </table>
+   <div class="bf-note">सदर प्रमाणपत्र विनंतीवरून देण्यात येत आहे. त्यांच्या पुढील भावी वाटचालीस हार्दिक शुभेच्छा!</div>
+  </div>
+  <div class="bf-foot">
+   <div class="bf-sig"><div class="sp"></div><div class="ln">वर्गशिक्षक स्वाक्षरी</div><div style="font-size:10pt;color:#486581;margin-top:2px">${esc(c.t)||''}</div></div>
+   <div class="bf-sig"><div class="sp"></div><div class="ln">मुख्याध्यापक स्वाक्षरी व शिक्का</div><div style="font-size:10pt;color:#486581;margin-top:2px">${esc(c.hm)||''}</div></div>
+  </div>
+ </div></div></div>`;
+}
+V.bf=()=>{
+ const L=sorted(true),b=bfS();
+ if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
+ const selId=b.stId||L[0].id;
+ const list=b.stId==='ALL'?L:L.filter(x=>x.id===selId);
+ const z=Math.max(.32,Math.min(1,(innerWidth-30)/718)).toFixed(3);
+ return`<div class="card hc np mb-3"><h2>📜 बोनाफाईड प्रमाणपत्र</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" style="margin-bottom:10px">
+   <div class="spf"><label class="lbl">👤 विद्यार्थी निवडा</label><select class="w-full" onchange="bfSet('stId',this.value)"><option value="ALL"${b.stId==='ALL'?' selected':''}>सर्व विद्यार्थी (${L.length})</option>${L.map(x=>`<option value="${x.id}"${x.id===selId&&b.stId!=='ALL'?' selected':''}>${esc(x.roll)} - ${esc(x.name)}</option>`).join('')}</select></div>
+   <div class="spf"><label class="lbl">🔢 जा. क्र. / पत्र क्र.</label><input value="${esc(b.no)}" placeholder="उदा. 45 / 2026-27" oninput="bfSet('no',this.value)"></div>
+   <div class="spf"><label class="lbl">📅 प्रमाणपत्र दिनांक</label><input type="date" value="${esc(b.dt)}" oninput="bfSet('dt',this.value)"></div>
+   <div class="spf"><label class="lbl">🎯 दाखल्याचे कारण</label><input value="${esc(b.pur)}" placeholder="उदा. शैक्षणिक व इतर कारणासाठी" oninput="bfSet('pur',this.value)"></div>
+  </div>
+  <button class="btn full" style="margin-bottom:4px" onclick="print()">🖨 प्रिंट बोनाफाईड (A4)</button>
+  <p class="text-sm" style="color:var(--mu);margin:6px 0 0">शाळा प्रोफाइल व विद्यार्थी प्रोफाइलमधील माहिती आपोआप भरली जाते. प्रिंट करताना A4 Portrait निवडा.</p>
+ </div>
+ <div class="bfw" style="--z:${z}">${(list.length?list:[L[0]]).map(x=>bfRenderOne(x,b)).join('')}</div>`;
+};
+
+/* ---------- विद्यार्थी ओळखपत्र (Student ID Card - Horizontal & Vertical) ---------- */
+const IDTH=[
+ ['teal','निळसर हिरवा','#0a3d62','#0b6b6b'],
+ ['royal','रॉयल निळा','#1e3a8a','#2563eb'],
+ ['geru','मराठी गेरू','#7c2d12','#c2410c'],
+ ['purple','जांभळा','#4c1d95','#7c3aed'],
+ ['green','हिरवा','#14532d','#15803d']
+];
+function idS(){
+ if(!S.idCard)S.idCard={stId:'ALL',th:'teal',or:'v'};
+ if(!S.idCard.th)S.idCard.th='teal';
+ if(!S.idCard.or)S.idCard.or='v';
+ return S.idCard;
+}
+function idSet(k,v){idS()[k]=v;save();go('id')}
+function idCardHor(x,th){
+ const c=S.sc,cl=(c.std||'')+(c.div?' '+c.div:''),fn=x.fn||fatherOf(x.name)||'—';
+ return`<div class="idcard" style="--c1:${th[2]};--c2:${th[3]}">
+  <div class="id-hd">
+   <span class="sc">🏫 ${esc(c.name||'शाळेचे नाव')}</span>
+   <span class="yr">${esc(c.year||'')}</span>
+  </div>
+  <div class="id-sub">विद्यार्थी ओळखपत्र • UDISE: ${esc(c.ud)||'—'}</div>
+  <div class="id-bd">
+   <div class="id-ph">${x.ph?`<img src="${x.ph}" alt="">`:'<span>👤</span>'}</div>
+   <div class="id-inf">
+    <div class="id-nm">${esc(x.name)}</div>
+    <div class="id-row"><b>इयत्ता:</b><span>${esc(cl)}</span></div>
+    <div class="id-row"><b>रजि. / रोल:</b><span>${esc(x.reg||'-')} / ${esc(x.roll||'-')}</span></div>
+    <div class="id-row"><b>जन्मदिनांक:</b><span>${esc(dmy(x.dob))||'—'}</span></div>
+    <div class="id-row"><b>पालक:</b><span>${esc(fn)}</span></div>
+    <div class="id-row"><b>मोबाईल:</b><span>${esc(x.mob)||'—'}</span></div>
+   </div>
+  </div>
+  <div class="id-ft">
+   <span style="max-width:56mm;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.ad)||''}</span>
+   <span>मुख्याध्यापक सही</span>
+  </div>
+ </div>`;
+}
+function idCardVer(x,th){
+ const c=S.sc,zp=(S.cv||{}).zp||'',cl=(c.std||'')+(c.div?' '+c.div:''),fn=x.fn||fatherOf(x.name)||'—';
+ return`<div class="idv" style="--c1:${th[2]};--c2:${th[3]}">
+  <div class="idv-w2"></div>
+  <div class="idv-w1"></div>
+  <div class="idv-dots"></div>
+  <div class="idv-top">
+   ${zp?`<div class="idv-zp">${esc(zp)}</div>`:''}
+   <div class="idv-sc">${esc(c.name||'शाळेचे नाव')}</div>
+   <div class="idv-bdg">ओळखपत्र • ${esc(c.year||'')}</div>
+  </div>
+  <div class="idv-phw">${x.ph?`<img src="${x.ph}" alt="">`:'<span>👤</span>'}</div>
+  <div class="idv-nm">${esc(x.name)}</div>
+  <div class="idv-cls">इयत्ता : ${esc(cl)} &nbsp;|&nbsp; रोल : ${esc(x.roll||'-')}</div>
+  <div class="idv-box">
+   <div class="idv-r"><b>रजि. नं. :</b><span>${esc(x.reg)||'—'}</span></div>
+   <div class="idv-r"><b>जन्मदिनांक :</b><span>${esc(dmy(x.dob))||'—'}</span></div>
+   <div class="idv-r"><b>पालक :</b><span>${esc(fn)}</span></div>
+   <div class="idv-r"><b>मोबाईल :</b><span>${esc(x.mob)||'—'}</span></div>
+   <div class="idv-r"><b>पत्ता :</b><span>${esc(x.ad)||'—'}</span></div>
+  </div>
+  <div class="idv-ft">
+   <span>UDISE: <b>${esc(c.ud)||'-'}</b></span>
+   <span>मुख्याध्यापक सही</span>
+  </div>
+ </div>`;
+}
+V.id=()=>{
+ const L=sorted(true),cfg=idS();
+ if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
+ const isV=cfg.or==='v',per=isV?9:10;
+ const th=IDTH.find(x=>x[0]===cfg.th)||IDTH[0];
+ const list=(cfg.stId&&cfg.stId!=='ALL')?L.filter(x=>x.id===cfg.stId):L;
+ const pages=[];for(let i=0;i<list.length;i+=per)pages.push(list.slice(i,i+per));
+ const z=Math.max(.32,Math.min(1,(innerWidth-30)/748)).toFixed(3);
+ return`<div class="card hc np mb-3"><h2>🪪 विद्यार्थी ओळखपत्र (ID Card)</h2>
+  <div class="spf" style="margin-bottom:10px">
+   <label class="lbl">📐 ओळखपत्राचा आकार (Format)</label>
+   <div class="vtseg">
+    <button class="${isV?'on':''}" onclick="idSet('or','v')">↕ उभे ओळखपत्र</button>
+    <button class="${!isV?'on':''}" onclick="idSet('or','h')">↔ आडवे ओळखपत्र</button>
+   </div>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" style="margin-bottom:10px">
+   <div class="spf"><label class="lbl">👤 विद्यार्थी निवडा</label><select class="w-full" onchange="idSet('stId',this.value)"><option value="ALL"${cfg.stId==='ALL'?' selected':''}>सर्व विद्यार्थी (${L.length})</option>${L.map(x=>`<option value="${x.id}"${x.id===cfg.stId?' selected':''}>${esc(x.roll)} - ${esc(x.name)}</option>`).join('')}</select></div>
+   <div class="spf"><label class="lbl">🎨 कार्ड रंगाची थीम</label><select class="w-full" onchange="idSet('th',this.value)">${IDTH.map(([v,n])=>`<option value="${v}"${cfg.th===v?' selected':''}>${n}</option>`).join('')}</select></div>
+  </div>
+  <button class="btn full" style="margin-bottom:4px" onclick="print()">🖨 प्रिंट ओळखपत्रे (A4 पानावर ${per})</button>
+  <p class="text-sm" style="color:var(--mu);margin:6px 0 0">${isV?'उभ्या (Vertical) डिझाईनमध्ये एका A4 पानावर ३×३ अशी ९ रंगीत वक्र-बॅनर ओळखपत्रे तयार होतात.':'आडव्या (Horizontal) डिझाईनमध्ये एका A4 पानावर २×५ अशी १० ओळखपत्रे तयार होतात.'} प्रिंट करून कापता व लॅमिनेट करता येतील.</p>
+ </div>
+ <div class="idw" style="--z:${z}">${pages.map(pg=>`<div class="idpg${isV?' vpg':''}">${pg.map(x=>isV?idCardVer(x,th):idCardHor(x,th)).join('')}</div>`).join('')}</div>`;
+};
+
+
+function sbCenter(){
+ const sb=document.querySelector('.sb');
+ if(!sb)return;
+ const act=sb.querySelector('button.on');
+ if(!act)return;
+ const target=act.offsetLeft - (sb.clientWidth - act.offsetWidth)/2;
+ sb.scrollTo({left:Math.max(0,target),behavior:'smooth'});
+}
+
+
+/* ---------- वय तक्ता (Age Table - A4 Portrait) ---------- */
+function agS(){
+ if(!S.ag)S.ag={dt:new Date().toISOString().slice(0,10)};
+ if(!S.ag.dt)S.ag.dt=new Date().toISOString().slice(0,10);
+ return S.ag;
+}
+function agSetDt(v){
+ agS().dt=v||new Date().toISOString().slice(0,10);
+ save();
+ go('age');
+}
+function calcAgeMarathi(dobStr,refStr){
+ if(!dobStr||!refStr)return'';
+ const m1=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(dobStr).trim());
+ const m2=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(refStr).trim());
+ if(!m1||!m2)return'';
+ const by=+m1[1],bm=+m1[2],bd=+m1[3];
+ const ry=+m2[1],rm=+m2[2],rd=+m2[3];
+ if([by,bm,bd,ry,rm,rd].some(isNaN))return'';
+ const dobDate=new Date(by,bm-1,bd),refDate=new Date(ry,rm-1,rd);
+ if(isNaN(dobDate.getTime())||isNaN(refDate.getTime())||dobDate>refDate)return'';
+ let yrs=ry-by,mos=rm-bm,days=rd-bd;
+ if(days<0){
+  mos-=1;
+  const prevMonthLastDay=new Date(ry,rm-1,0).getDate();
+  days+=prevMonthLastDay;
+ }
+ if(mos<0){
+  yrs-=1;
+  mos+=12;
+ }
+ if(yrs<0)return'';
+ return yrs+' वर्ष '+mos+' महिने '+days+' दिवस';
+}
+function agPages(L,refDt){
+ const N=28,rh=(280-26-9.5)/N;
+ const pages=[];for(let p=0;p<L.length;p+=N)pages.push(L.slice(p,p+N));
+ return pages.map((pg,pi)=>`<div class="agpg"><div class="vth"><div class="s">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="u">UDISE : ${esc(S.sc.ud||'')} • वय मोजणी दिनांक : ${esc(dmy(refDt))}</div><div class="h">वय तक्ता</div></div>
+<table><colgroup><col style="width:12mm"><col style="width:66mm"><col style="width:34mm"><col style="width:82mm"></colgroup>
+<tr><th>अ.<br>क्र.</th><th>विद्यार्थ्याचे नाव</th><th>जन्मतारीख</th><th>वय</th></tr>
+${pg.map((x,i)=>{
+ const hasDob=!!(x.dob&&String(x.dob).trim());
+ const dobTxt=hasDob?dmy(x.dob):'';
+ const ageTxt=hasDob?calcAgeMarathi(x.dob,refDt):'';
+ return`<tr style="height:${rh.toFixed(2)}mm"><td>${pi*N+i+1}</td><td class="l">${esc(x.name)}</td><td style="white-space:nowrap">${esc(dobTxt)}</td><td>${esc(ageTxt)}</td></tr>`;
+}).join('')}</table></div>`).join('');
+}
+V.age=()=>{
+ const L=sorted(true),cfg=agS(),refDt=cfg.dt;
+ if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
+ const z=Math.max(.32,Math.min(1,(innerWidth-30)/(194*3.7795))).toFixed(3);
+ return`<div class="card hc np mb-3"><h2>🎂 वय तक्ता (A4 पोर्ट्रेट)</h2>
+  <div class="ag-notice">ℹ️ वय गणना होण्यासाठी सर्व विद्यार्थ्यांची जन्मतारीख विद्यार्थी प्रोफाइलमध्ये नोंद असणे गरजेचे आहे.</div>
+  <div class="spf" style="margin-bottom:10px">
+   <label class="lbl">📅 वय काढण्याची तारीख (कॅलेंडर)</label>
+   <input type="date" value="${esc(refDt)}" onchange="agSetDt(this.value)">
+  </div>
+  <button class="btn full" style="margin-bottom:4px" onclick="print()">🖨 प्रिंट वय तक्ता (A4 पोर्ट्रेट)</button>
+  <p class="text-sm" style="color:var(--mu);margin:6px 0 0">अ. क्र., विद्यार्थ्याचे नाव, जन्मतारीख व वय हे ४ कॉलम A4 पोर्ट्रेट पानावर सुटसुटीत बसतात. जन्मतारीख नोंद नसल्यास ते रकाने रिकामे राहतात.</p>
+ </div>
+ <div class="agw" style="--z:${z}">${agPages(L,refDt)}</div>`;
+};
+
+
+/* ---------- PIN Lock & Recovery ---------- */
+S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};
+let pinBuf='',pinTries=0,pinCooldownUntil=0,pinUnlocked=false;
+function pinHashStr(str){
+ const s=String(str||'');
+ let h1=0x811c9dc5,h2=0x01000193;
+ for(let i=0;i<s.length;i++){
+  const c=s.charCodeAt(i);
+  h1^=c;h1=Math.imul(h1,0x01000193);
+  h2^=(c+i*31);h2=Math.imul(h2,0x85ebca6b);
+ }
+ return (h1>>>0).toString(16).padStart(8,'0')+(h2>>>0).toString(16).padStart(8,'0');
+}
+function pinRenderDots(){
+ const d=document.getElementById('plDots');
+ if(!d)return;
+ let out='';
+ for(let i=0;i<4;i++){
+  out+=`<span class="pl-dot${i<pinBuf.length?' on':''}"></span>`;
+ }
+ d.innerHTML=out;
+}
+function pinSetErr(msg){
+ const e=document.getElementById('plErr');
+ if(e)e.textContent=msg||'';
+}
+function pinShowLock(force){
+ const sec=S.sec||{};
+ if(!sec.enabled||!sec.pinHash){pinUnlocked=true;const el=document.getElementById('pinLock');if(el)el.hidden=true;return}
+ if(pinUnlocked&&!force)return;
+ pinUnlocked=false;
+ pinBuf='';
+ pinRenderDots();
+ pinSetErr('');
+ pinToggleRec(false);
+ const el=document.getElementById('pinLock');
+ if(el)el.hidden=false;
+}
+function pinKey(ch){
+ if(Date.now()<pinCooldownUntil){
+  const rem=Math.ceil((pinCooldownUntil-Date.now())/1000);
+  pinSetErr('खूप वेळा चुकीचा PIN. '+rem+' सेकंद थांबा.');
+  return;
+ }
+ if(pinBuf.length>=4)return;
+ pinBuf+=String(ch);
+ pinRenderDots();
+ pinSetErr('');
+ if(pinBuf.length===4){
+  pinVerify(true);
+ }
+}
+function pinBack(){
+ pinBuf=pinBuf.slice(0,-1);
+ pinRenderDots();
+ pinSetErr('');
+}
+function pinClear(){
+ pinBuf='';
+ pinRenderDots();
+ pinSetErr('');
+}
+function pinVerify(finalCheck){
+ const sec=S.sec||{};
+ if(!sec.pinHash)return;
+ if(pinHashStr(pinBuf)===sec.pinHash){
+  pinUnlocked=true;
+  pinBuf='';
+  pinTries=0;
+  const el=document.getElementById('pinLock');
+  if(el)el.hidden=true;
+  return;
+ }
+ if(pinBuf.length===6||finalCheck){
+  pinTries++;
+  if(pinTries>=3){
+   pinCooldownUntil=Date.now()+15000;
+   pinTries=0;
+   pinBuf='';
+   pinRenderDots();
+   pinSetErr('3 चुकीचे प्रयत्न! 15 सेकंदांनंतर पुन्हा प्रयत्न करा.');
+  }else{
+   pinBuf='';
+   pinRenderDots();
+   pinSetErr('PIN चुकीचा आहे ('+pinTries+'/3).');
+  }
+ }
+}
+function pinToggleRec(openRec){
+ const r=document.getElementById('plRec');
+ const m=document.getElementById('plMainView');
+ const t=document.getElementById('plTitle');
+ const sub=document.getElementById('plSub');
+ const rerr=document.getElementById('plRecErr');
+ const sec=S.sec||{};
+ if(!r||!m)return;
+ if(openRec&&!sec.recHash){
+  alert('या डिव्हाइसवर रिकव्हरी कोड सेट केलेला नाही. PIN विसरल्यास सेटअप/बॅकअपमधून डेटा रिसेट करून JSON किंवा Google Drive बॅकअपवरून माहिती पुन्हा घेता येईल.');
+  return;
+ }
+ if(rerr)rerr.textContent='';
+ if(openRec){
+  r.hidden=false;
+  m.hidden=true;
+  if(t)t.textContent='PIN रिकव्हरी';
+  if(sub)sub.textContent='डेटा न पुसता नवीन 4 अंकी PIN तयार करा';
+ }else{
+  r.hidden=true;
+  m.hidden=false;
+  if(t)t.textContent='PIN लॉक';
+  if(sub)sub.textContent=sec.hint?('सूचना: '+sec.hint):'ॲप उघडण्यासाठी तुमचा 4 अंकी PIN टाका';
+ }
+}
+function pinRecover(){
+ const sec=S.sec||{};
+ const ans=((document.getElementById('plRecAns')||{}).value||'').trim();
+ const np=((document.getElementById('plNewPin')||{}).value||'').trim();
+ const rerr=document.getElementById('plRecErr');
+ const setRerr=m=>{if(rerr)rerr.textContent=m||'';else if(m)alert(m)};
+ setRerr('');
+ if(!sec.recHash){setRerr('रिकव्हरी कोड उपलब्ध नाही.');return}
+ if(!ans){setRerr('कृपया रिकव्हरी कोड / गुप्त उत्तर टाका.');return}
+ if(pinHashStr(ans)!==sec.recHash){setRerr('❌ रिकव्हरी कोड / गुप्त उत्तर चुकीचे आहे! पुन्हा तपासा.');return}
+ if(!/^\d{4}$/.test(np)){setRerr('❌ नवीन PIN फक्त 4 अंकी (0-9) असावा.');return}
+ sec.pinHash=pinHashStr(np);
+ save();
+ pinUnlocked=true;
+ pinBuf='';
+ pinTries=0;
+ setRerr('');
+ const el=document.getElementById('pinLock');
+ if(el)el.hidden=true;
+ alert('नवीन PIN यशस्वीरित्या सेट केला आहे. तुमचा सर्व डेटा सुरक्षित आहे.');
+}
+function pinSaveSetup(){
+ const p1=((document.getElementById('setPin1')||{}).value||'').trim();
+ const p2=((document.getElementById('setPin2')||{}).value||'').trim();
+ const rec=((document.getElementById('setRecCode')||{}).value||'').trim();
+ const hint=((document.getElementById('setPinHint')||{}).value||'').trim();
+ if(!/^\d{4}$/.test(p1)){alert('PIN फक्त 4 अंकी (फक्त अंक 0-9) असावा.');return}
+ if(p1!==p2){alert('दोन्ही PIN सारखे नाहीत. कृपया पुन्हा तपासा.');return}
+ if(!rec){alert('PIN विसरल्यास पुन्हा सेट करण्यासाठी रिकव्हरी कोड किंवा गुप्त उत्तर भरणे आवश्यक आहे.');return}
+ S.sec={enabled:true,pinLen:p1.length,pinHash:pinHashStr(p1),recHash:pinHashStr(rec),hint};
+ pinUnlocked=true;
+ save();
+ alert('PIN लॉक सक्रिय झाले आहे. पुढील वेळी ॲप उघडताना PIN मागितला जाईल.');
+ go('setup');
+}
+function pinDisableSetup(){
+ if(!S.sec||!S.sec.enabled){alert('PIN लॉक आधीच बंद आहे.');return}
+ cf('PIN लॉक बंद करायचे आहे का?',()=>{
+  S.sec={enabled:false,pinHash:'',recHash:'',hint:''};
+  pinUnlocked=true;
+  save();
+  alert('PIN लॉक बंद केले आहे.');
+  go('setup');
+ },'होय, बंद करा');
+}
+function pinLockNow(){
+ if(!S.sec||!S.sec.enabled||!S.sec.pinHash){alert('आधी खाली PIN लॉक सुरू करा.');return}
+ pinShowLock(true);
+}
+function pinCard(){
+ const sec=S.sec||{};
+ return`<div class="card hc np" style="margin-top:14px;overflow:hidden"><div class="sph"><div class="spic">🔐</div><div style="min-width:0;flex:1"><div class="spt">ॲप PIN लॉक व रिकव्हरी</div><div class="sps">ॲप उघडताना PIN सुरक्षा</div></div><span class="spb">${sec.enabled?'✔ सक्रिय':'बंद'}</span></div>
+  <div class="pin-st">स्थिती: <b>${sec.enabled?'PIN लॉक सुरू आहे':'PIN लॉक बंद आहे'}</b>${sec.hint?'<br>सूचना / हिंट: <b>'+esc(sec.hint)+'</b>':''}<br><span style="font-size:12.5px;color:var(--mu)">डिव्हाइस शेअर करत असल्यास PIN सेट करा. PIN विसरल्यास रिकव्हरी कोडने डेटा न पुसता नवा PIN ठेवता येतो.</span></div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" style="margin-bottom:10px">
+   <div class="spf"><label class="lbl">🔢 नवीन PIN (4 अंक)</label><input id="setPin1" type="password" inputmode="numeric" maxlength="4" placeholder="उदा. 1234"></div>
+   <div class="spf"><label class="lbl">🔢 PIN पुन्हा टाका</label><input id="setPin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"></div>
+   <div class="spf"><label class="lbl">🔑 रिकव्हरी कोड / गुप्त उत्तर</label><input id="setRecCode" type="text" placeholder="शाळेचा UDISE कोड" value=""></div>
+   <div class="spf"><label class="lbl">💡 लक्षात राहण्यासाठी हिंट (ऐच्छिक)</label><input id="setPinHint" type="text" placeholder="उदा. माझा आवडता अंक" value="${esc(sec.hint||'')}"></div>
+  </div>
+  <div class="br">
+   <button type="button" class="btn" onclick="pinSaveSetup()">💾 PIN सेट / बदला</button>
+   <button type="button" class="btn og" onclick="pinLockNow()">🔒 आत्ताच लॉक करा</button>
+   <button type="button" class="btn red" onclick="pinDisableSetup()">🔓 PIN बंद करा</button>
+  </div>
+ </div>`;
+}
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden&&S.sec&&S.sec.enabled&&S.sec.pinHash){
+  pinUnlocked=false;
+ }else if(!document.hidden&&S.sec&&S.sec.enabled&&S.sec.pinHash&&!pinUnlocked){
+  pinShowLock(true);
+ }
+});
+addEventListener('DOMContentLoaded',()=>setTimeout(()=>pinShowLock(true),120));
+
+function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('vtp',t==='vt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
+ const el=document.getElementById('app');
+ if(el){try{el.innerHTML=subbar()+V[t]();requestAnimationFrame(sbCenter)}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
+}
+
+/* ---------- डॅशबोर्ड (Home Dashboard) ---------- */
+V.dash=()=>{
+ const L=sorted(0),allL=sorted(true),boys=L.filter(x=>x.g==='मुलगा').length,girls=L.filter(x=>x.g==='मुलगी').length,lc=allL.filter(x=>(x.to||2)<2).length;
+ const zp=(S.cv||{}).zp||'';
+ const phCnt=L.filter(x=>!!x.ph).length;
+ const subN=S.subs.length||1,totCells=L.length*subN;
+ let m1=0,m2=0,n1=0,n2=0;
+ L.forEach(x=>{
+  S.subs.forEach((u,i)=>{
+   const a=mk(1,i,x.id);if(a&&(a.fe!==undefined||a.se!==undefined))m1++;
+   const b=mk(2,i,x.id);if(b&&(b.fe!==undefined||b.se!==undefined))m2++;
+  });
+  const d1=S.dsc['1|'+x.id]||{},d2=S.dsc['2|'+x.id]||{};
+  if(Object.values(d1).some(v=>(v||'').trim()))n1++;
+  if(Object.values(d2).some(v=>(v||'').trim()))n2++;
+ });
+ const pct=(a,b)=>b?Math.round((a*100)/b):0;
+ const td=new Date(),mmdd=String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');
+ const bdays=L.filter(x=>(x.dob||'').slice(5,10)===mmdd);
+ const G=['अ-1','अ-2','ब-1','ब-2','क-1','क-2','ड','इ-1','इ-2'],gCnt=Object.fromEntries(G.map(g=>[g,0]));
+ let graded=0;
+ L.forEach(x=>{const c=calc(0,x);if(c.any&&gCnt[c.g]!==undefined){gCnt[c.g]++;graded++}});
+ const prg=(lbl,a,b)=>`<div class="db-prg"><div class="db-prgh"><span>${lbl}</span><span style="color:var(--ac)">${a}/${b} (${pct(a,b)}%)</span></div><div class="db-bar"><i style="width:${pct(a,b)}%"></i></div></div>`;
+ return`<div class="card hc" style="overflow:hidden;padding-bottom:12px">
+  <div class="db-hero">
+   <div class="db-htop">
+    <div class="db-zp truncate">${zp?'🏢 '+esc(zp):'🏛️ शाळा डॅशबोर्ड'}</div>
+    <span class="db-yrpill">📅 ${esc(S.sc.year)}</span>
+   </div>
+   <div class="db-sc">🏫 ${esc(S.sc.name||'शाळेचे नाव')}</div>
+   <div class="db-grid-meta">
+    <div class="db-mitem">📘 <span>वर्ग: <b>${esc(S.sc.std)} ${esc(S.sc.div||'')}</b></span></div>
+    <div class="db-mitem">🔢 <span>UDISE: <b>${esc(S.sc.ud)||'-'}</b></span></div>
+    <div class="db-mitem" style="grid-column:1/-1">👨‍🏫 <span>वर्गशिक्षक: <b>${esc(S.sc.t)||'-'}</b></span></div>
+   </div>
+  </div>
+  ${bdays.length?`<div class="db-bday"><span style="font-size:20px">🎂</span><div><b>आजचा वाढदिवस:</b> ${bdays.map(x=>esc(x.name)).join(', ')} — शुभेच्छा!</div></div>`:''}
+  <div class="db-stats">
+   <div class="db-st" style="--c:#0a3d62"><div class="ic">👥</div><div class="val">${L.length}</div><div class="lbl2">एकूण पट</div></div>
+   <div class="db-st" style="--c:#2563eb"><div class="ic">👦</div><div class="val">${boys}</div><div class="lbl2">मुले</div></div>
+   <div class="db-st" style="--c:#db2777"><div class="ic">👧</div><div class="val">${girls}</div><div class="lbl2">मुली</div></div>
+   <div class="db-st" style="--c:#f59e0b"><div class="ic">📚</div><div class="val">${S.subs.length}</div><div class="lbl2">विषय${lc?' (LC '+lc+')':''}</div></div>
+  </div>
+  <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">⚡ झटपट कृती (Quick Actions)</h2>
+  <div class="db-qa">
+   <button class="db-qbtn" onclick="sedit()"><span>➕</span>नवीन विद्यार्थी</button>
+   <button class="db-qbtn" onclick="go('fe')"><span>✏️</span>आकारिक गुण</button>
+   <button class="db-qbtn" onclick="go('se')"><span>📝</span>संकलित गुण</button>
+   <button class="db-qbtn" onclick="go('dn')"><span>💬</span>शाब्दीक नोंदी</button>
+   <button class="db-qbtn" onclick="go('res1')"><span>📊</span>निकाल पत्रक</button>
+   <button class="db-qbtn" onclick="go('pc2')"><span>🧾</span>प्रगती पत्रक</button>
+   <button class="db-qbtn" onclick="go('rec')"><span>📒</span>नोंदवही</button>
+   <button class="db-qbtn" onclick="go('bk')"><span>☁️</span>बॅकअप / Sync</button>
+  </div>
+ </div>
+ <div class="card hc">
+  <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">📈 कामकाज पूर्णता स्थिती</h2>
+  ${L.length?`
+   ${prg('📷 विद्यार्थी फोटो अपलोड',phCnt,L.length)}
+   ${prg('✏️ प्रथम सत्र गुणनोंद (विषयनिहाय)',m1,totCells)}
+   ${prg('📝 द्वितीय सत्र गुणनोंद (विषयनिहाय)',m2,totCells)}
+   ${prg('💬 प्रथम सत्र शाब्दीक नोंदी',n1,L.length)}
+   ${prg('💬 द्वितीय सत्र शाब्दीक नोंदी',n2,L.length)}
+  `:'<p class="text-sm" style="color:var(--mu);margin:0">अजून विद्यार्थी जोडलेले नाहीत. वरच्या <b>"➕ नवीन विद्यार्थी"</b> बटनावर क्लिक करून सुरुवात करा.</p>'}
+ </div>
+ <div class="card hc">
+  <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">🏅 वार्षिक श्रेणी सारांश (${graded} विद्यार्थी)</h2>
+  <div class="db-gr">${G.map((g,i)=>`<div class="db-gcell${i>=7?' bad':''}"><b>${g}</b><span>${gCnt[g]}</span></div>`).join('')}</div>
+  <div class="mt-3 flex justify-between items-center text-xs" style="color:var(--mu)">
+   <span>शेवटचे Drive Sync: <b>${esc((S.gs||{}).last||'अजून नाही')}</b></span>
+   <button class="btn alt" style="min-height:34px;padding:4px 10px;font-size:13px" onclick="ss='sp';go('setup')">⚙️ शाळा प्रोफाइल</button>
+  </div>
+ </div>`;
+};
+go(S.spOk?'dash':'setup');
 /* ---------- Landing page logic ---------- */
 function lpMod(o){const m=document.getElementById('lpM');if(m){m.hidden=!o;const im=m.querySelector('.lp-av img');if(o&&im&&im.complete&&im.naturalWidth===0)lpImg(im)}}
 function lpEnter(){const l=document.getElementById('lp');if(!l)return;try{sessionStorage.setItem('cce-lp','1')}catch(e){}document.documentElement.classList.remove('lpon');l.classList.add('off');setTimeout(()=>l.remove(),380)}
