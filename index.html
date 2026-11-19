@@ -1030,7 +1030,7 @@ function slist(){const L=sorted(true);return`<div class="card hc np"><h2>वि�
 V.stu=()=>ed?sform():slist();
 
 const GR=[{id:'dash',ic:'🏠',n:'डॅशबोर्ड',d:'dash',s:[['dash','डॅशबोर्ड']]},
-{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
+{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
 {id:'fill',ic:'✏️',n:'माहिती भरा',d:'stu',s:[['stu','विद्यार्थी प्रोफाइल'],['hw','वजन व उंची'],['at','हजर दिवस'],['fe','आकारिक गुण नोंद'],['se','संकलित गुण नोंद'],['dn','शाब्दीक नोंदी']]},
 {id:'rep',ic:'📊',n:'निकाल पत्रक',d:'res1',s:[['res1','प्रथम सत्र'],['res2','द्वितीय सत्र'],['res0','वार्षिक']]},
 {id:'pc',ic:'🧾',n:'प्रगती पत्रक',d:'pc2',acc:1,s:[['pc2','प्रगती पत्रक'],['pc1','मुखपृष्ठ 1'],['pc3','मुखपृष्ठ 2'],['pc4','मुखपृष्ठ 3'],['pc5','मुखपृष्ठ 4']]},
@@ -2052,7 +2052,7 @@ function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.len
  return h+'</div>'}
 const oV5=V.setup;V.setup=()=>ss==='cl'?clPage():oV5();
 
-const SETUP_ORDER=[['sp','शाळा प्रोफाइल'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']];
+const SETUP_ORDER=[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']];
 function setupNextBar(){
  const idx=SETUP_ORDER.findIndex(x=>x[0]===ss);
  if(idx<0||idx>=SETUP_ORDER.length-1)return'';
@@ -2060,7 +2060,7 @@ function setupNextBar(){
  return`<div class="snext np"><div style="min-width:0"><div class="snl">पुढील घटक</div><div class="snt">➡️ ${esc(nx[1])}</div></div><button type="button" class="btn" onclick="ss='${nx[0]}';go('setup')">Next ›</button></div>`;
 }
 
-const oVSetupFinal=V.setup;V.setup=()=>oVSetupFinal()+setupNextBar()+pinCard();
+const oVSetupFinal=V.setup;V.setup=()=>ss==='pk'?(pinCard()+setupNextBar()):(oVSetupFinal()+setupNextBar());
 clsInit();
 
 /* ---------- बोनाफाईड प्रमाणपत्र (Bonafide Certificate) ---------- */
