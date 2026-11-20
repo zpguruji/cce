@@ -116,7 +116,7 @@ input,select,textarea{font-size:16px;min-height:44px;border-radius:10px}
 .st td:first-child input{text-align:left;padding-left:12px}
 .st input.m{width:100%;padding:6px 2px;text-align:center}
 .st .btn{min-height:40px;padding:4px 0;font-size:13px;width:100%}
-#md{position:fixed;inset:0;z-index:200;background:#0009;display:flex;align-items:center;justify-content:center;padding:20px}
+#md{position:fixed;inset:0;z-index:300;background:#0009;display:flex;align-items:center;justify-content:center;padding:20px}
 #md .mb{background:var(--card);color:var(--tx);border-radius:16px;padding:20px;max-width:340px;width:100%;box-shadow:0 10px 30px #0006}
 #md p{font-size:16px;line-height:1.5;margin:0 0 16px}#md .mr{display:flex;gap:10px;justify-content:flex-end}
 #md .btn.dng{background:var(--bad);color:var(--card)}
@@ -617,8 +617,8 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 /* ---------- विविध तक्ते (A4 : उभे / आडवे) ---------- */
 @page vtp{size:A4 portrait;margin:8mm}
 @page vtl{size:A4 landscape;margin:8mm}
-.vtw{zoom:var(--z,1)}
-.vtpg{background:#fff;color:#000;box-sizing:border-box;margin:0 auto 14px;border:1px solid #cbd5e1;box-shadow:0 2px 10px #0002;overflow:hidden;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif}
+.vtw{zoom:var(--z,1);overflow-x:auto;max-width:100%}
+.vtpg{background:#fff;color:#000;box-sizing:content-box;margin:0 auto 14px;border:1px solid #cbd5e1;box-shadow:0 2px 10px #0002;overflow:hidden;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif}
 .vtpg.vp{width:194mm;height:280mm;page:vtp}
 .vtpg.vl{width:281mm;height:193mm;page:vtl}
 .vth{height:26mm;text-align:center;padding-top:2mm;box-sizing:border-box}
@@ -635,8 +635,8 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 @media print{
  html.vtp,html.vtp body{width:auto!important;background:#fff!important}
  html.vtp main{padding:0!important;margin:0!important;max-width:none!important;width:auto!important}
- html.vtp .vtw{zoom:1!important}
- html.vtp .vtpg{margin:0!important;border:0!important;box-shadow:none!important;height:auto;overflow:visible}
+ html.vtp .vtw{zoom:1!important;overflow:visible!important}
+ html.vtp .vtpg{box-sizing:border-box!important;margin:0!important;border:0!important;box-shadow:none!important;height:auto;overflow:visible}
  html.vtp .vtpg.vp{height:279.5mm!important;overflow:hidden}
  html.vtp .vtpg.vl{height:192.5mm!important;overflow:hidden}
  html.vtp .vtpg~.vtpg{break-before:page}
@@ -765,8 +765,8 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 
 
 @page agp{size:A4 portrait;margin:8mm}
-.agw{zoom:var(--z,1)}
-.agpg{width:194mm;height:280mm;background:#fff;color:#000;box-sizing:border-box;margin:0 auto 14px;border:1px solid #cbd5e1;box-shadow:0 2px 10px #0002;overflow:hidden;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;page:agp}
+.agw{zoom:var(--z,1);overflow-x:auto;max-width:100%}
+.agpg{width:194mm;height:280mm;background:#fff;color:#000;box-sizing:content-box;margin:0 auto 14px;border:1px solid #cbd5e1;box-shadow:0 2px 10px #0002;overflow:hidden;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;page:agp}
 .agpg table{width:100%;border-collapse:collapse;table-layout:fixed}
 .agpg th,.agpg td{border:.3mm solid #000;padding:0 1.8mm;font-size:10.5pt;line-height:1.25;overflow:hidden;text-align:center;vertical-align:middle;word-wrap:break-word}
 .agpg th{background:#e5e7eb;font-weight:800;height:9.5mm}
@@ -775,8 +775,8 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 @media print{
  html.agp,html.agp body{width:auto!important;background:#fff!important}
  html.agp main{padding:0!important;margin:0!important;max-width:none!important;width:auto!important}
- html.agp .agw{zoom:1!important}
- html.agp .agpg{margin:0!important;border:0!important;box-shadow:none!important;height:279.5mm!important;overflow:hidden}
+ html.agp .agw{zoom:1!important;overflow:visible!important}
+ html.agp .agpg{box-sizing:border-box!important;margin:0!important;border:0!important;box-shadow:none!important;height:279.5mm!important;overflow:hidden}
  html.agp .agpg~.agpg{break-before:page}
 }
 
@@ -876,12 +876,146 @@ try{if(['standalone','fullscreen','minimal-ui'].some(function(m){return matchMed
 <main id="app" class="p-3 max-w-5xl mx-auto"></main>
 <footer id="ft" class="np"><span class="fd"></span><div class="ftx">संकल्पना व निर्मिती : <b>श्री. सोमनाथ गायकवाड सर</b></div></footer>
 <script>
-const K='cce-web-v1';
-let S=null;try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
-S=S||{sc:{name:'',year:'2026-27',std:'१ ली',div:'अ',t:'',hm:'',ud:''},
-subs:[['मराठी',70,30],['हिंदी',70,30],['इंग्रजी',60,40],['गणित',60,40],['परिसर अभ्यास',50,50],['कला',40,60],['कार्यानुभव',40,60],['शा. शिक्षण',50,50]].map(a=>({n:a[0],fe:a[1],se:a[2]})),
-st:[],mk:{},at:{},nt:{}};
-const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const K='cce-web-v1',K_CFG='cce-web-cfg-v1',IDB_NAME='cce_nikal_db',IDB_STORE='state';
+function defState(){
+ return{
+  sc:{name:'',year:'2026-27',std:'१ ली',div:'अ',t:'',hm:'',ud:''},
+  subs:[['मराठी',70,30],['हिंदी',70,30],['इंग्रजी',60,40],['गणित',60,40],['परिसर अभ्यास',50,50],['कला',40,60],['कार्यानुभव',40,60],['शा. शिक्षण',50,50]].map(a=>({n:a[0],fe:a[1],se:a[2]})),
+  st:[],mk:{},at:{},nt:{},
+  sec:{enabled:false,pinHash:'',recHash:'',hint:''},
+  gs:{email:'',folder:'',last:''}
+ };
+}
+let S=defState();
+// Fast synchronous load of small settings & App Lock from localStorage (0ms boot)
+(function(){
+ try{
+  const rawCfg=localStorage.getItem(K_CFG);
+  if(rawCfg){
+   const cfg=JSON.parse(rawCfg);
+   if(cfg&&typeof cfg==='object')Object.assign(S,cfg);
+  }else{
+   const legacy=localStorage.getItem(K);
+   if(legacy){
+    const old=JSON.parse(legacy);
+    if(old&&typeof old==='object')Object.assign(S,old);
+   }
+  }
+ }catch(e){}
+ S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};
+ S.gs=S.gs||{email:'',folder:'',last:''};
+})();
+
+let _idb=null,_idbTimer=null,_idbDirty=false,_idbWarnAt=0,_idbLastErr='';
+function idbReportError(err,lsOk){
+ const msg=(err&&err.message)||String(err||'Unknown error');
+ _idbLastErr=msg;
+ console.error('[CCE Storage Error]',err);
+ const now=Date.now();
+ if(now-_idbWarnAt<15000)return;
+ _idbWarnAt=now;
+ if(!lsOk){
+  alert('⚠️ सावधान! माहिती ब्राउझरच्या IndexedDB किंवा localStorage मध्ये सेव्ह होऊ शकली नाही (कारण: '+msg+'). डिव्हाइसची जागा रिकामी करा किंवा लगेच "बॅकअप › डाउनलोड / Google Drive Sync" करून डेटा सुरक्षित ठेवा.');
+ }else{
+  let b=document.getElementById('idbWarn');
+  if(!b){
+   b=document.createElement('div');
+   b.id='idbWarn';
+   b.className='np';
+   b.style.cssText='position:fixed;left:12px;right:12px;bottom:76px;z-index:260;background:#7f1d1d;color:#fff;padding:10px 14px;border-radius:12px;font-size:13.5px;line-height:1.4;box-shadow:0 6px 20px #0006;display:flex;align-items:center;justify-content:space-between;gap:10px;border:1.5px solid #fca5a5';
+   document.body.appendChild(b);
+  }
+  b.innerHTML='<span>⚠️ <b>IndexedDB सेव्ह त्रुटी:</b> तात्पुरते localStorage मध्ये सेव्ह केले आहे. नियमित बॅकअप घ्या.</span><button type="button" style="background:#fff;color:#7f1d1d;border:0;border-radius:8px;padding:4px 10px;font-weight:800;flex:none" onclick="this.parentNode.remove()">ठीक</button>';
+ }
+}
+function idbOpen(){
+ return new Promise((res,rej)=>{
+  if(_idb)return res(_idb);
+  if(!window.indexedDB)return rej(new Error('NO_IDB'));
+  const req=indexedDB.open(IDB_NAME,1);
+  req.onupgradeneeded=e=>{
+   const db=e.target.result;
+   if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE);
+  };
+  req.onsuccess=e=>{
+   _idb=e.target.result;
+   _idb.onversionchange=()=>{try{_idb.close();}catch(x){}_idb=null;};
+   _idb.onclose=()=>{_idb=null;};
+   res(_idb);
+  };
+  req.onerror=e=>rej(e.target.error||new Error('IDB_ERR'));
+  req.onblocked=()=>rej(new Error('IDB_BLOCKED'));
+ });
+}
+function idbGetMain(){
+ return idbOpen().then(db=>new Promise((res,rej)=>{
+  const tx=db.transaction(IDB_STORE,'readonly');
+  const rq=tx.objectStore(IDB_STORE).get('main');
+  rq.onsuccess=()=>res(rq.result||null);
+  rq.onerror=e=>rej(e.target.error||new Error('IDB_READ_ERR'));
+ }));
+}
+function idbPutMain(data){
+ return idbOpen().then(db=>new Promise((res,rej)=>{
+  const tx=db.transaction(IDB_STORE,'readwrite');
+  const rq=tx.objectStore(IDB_STORE).put(data,'main');
+  rq.onerror=e=>rej(e.target.error||new Error('IDB_PUT_ERR'));
+  tx.oncomplete=()=>res();
+  tx.onerror=e=>rej(e.target.error||tx.error||new Error('IDB_TX_ERR'));
+  tx.onabort=e=>rej(e.target.error||tx.error||new Error('IDB_ABORT'));
+ }));
+}
+function saveCfgLS(){
+ try{
+  const cfg={
+   sec:S.sec||{enabled:false,pinHash:'',recHash:'',hint:''},
+   gs:S.gs||{email:'',folder:'',last:''},
+   ai:S.ai||0,
+   spOk:!!S.spOk,
+   dfOk:!!S.dfOk,
+   bhOk:!!S.bhOk,
+   vt:S.vt,
+   bf:S.bf,
+   ag:S.ag,
+   idCard:S.idCard
+  };
+  localStorage.setItem(K_CFG,JSON.stringify(cfg));
+ }catch(e){
+  console.error('[CCE Config LS Error]',e);
+ }
+}
+function idbFlush(){
+ if(_idbTimer){clearTimeout(_idbTimer);_idbTimer=null;}
+ if(!_idbDirty)return Promise.resolve();
+ _idbDirty=false;
+ const payload={
+  sc:S.sc,subs:S.subs,cat:S.cat,df:S.df,wd:S.wd,cv:S.cv,
+  st:S.st,mk:S.mk,at:S.at,nt:S.nt,dsc:S.dsc,xn:S.xn,
+  arch:S.arch,cls:S.cls,ai:S.ai,
+  spOk:S.spOk,dfOk:S.dfOk,bhOk:S.bhOk,
+  vt:S.vt,bf:S.bf,ag:S.ag,idCard:S.idCard,
+  gs:S.gs,sec:S.sec
+ };
+ return idbPutMain(payload).then(()=>{
+  _idbLastErr='';
+  const w=document.getElementById('idbWarn');
+  if(w)w.remove();
+ }).catch(err=>{
+  _idbDirty=true;
+  _idb=null;
+  let lsOk=false;
+  try{localStorage.setItem(K,JSON.stringify(S));lsOk=true;}catch(e2){}
+  idbReportError(err,lsOk);
+ });
+}
+const save=(immediate)=>{
+ saveCfgLS();
+ _idbDirty=true;
+ if(immediate)return idbFlush();
+ if(_idbTimer)clearTimeout(_idbTimer);
+ _idbTimer=setTimeout(()=>idbFlush(),250);
+};
+addEventListener('pagehide',()=>{idbFlush()});
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const gr=p=>p>=91?'अ-1':p>=81?'अ-2':p>=71?'ब-1':p>=61?'ब-2':p>=51?'क-1':p>=41?'क-2':p>=33?'ड':p>=21?'इ-1':'इ-2';
 const r2=n=>Math.round(n*100)/100;
@@ -919,8 +1053,8 @@ async function dl(name,data){try{const d=(window.claude&&claude.use)?await claud
 const backup=()=>dl('cce-backup.json',JSON.stringify(S));
 function xl(name,aoa){if(!window.XLSX){alert('Excel लायब्ररी लोड झाली नाही');return}const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(aoa),'Sheet1');dl(name,XLSX.write(wb,{bookType:'xlsx',type:'array'}))}
 function xin(f,cb){if(!f||!window.XLSX)return;const r=new FileReader();r.onload=()=>{try{const wb=XLSX.read(r.result,{type:'array'});cb(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''}))}catch(e){alert('Excel फाईल वाचता आली नाही')}};r.readAsArrayBuffer(f)}
-function restore(f){const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);S.df=S.df||{};S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};S.gs=S.gs||{email:'',folder:'',last:''};S.cv=S.cv||{zp:''};S.sc=S.sc||{};clsInit();migrate();save();go('setup')}catch(e){alert('फाईल चुकीची आहे')}};r.readAsText(f)}
-function reset(){cf('सर्व माहिती पुसायची आहे का?',()=>{try{localStorage.removeItem(K)}catch(e){}location.reload()},'होय, पुसा')}
+function restore(f){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||typeof d!=='object')throw 0;S=Object.assign(defState(),d);S.df=S.df||{};S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};S.gs=S.gs||{email:'',folder:'',last:''};S.cv=S.cv||{zp:''};S.sc=S.sc||{};S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};clsInit();migrate();save(true);go(S.spOk?'dash':'setup');pinShowLock(false);alert('बॅकअप माहिती यशस्वीरित्या रिस्टोअर झाली.')}catch(e){alert('फाईल चुकीची आहे')}};r.readAsText(f)}
+function reset(){cf('सर्व माहिती पुसायची आहे का?',async()=>{try{localStorage.removeItem(K);localStorage.removeItem(K_CFG);}catch(e){}try{if(_idb){_idb.close();_idb=null;}if(window.indexedDB){await new Promise(r=>{const rq=indexedDB.deleteDatabase(IDB_NAME);rq.onsuccess=rq.onerror=rq.onblocked=()=>r();});}}catch(e){}location.reload()},'होय, पुसा')}
 const hdr=(t)=>`<div class="text-center mb-2"><div class="font-bold text-lg">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="text-sm">UDISE कोड: ${esc(S.sc.ud)||'-'}</div><div>${t} — शैक्षणिक वर्ष ${esc(S.sc.year)} | इयत्ता ${esc(S.sc.std)} तुकडी ${esc(S.sc.div)}</div></div>`;
 const semSel=(all)=>`<select class="np" onchange="sem=+this.value;go(tab)">${all?'<option value="0"'+(sem===0?' selected':'')+'>वार्षिक (दोन्ही सत्र)</option>':''}<option value="1"${sem===1?' selected':''}>प्रथम सत्र</option><option value="2"${sem===2?' selected':''}>द्वितीय सत्र</option></select>`;
 const sname=s=>s===0?'वार्षिक':s===1?'प्रथम सत्र':'द्वितीय सत्र';
@@ -1041,7 +1175,7 @@ const GR=[{id:'dash',ic:'🏠',n:'डॅशबोर्ड',d:'dash',s:[['dash',
 {id:'ct',ic:'📞',n:'संपर्क',d:'ct',s:[['ct','संपर्क']]},
 {id:'pv',ic:'🔒',n:'गोपनीयता धोरण',d:'pv',s:[['pv','गोपनीयता धोरण']]}];
 let ss='sp';const gl={};
-const grp=()=>tab==='setup'?GR[0]:GR.find(g=>g.s.some(x=>x[0]===tab));
+const grp=()=>tab==='setup'?GR[1]:GR.find(g=>g.s.some(x=>x[0]===tab));
 let ox='setup';
 function tg(id){ox=ox===id?'':id;document.querySelector('#dw .dl').innerHTML=dwList()}
 function dwList(){return GR.map(g=>{const multi=g.s.length>1||g.acc,on=grp()===g,open=multi&&ox===g.id;
@@ -1354,28 +1488,167 @@ async function gPut(f,name,obj){const id=await gFind(f,name),body=JSON.stringify
  const b='cceb'+Date.now(),mp='--'+b+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify({name,parents:[f],mimeType:'application/json'})+'\r\n--'+b+'\r\nContent-Type: application/json\r\n\r\n'+body+'\r\n--'+b+'--';
  await gf('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+b},body:mp})}
 async function gGet(f,name){const id=await gFind(f,name);if(!id)return null;return await(await gf('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media')).json()}
+let ghist=[];
+function gSnapshotObj(){
+ return{
+  sc:S.sc,subs:S.subs,cat:S.cat,df:S.df,wd:S.wd,cv:S.cv,
+  vt:S.vt,bf:S.bf,ag:S.ag,idCard:S.idCard,
+  st:S.st,mk:S.mk,at:S.at,nt:S.nt,dsc:S.dsc,xn:S.xn,
+  arch:S.arch||[],cls:S.cls||[null,null],ai:S.ai||0,
+  spOk:!!S.spOk,dfOk:!!S.dfOk,bhOk:!!S.bhOk
+ };
+}
+function gApplySnapshot(snap){
+ const keepGs=S.gs,keepSec=S.sec;
+ S=Object.assign(defState(),snap);
+ S.df=S.df||{mo:'घरकाम',fo:'शेती',ad:'',mq:'',fq:'',cat:''};
+ S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};
+ S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};
+ S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:'2026-27',std:'१ ली',div:'अ',t:'',hm:'',ud:''};
+ S.gs=keepGs;
+ S.sec=keepSec||{enabled:false,pinHash:'',recHash:'',hint:''};
+ clsInit();migrate();S.subs=S.cat.filter(u=>u.on);
+ save(true);
+}
 function gParts(){const ph={},st=S.st.map(x=>{const y={...x};if(y.ph){ph[y.id]=y.ph;delete y.ph}return y});
- return{'school.json':{sc:S.sc,df:S.df,wd:S.wd,spOk:S.spOk,dfOk:S.dfOk,bhOk:S.bhOk,cv:S.cv,vt:S.vt},'subjects.json':{cat:S.cat},'students.json':{st},'photos.json':ph,'marks.json':{mk:S.mk},'notes.json':{dsc:S.dsc,xn:S.xn},'attendance.json':{at:S.at,nt:S.nt},'archive.json':{arch:S.arch||[]},'classes.json':{cls:S.cls,ai:S.ai},'meta.json':{app:'CCE निकाल प्रणाली',version:1,saved:new Date().toISOString()}}}
-async function gConnect(){if(gbusy)return;gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();gset('✔ जोडले: '+S.gs.email);go('bk')}catch(e){gerr(e)}gbusy=false}
-async function gSync(){if(gbusy)return;gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();gset('Drive मध्ये CCE_Data फोल्डर तपासत आहे…');const f=await gFolder(),P=gParts(),ks=Object.keys(P);
+ return{'school.json':{sc:S.sc,df:S.df,wd:S.wd,spOk:S.spOk,dfOk:S.dfOk,bhOk:S.bhOk,cv:S.cv,vt:S.vt,bf:S.bf,ag:S.ag,idCard:S.idCard},'subjects.json':{cat:S.cat},'students.json':{st},'photos.json':ph,'marks.json':{mk:S.mk},'notes.json':{dsc:S.dsc,xn:S.xn},'attendance.json':{at:S.at,nt:S.nt},'archive.json':{arch:S.arch||[]},'classes.json':{cls:S.cls,ai:S.ai},'meta.json':{app:'CCE निकाल प्रणाली',version:2,saved:new Date().toISOString()}}}
+async function gDelFile(id){if(!id)return;try{await gf('https://www.googleapis.com/drive/v3/files/'+id,{method:'DELETE'})}catch(e){}}
+async function gReadAllParts(f){
+ const D={};
+ for(const n of ['school','subjects','students','photos','marks','notes','attendance','archive','classes']){
+  D[n]=await gGet(f,n+'.json');
+ }
+ if(!D.school&&!D.students)return null;
+ const snap=Object.assign(defState(),D.school||{});
+ if(D.subjects&&D.subjects.cat)snap.cat=D.subjects.cat;
+ if(D.students){
+  snap.st=D.students.st||[];
+  const ph=D.photos||{};
+  snap.st.forEach(x=>{if(ph[x.id])x.ph=ph[x.id]});
+ }
+ if(D.marks)snap.mk=D.marks.mk||{};
+ if(D.notes){snap.dsc=D.notes.dsc||{};snap.xn=D.notes.xn||{};}
+ if(D.attendance){snap.at=D.attendance.at||{};snap.nt=D.attendance.nt||{};}
+ if(D.archive)snap.arch=D.archive.arch||[];
+ if(D.classes){snap.cls=D.classes.cls||[null,null];snap.ai=D.classes.ai||0;}
+ return snap;
+}
+async function gSaveHistory(f,prevSnap,prevTimeStr){
+ let hist=(await gGet(f,'history.json'))||[];
+ if(!Array.isArray(hist))hist=[];
+ // If existing Drive backup wasn't recorded in history yet, preserve it first!
+ if(prevSnap&&(!hist.length||hist[0].time!==prevTimeStr)){
+  const oldFname='backup_prev_'+Date.now()+'.json';
+  await gPut(f,oldFname,prevSnap);
+  hist.unshift({
+   file:oldFname,
+   time:prevTimeStr||'मागील Drive बॅकअप',
+   sc:(prevSnap.sc&&prevSnap.sc.name)||'शाळा',
+   std:((prevSnap.sc&&prevSnap.sc.std)||'')+' '+((prevSnap.sc&&prevSnap.sc.div)||''),
+   stCnt:(prevSnap.st||[]).length
+  });
+ }
+ const nowStr=new Date().toLocaleString('mr-IN');
+ const fname='backup_'+Date.now()+'.json';
+ await gPut(f,fname,gSnapshotObj());
+ hist.unshift({
+  file:fname,
+  time:nowStr,
+  sc:(S.sc&&S.sc.name)||'शाळा',
+  std:((S.sc&&S.sc.std)||'')+' '+((S.sc&&S.sc.div)||''),
+  stCnt:(S.st||[]).length
+ });
+ // Keep only latest 3 versions and delete older snapshot files from Drive
+ while(hist.length>3){
+  const removed=hist.pop();
+  if(removed&&removed.file)await gDelFile(await gFind(f,removed.file));
+ }
+ await gPut(f,'history.json',hist);
+ ghist=hist;
+ S.gs.hist=hist;
+}
+async function gLoadHistory(){
+ if(gbusy)return;
+ gbusy=true;
+ try{
+  gset('Google शी जोडत आहे…');
+  await gAuth();
+  const f=await gFolder();
+  gset('मागील बॅकअप आवृत्त्या तपासत आहे…');
+  const hist=(await gGet(f,'history.json'))||[];
+  ghist=Array.isArray(hist)?hist:[];
+  S.gs.hist=ghist;
+  save();
+  gset(ghist.length?('✔ '+ghist.length+' बॅकअप आवृत्त्या उपलब्ध आहेत.'):'अजून Version History उपलब्ध नाही. प्रथम "Drive वर जतन" करा.');
+  go('bk');
+ }catch(e){gerr(e)}
+ gbusy=false;
+}
+function gRestoreVer(idx){
+ if(gbusy)return;
+ const list=(ghist&&ghist.length)?ghist:(S.gs.hist||[]);
+ const item=list[idx];
+ if(!item||!item.file){alert('ही बॅकअप आवृत्ती उपलब्ध नाही.');return}
+ cf('आवृत्ती '+(idx+1)+' ('+item.time+' • '+(item.stCnt||0)+' विद्यार्थी) रिस्टोअर करायची आहे का? सध्याचा डेटा या आवृत्तीने बदलला जाईल.',async()=>{
+  gbusy=true;
+  try{
+   gset('Google शी जोडत आहे…');
+   await gAuth();
+   const f=await gFolder();
+   gset('आवृत्ती '+(idx+1)+' आणत आहे ('+item.file+')…');
+   const snap=await gGet(f,item.file);
+   if(!snap||typeof snap!=='object'){
+    gset('❌ निवडलेली आवृत्ती Drive वर सापडली नाही.');
+    gbusy=false;
+    return;
+   }
+   gApplySnapshot(snap);
+   gset('✔ आवृत्ती '+(idx+1)+' ('+item.time+') यशस्वीरित्या रिस्टोअर झाली!');
+   go('bk');
+  }catch(e){gerr(e)}
+  gbusy=false;
+ },'होय, रिस्टोअर करा');
+}
+async function gConnect(){if(gbusy)return;gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();const f=await gFolder();const hist=(await gGet(f,'history.json'))||[];if(Array.isArray(hist)){ghist=hist;S.gs.hist=hist;save();}gset('✔ जोडले: '+S.gs.email);go('bk')}catch(e){gerr(e)}gbusy=false}
+async function gSync(){if(gbusy)return;gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();gset('Drive मध्ये CCE_Data फोल्डर तपासत आहे…');const f=await gFolder();
+ gset('मागील बॅकअप सुरक्षित करत आहे (Version History)…');
+ let prevSnap=null,prevTime='';
+ try{
+  const pm=await gGet(f,'meta.json');
+  if(pm&&pm.saved)prevTime=new Date(pm.saved).toLocaleString('mr-IN');
+  prevSnap=await gReadAllParts(f);
+ }catch(e){}
+ const P=gParts(),ks=Object.keys(P);
  for(let i=0;i<ks.length;i++){gset('जतन होत आहे: '+ks[i]+' ('+(i+1)+'/'+ks.length+')');await gPut(f,ks[i],P[ks[i]])}
- S.gs.last=new Date().toLocaleString('mr-IN');save();gset('✔ सर्व फाईल्स Google Drive मधील CCE_Data फोल्डरमध्ये जतन झाल्या.');go('bk')}catch(e){gerr(e)}gbusy=false}
+ gset('Version History (मागील ३ आवृत्त्या) अपडेट होत आहे…');
+ await gSaveHistory(f,prevSnap,prevTime);
+ S.gs.last=new Date().toLocaleString('mr-IN');save();gset('✔ सर्व माहिती (वय तक्ता, बोनाफाईडसह) व Version History Drive वर जतन झाली.');go('bk')}catch(e){gerr(e)}gbusy=false}
 function gRestore(){if(gbusy)return;cf('Drive मधील माहितीने या ब्राउझरमधील सध्याची माहिती बदलली जाईल. पुढे जायचे?',async()=>{gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();const f=await gFolder(),D={};
  for(const n of ['school','subjects','students','photos','marks','notes','attendance','archive','classes']){gset('आणत आहे: '+n+'.json');D[n]=await gGet(f,n+'.json')}
  if(!D.school&&!D.students){gset('CCE_Data फोल्डरमध्ये बॅकअप सापडला नाही. आधी "Drive वर जतन" करा.');gbusy=false;return}
  const keep=S.gs;if(D.school)Object.assign(S,D.school);if(D.subjects)S.cat=D.subjects.cat;
  if(D.students){S.st=D.students.st||[];const ph=D.photos||{};S.st.forEach(x=>{if(ph[x.id])x.ph=ph[x.id]})}
  if(D.marks)S.mk=D.marks.mk||{};if(D.notes){S.dsc=D.notes.dsc||{};S.xn=D.notes.xn||{}}if(D.attendance){S.at=D.attendance.at||{};S.nt=D.attendance.nt||{}}if(D.archive)S.arch=D.archive.arch||[];if(D.classes){S.cls=D.classes.cls||[null,null];S.ai=D.classes.ai||0}else{S.cls=[null,null];S.ai=0}
- S.gs=keep;migrate();S.subs=S.cat.filter(u=>u.on);save();gset('✔ Drive मधील माहिती आणली.');go('bk')}catch(e){gerr(e)}gbusy=false},'होय, आणा')}
+ S.gs=keep;S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};migrate();S.subs=S.cat.filter(u=>u.on);save(true);gset('✔ Drive मधील माहिती (वय तक्ता, बोनाफाईडसह) आणली.');go('bk')}catch(e){gerr(e)}gbusy=false},'होय, आणा')}
 function Gem(){S.gs.email=(document.getElementById('gmi').value||'').trim();gNoHint=false;gtok=null;save();gset(S.gs.email?'Gmail पत्ता जतन झाला: '+S.gs.email:'Gmail पत्ता रिकामा केला.')}
 function Gfg(){S.gs.email='';gtok=null;save();go('bk')}
-V.bk=()=>{gLoad().catch(()=>{});const g=S.gs;
- return`<div class="card hc np"><h2>बॅकअप (फाईल)</h2><p class="bkp">माहिती या ब्राउझरमध्येच साठवली जाते. नियमित बॅकअप फाईल डाउनलोड करून ठेवा.</p><div class="br"><button class="btn" onclick="backup()">⬇ डाउनलोड</button><label class="btn alt cursor-pointer">⬆ उघडा<input type="file" accept=".json" hidden onchange="restore(this.files[0])"></label><button class="btn red" onclick="reset()">सर्व पुसा</button></div></div>
+V.bk=()=>{gLoad().catch(()=>{});const g=S.gs,hl=(ghist&&ghist.length)?ghist:(g.hist||[]);
+ return`<div class="card hc np"><h2>बॅकअप (फाईल)</h2><p class="bkp">मुख्य माहिती (विद्यार्थी, फोटो, गुण व नोंदी) ब्राउझरच्या मोठ्या IndexedDB डेटाबेसमध्ये आणि App Lock व सेटिंग्ज localStorage मध्ये सुरक्षित साठवले जातात. तरीही नियमित बॅकअप फाईल डाउनलोड करून ठेवा.</p><div class="br"><button class="btn" onclick="backup()">⬇ डाउनलोड</button><label class="btn alt cursor-pointer">⬆ उघडा<input type="file" accept=".json" hidden onchange="restore(this.files[0])"></label><button class="btn red" onclick="reset()">सर्व पुसा</button></div></div>
  <div class="card hc np" style="margin-top:14px"><h2>Google Drive Sync</h2>
  <div class="gk">खाते: <b>${esc(g.email)||'अजून जोडलेले नाही'}</b><br>Drive फोल्डर: <b>CCE_Data</b>${g.last?'<br>शेवटचे sync: <b>'+esc(g.last)+'</b>':''}</div>
  <label class="lbl">Gmail पत्ता (एकदा टाका — पुढे खाते निवडावे लागत नाही)</label><div class="gin"><input id="gmi" type="email" inputmode="email" placeholder="tumcha@gmail.com" value="${esc(g.email)}"><button class="btn alt" onclick="Gem()">जतन</button><button class="btn red" onclick="Gfg()">विसरा</button></div>
  <button class="btn full" onclick="gConnect()">🔗 Google खाते जोडा</button><div class="br"><button class="btn" onclick="gSync()">⬆ Drive वर जतन</button><button class="btn alt" onclick="gRestore()">⬇ Drive वरून आणा</button></div>
- <div class="gst" id="gst">${esc(gmsg)||'Drive मध्ये CCE_Data फोल्डर तयार होईल; त्यात school, subjects, students, photos, marks, notes, attendance, archive या JSON फाईल्स राहतील.'}</div>
+ <div class="gst" id="gst">${esc(gmsg)||'Drive मध्ये CCE_Data फोल्डर तयार होईल; त्यात शाळा, विषय, विद्यार्थी, फोटो, गुण, नोंदी, हजेरी, विविध तक्ते, वय तक्ता, बोनाफाईड व संग्रह डेटा सुरक्षित राहतो.'}</div>
+ <div class="sec" style="margin:16px 0 8px">🕒 Version History (मागील ३ बॅकअप आवृत्त्या)</div>
+ <p class="text-sm" style="color:var(--mu);margin:0 0 10px">चुकून चुकीची माहिती सिंक झाल्यास मागील ३ जतन केलेल्या आवृत्त्यांमधून कोणतीही आवृत्ती पुन्हा रिस्टोअर करता येते.</p>
+ <button type="button" class="btn alt full" onclick="gLoadHistory()">🔄 Drive वरील बॅकअप आवृत्त्या तपासा</button>
+ ${hl.length?hl.map((it,idx)=>`<div class="wyr" style="cursor:default;align-items:center">
+  <div style="min-width:0;flex:1">
+   <div style="font-weight:800;font-size:14.5px;color:var(--ac)">${idx===0?'🟢 आवृत्ती 1 (ताजी)':'🕒 आवृत्ती '+(idx+1)} • ${esc(it.time||'-')}</div>
+   <div class="text-xs" style="color:var(--mu);margin-top:2px">${esc(it.sc||'शाळा')} • ${esc((it.std||'').trim())} • विद्यार्थी: <b>${it.stCnt??0}</b></div>
+  </div>
+  <button type="button" class="btn" style="min-height:38px;padding:4px 12px;font-size:13.5px;flex:none" onclick="gRestoreVer(${idx})">♻️ रिस्टोअर</button>
+ </div>`).join(''):'<div class="text-sm" style="padding:8px 10px;border-radius:10px;background:var(--bg);color:var(--mu)">अजून बॅकअप इतिहास नाही. "⬆ Drive वर जतन" दाबल्यावर येथे मागील ३ आवृत्त्या दिसतील.</div>'}
  <div class="tip">💡 <b>Choose an account</b> (खाते निवडा) पान आल्यावर आधी एकदा <b>Back</b> दाबा, मग खाते निवडा.<br>पहिल्या यशस्वी sync नंतर Gmail पत्ता आठवला जातो, त्यामुळे पुढे हे पान येत नाही.</div></div>`};
 function rlhead(x){return`<div class="rlh"><div><div>इयत्ता : <b>${esc(S.sc.std)}</b> &nbsp; तुकडी : <b>${esc(S.sc.div)}</b></div><div>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></div></div><div class="c"><h3>● सातत्यपूर्ण सर्वांकष मूल्यमापन ●</h3><div style="font-size:10.5px">${esc(S.sc.name)} • UDISE कोड: ${esc(S.sc.ud)||'-'}</div><div>हजेरी क्र. : <b>${esc(x.roll)}</b></div></div><div class="r"><div>सन : ${esc(S.sc.year)}</div><div>${sname(sem)}</div></div></div>`}
 V.rec2=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.max(.42,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
@@ -1966,27 +2239,63 @@ V.pc5=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी व
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 ते 3 प्रमाणेच आहे; फक्त रंगीत चित्रमय डिझाईन. रंगीत प्रिंट घ्या. प्रिंट करताना A4 Landscape (आडवे), Margins : None व "Background graphics" चालू ठेवा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc5Page).join('')}</div>`};
 /* ---------- विविध तक्ते ---------- */
-const VTC=[['dob','जन्मतारीख',30],['jt','जात',24],['cat','जात संवर्ग',22],['mn','आईचे नाव',34],['fn','वडिलांचे नाव',34],['mob','मोबाईल नंबर',30],['rm','शेरा',34],['em','रिकामा',24]];
-function vtS(){if(!S.vt||!Array.isArray(S.vt.c))S.vt={t:'',o:'p',c:['dob','jt','mn','fn','mob']};while(S.vt.c.length<5)S.vt.c.push('em');return S.vt}
+const VTC=[['dob','जन्मतारीख',28],['age','वय',34],['jt','जात',22],['cat','जात संवर्ग',20],['mn','आईचे नाव',30],['fn','वडिलांचे नाव',30],['mob','मोबाईल नंबर',28],['rm','शेरा',30],['em','रिकामा (हाताने लिहिण्यासाठी)',22],['off','✖ कॉलम नको',0]];
+function vtS(){
+ if(!S.vt||!Array.isArray(S.vt.c))S.vt={t:'',o:'p',n:6,c:['dob','age','jt','mn','fn','mob']};
+ while(S.vt.c.length<6)S.vt.c.push('em');
+ if(typeof S.vt.n!=='number'||S.vt.n<1||S.vt.n>6)S.vt.n=6;
+ return S.vt;
+}
 function vtSet(k,v){vtS()[k]=v;save();go('vt')}
+function vtCnt(n){const v=vtS();v.n=Math.max(1,Math.min(6,+n||4));for(let i=0;i<v.n;i++)if(v.c[i]==='off')v.c[i]='em';save();go('vt')}
 function vtCol(i,v){vtS().c[i]=v;save();go('vt')}
 function vtTitle(v){vtS().t=v;save();document.querySelectorAll('.vth .h').forEach(e=>e.textContent=v)}
-function vtClear(){cf('हेडिंग व सर्व कॉलम (निवड) पुसायचे आहेत का?',()=>{S.vt={t:'',o:vtS().o,c:['em','em','em','em','em']};save();go('vt')},'होय, पुसा')}
-function vtVal(id,x){return id==='dob'?(x.dob?dmy(x.dob):''):id==='jt'?(x.jt||''):id==='cat'?(x.cat||''):id==='mn'?(x.mn||''):id==='fn'?(x.fn||fatherOf(x.name)||''):id==='mob'?(x.mob||''):''}
-function vtPages(L){const v=vtS(),land=v.o==='l',N=land?18:28,pw=land?281:194,rh=((land?193:280)-26-9)/N,nameW=land?66:50,serW=11,cs=v.c.map(id=>VTC.find(c=>c[0]===id)||VTC[7]),sum=cs.reduce((a,c)=>a+c[2],0),rest=pw-serW-nameW,cw=cs.map(c=>(c[2]*rest/sum).toFixed(2));
+function vtAgeDt(d){agS().dt=d||localTodayISO();save();go('vt')}
+function vtClear(){cf('हेडिंग व सर्व कॉलम (निवड) पुसायचे आहेत का?',()=>{S.vt={t:'',o:vtS().o,n:vtS().n,c:['em','em','em','em','em','em']};save();go('vt')},'होय, पुसा')}
+function vtVal(id,x){
+ if(id==='dob')return x.dob?dmy(x.dob):'';
+ if(id==='age')return x.dob?calcAgeMarathi(x.dob,agS().dt):'';
+ if(id==='jt')return x.jt||'';
+ if(id==='cat')return x.cat||'';
+ if(id==='mn')return x.mn||'';
+ if(id==='fn')return x.fn||fatherOf(x.name)||'';
+ if(id==='mob')return x.mob||'';
+ return '';
+}
+const scrZoom=px=>{const vw=Math.min(document.documentElement.clientWidth||innerWidth,innerWidth);return Math.max(.3,Math.min(1,(vw-28)/px)).toFixed(3)};
+function vtPages(L){
+ const v=vtS(),land=v.o==='l',N=land?18:28,pw=land?281:194,rh=((land?193:280)-26-9)/N;
+ const picked=v.c.slice(0,v.n).filter(id=>id!=='off');
+ const active=picked.length?picked:['em'];
+ const k=active.length,serW=k>=5?9:11,nameW=land?(k>=5?58:66):(k>=5?42:50);
+ const cs=active.map(id=>VTC.find(c=>c[0]===id)||VTC[8]);
+ const sum=cs.reduce((a,c)=>a+(c[2]||22),0),rest=pw-serW-nameW;
+ const serP=(serW*100/pw).toFixed(2),nameP=(nameW*100/pw).toFixed(2);
+ const cw=cs.map(c=>((c[2]||22)*rest*100/(sum*pw)).toFixed(2));
+ const fz=!land?(k>=6?'8pt':k===5?'8.8pt':'10pt'):(k>=6?'9pt':'10pt');
+ const pd=k>=6?'0 0.7mm':k===5?'0 0.9mm':'0 1.2mm';
+ const tdCss=` style="font-size:${fz};padding:${pd}"`;
  const pages=[];for(let p=0;p<L.length;p+=N)pages.push(L.slice(p,p+N));
  return pages.map((pg,pi)=>`<div class="vtpg ${land?'vl':'vp'}"><div class="vth"><div class="s">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="u">UDISE : ${esc(S.sc.ud||'')}</div><div class="h">${esc(v.t)}</div></div>
-<table><colgroup><col style="width:${serW}mm"><col style="width:${nameW}mm">${cw.map(w=>`<col style="width:${w}mm">`).join('')}</colgroup><tr><th>अ.<br>क्र.</th><th>विद्यार्थ्याचे नाव</th>${cs.map(c=>`<th>${c[0]==='em'?'':c[1]}</th>`).join('')}</tr>
-${pg.map((x,i)=>`<tr style="height:${rh.toFixed(2)}mm"><td>${pi*N+i+1}</td><td class="l">${esc(x.name)}</td>${cs.map(c=>`<td${c[0]==='dob'||c[0]==='mob'?' style="white-space:nowrap"':''}>${esc(vtVal(c[0],x))}</td>`).join('')}</tr>`).join('')}</table></div>`).join('')}
-V.vt=()=>{const L=sorted(true),v=vtS(),land=v.o==='l',sheetPx=(land?281:194)*3.7795,z=Math.max(.3,Math.min(1,(innerWidth-30)/sheetPx)).toFixed(3);
+<table><colgroup><col style="width:${serP}%"><col style="width:${nameP}%">${cw.map(w=>`<col style="width:${w}%">`).join('')}</colgroup><tr><th${tdCss}>अ.<br>क्र.</th><th${tdCss}>विद्यार्थ्याचे नाव</th>${cs.map(c=>`<th${tdCss}>${c[0]==='em'?'':esc(c[1])}</th>`).join('')}</tr>
+${pg.map((x,i)=>`<tr style="height:${rh.toFixed(2)}mm"><td${tdCss}>${pi*N+i+1}</td><td class="l"${tdCss}>${esc(x.name)}</td>${cs.map(c=>{const nw=c[0]==='dob'||c[0]==='mob'?'white-space:nowrap;':'';return`<td style="${nw}font-size:${fz};padding:${pd}">${esc(vtVal(c[0],x))}</td>`}).join('')}</tr>`).join('')}</table></div>`).join('');
+}
+V.vt=()=>{
+ const L=sorted(true),v=vtS(),land=v.o==='l',sheetPx=(land?281:194)*3.7795+2,z=scrZoom(sheetPx);
  const opts=sel=>VTC.map(c=>`<option value="${c[0]}"${c[0]===sel?' selected':''}>${c[1]}</option>`).join('');
+ const active=v.c.slice(0,v.n).filter(id=>id!=='off');
+ const hasAge=active.includes('age');
+ const totCols=2+(active.length||1);
  return`<div class="card np mb-3"><h2>विविध तक्ते</h2>
 <div class="spf" style="margin-bottom:10px"><label class="lbl">📝 तक्त्याचे हेडिंग</label><input value="${esc(v.t)}" placeholder="उदा. विद्यार्थी माहिती तक्ता" oninput="vtTitle(this.value)"></div>
 <div class="spf" style="margin-bottom:10px"><label class="lbl">📄 पान (A4)</label><div class="vtseg"><button class="${land?'':'on'}" onclick="vtSet('o','p')">↕ पोर्ट्रेट (उभे)</button><button class="${land?'on':''}" onclick="vtSet('o','l')">↔ लँडस्केप (आडवे)</button></div></div>
-<div class="grid grid-cols-2 gap-2" style="margin-bottom:10px">${v.c.slice(0,5).map((s,i)=>`<div class="spf"><label class="lbl">कॉलम ${i+1}</label><select class="w-full" onchange="vtCol(${i},this.value)">${opts(s)}</select></div>`).join('')}</div>
+<div class="spf" style="margin-bottom:10px"><label class="lbl">📊 अतिरिक्त कॉलम संख्या निवडा (सध्या एकूण ${totCols} कॉलम)</label><div class="vtseg" style="gap:6px">${[1,2,3,4,5,6].map(num=>`<button class="${v.n===num?'on':''}" style="padding:0 4px" onclick="vtCnt(${num})">${num}</button>`).join('')}</div></div>
+<div class="grid grid-cols-2 gap-2" style="margin-bottom:10px">${v.c.slice(0,v.n).map((s,i)=>`<div class="spf"><label class="lbl">कॉलम ${i+1}</label><select class="w-full" onchange="vtCol(${i},this.value)">${opts(s)}</select></div>`).join('')}</div>
+${hasAge?`<div class="spf" style="margin-bottom:10px"><label class="lbl">📅 वय मोजणी दिनांक (कॅलेंडर)</label><input type="date" value="${esc(agS().dt)}" onchange="vtAgeDt(this.value)"></div>`:''}
 <div style="display:flex;gap:10px"><button class="btn" style="flex:1;min-width:0" onclick="print()">🖨 प्रिंट (A4)</button><button class="btn alt" style="flex:1;min-width:0" onclick="vtClear()">🗑 सर्व पुसा</button></div>
-<p class="text-sm" style="color:var(--mu);margin:8px 0 0">अ. क्र. व विद्यार्थ्याचे नाव नेहमी येतात. "रिकामा" निवडल्यास त्या कॉलमचे हेडिंग रिकामे राहते (हाताने लिहिण्यासाठी). तक्ता A4 पानावर आपोआप बसतो; विद्यार्थी जास्त असल्यास पुढची पाने तयार होतात. प्रिंट करताना Margins : Default/None निवडा.</p></div>
-${L.length?`<div class="vtw" style="--z:${z}">${vtPages(L)}</div>`:'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>'}`};
+<p class="text-sm" style="color:var(--mu);margin:8px 0 0">अ. क्र. व विद्यार्थ्याचे नाव हे २ कॉलम कायम राहतात आणि त्यापुढे १ ते ६ कॉलम (जास्तीत जास्त एकूण ८ कॉलम) एका A4 पानावर आपोआप बसतात. "✖ कॉलम नको" निवडल्यास तो कॉलम वगळला जातो; "रिकामा" निवडल्यास हाताने लिहिण्यासाठी कोरा कॉलम येतो.</p></div>
+${L.length?`<div class="vtw" style="--z:${z}">${vtPages(L)}</div>`:'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>'}`;
+};
 /* ---------- PWA : system back / navigation arrows ---------- */
 let navIdx=0,navMax=0,navKey='',navInit=false,dmOn=false;
 const nvKey=()=>tab+'|'+(tab==='setup'?ss:'');
@@ -2065,7 +2374,7 @@ clsInit();
 
 /* ---------- बोनाफाईड प्रमाणपत्र (Bonafide Certificate) ---------- */
 function bfS(){
- if(!S.bf)S.bf={no:'',dt:new Date().toISOString().slice(0,10),pur:'शैक्षणिक व इतर कारणासाठी',stId:''};
+ if(!S.bf)S.bf={no:'',dt:localTodayISO(),pur:'शैक्षणिक व इतर कारणासाठी',stId:''};
  return S.bf;
 }
 function bfSet(k,v){bfS()[k]=v;save();go('bf')}
@@ -2231,56 +2540,69 @@ function sbCenter(){
 
 
 /* ---------- वय तक्ता (Age Table - A4 Portrait) ---------- */
+function localTodayISO(){
+ const d=new Date();
+ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function parseYMD(str){
+ const s=dig(String(str||'').trim());
+ if(!s)return null;
+ let y,m,d,mt=s.match(/^(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/);
+ if(mt){y=+mt[1];m=+mt[2];d=+mt[3];}
+ else{
+  mt=s.match(/^(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/);
+  if(!mt)return null;
+  d=+mt[1];m=+mt[2];y=+mt[3];
+ }
+ if(m<1||m>12||d<1||d>31)return null;
+ const dtObj=new Date(y,m-1,d);
+ if(dtObj.getFullYear()!==y||dtObj.getMonth()!==m-1||dtObj.getDate()!==d)return null;
+ return{y,m,d,dt:dtObj};
+}
 function agS(){
- if(!S.ag)S.ag={dt:new Date().toISOString().slice(0,10)};
- if(!S.ag.dt)S.ag.dt=new Date().toISOString().slice(0,10);
+ if(!S.ag)S.ag={dt:localTodayISO()};
+ if(!S.ag.dt)S.ag.dt=localTodayISO();
  return S.ag;
 }
 function agSetDt(v){
- agS().dt=v||new Date().toISOString().slice(0,10);
+ agS().dt=v||localTodayISO();
  save();
  go('age');
 }
 function calcAgeMarathi(dobStr,refStr){
- if(!dobStr||!refStr)return'';
- const m1=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(dobStr).trim());
- const m2=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(refStr).trim());
- if(!m1||!m2)return'';
- const by=+m1[1],bm=+m1[2],bd=+m1[3];
- const ry=+m2[1],rm=+m2[2],rd=+m2[3];
- if([by,bm,bd,ry,rm,rd].some(isNaN))return'';
- const dobDate=new Date(by,bm-1,bd),refDate=new Date(ry,rm-1,rd);
- if(isNaN(dobDate.getTime())||isNaN(refDate.getTime())||dobDate>refDate)return'';
- let yrs=ry-by,mos=rm-bm,days=rd-bd;
- if(days<0){
-  mos-=1;
-  const prevMonthLastDay=new Date(ry,rm-1,0).getDate();
-  days+=prevMonthLastDay;
+ const b=parseYMD(dobStr),r=parseYMD(refStr);
+ if(!b||!r||b.dt>r.dt)return'';
+ let totalMos=(r.y-b.y)*12+(r.m-b.m);
+ let maxD=new Date(b.y,(b.m-1)+totalMos+1,0).getDate();
+ let anchor=new Date(b.y,(b.m-1)+totalMos,Math.min(b.d,maxD));
+ if(anchor>r.dt){
+  totalMos-=1;
+  maxD=new Date(b.y,(b.m-1)+totalMos+1,0).getDate();
+  anchor=new Date(b.y,(b.m-1)+totalMos,Math.min(b.d,maxD));
  }
- if(mos<0){
-  yrs-=1;
-  mos+=12;
- }
- if(yrs<0)return'';
+ const yrs=Math.floor(totalMos/12);
+ const mos=totalMos%12;
+ const days=Math.round((r.dt-anchor)/86400000);
+ if(yrs<0||mos<0||days<0)return'';
  return yrs+' वर्ष '+mos+' महिने '+days+' दिवस';
 }
 function agPages(L,refDt){
  const N=28,rh=(280-26-9.5)/N;
  const pages=[];for(let p=0;p<L.length;p+=N)pages.push(L.slice(p,p+N));
  return pages.map((pg,pi)=>`<div class="agpg"><div class="vth"><div class="s">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="u">UDISE : ${esc(S.sc.ud||'')} • वय मोजणी दिनांक : ${esc(dmy(refDt))}</div><div class="h">वय तक्ता</div></div>
-<table><colgroup><col style="width:12mm"><col style="width:66mm"><col style="width:34mm"><col style="width:82mm"></colgroup>
+<table><colgroup><col style="width:6.19%"><col style="width:34.02%"><col style="width:17.53%"><col style="width:42.26%"></colgroup>
 <tr><th>अ.<br>क्र.</th><th>विद्यार्थ्याचे नाव</th><th>जन्मतारीख</th><th>वय</th></tr>
 ${pg.map((x,i)=>{
- const hasDob=!!(x.dob&&String(x.dob).trim());
- const dobTxt=hasDob?dmy(x.dob):'';
- const ageTxt=hasDob?calcAgeMarathi(x.dob,refDt):'';
+ const p=parseYMD(x.dob);
+ const dobTxt=p?(String(p.d).padStart(2,'0')+'-'+String(p.m).padStart(2,'0')+'-'+p.y):'';
+ const ageTxt=p?calcAgeMarathi(x.dob,refDt):'';
  return`<tr style="height:${rh.toFixed(2)}mm"><td>${pi*N+i+1}</td><td class="l">${esc(x.name)}</td><td style="white-space:nowrap">${esc(dobTxt)}</td><td>${esc(ageTxt)}</td></tr>`;
 }).join('')}</table></div>`).join('');
 }
 V.age=()=>{
  const L=sorted(true),cfg=agS(),refDt=cfg.dt;
  if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- const z=Math.max(.32,Math.min(1,(innerWidth-30)/(194*3.7795))).toFixed(3);
+ const z=scrZoom(194*3.7795+2);
  return`<div class="card hc np mb-3"><h2>🎂 वय तक्ता (A4 पोर्ट्रेट)</h2>
   <div class="ag-notice">ℹ️ वय गणना होण्यासाठी सर्व विद्यार्थ्यांची जन्मतारीख विद्यार्थी प्रोफाइलमध्ये नोंद असणे गरजेचे आहे.</div>
   <div class="spf" style="margin-bottom:10px">
@@ -2395,6 +2717,8 @@ function pinToggleRec(openRec){
   return;
  }
  if(rerr)rerr.textContent='';
+ const ra=document.getElementById('plRecAns'),np=document.getElementById('plNewPin');
+ if(ra)ra.value='';if(np)np.value='';
  if(openRec){
   r.hidden=false;
   m.hidden=true;
@@ -2462,7 +2786,7 @@ function pinCard(){
   <div class="pin-st">स्थिती: <b>${sec.enabled?'PIN लॉक सुरू आहे':'PIN लॉक बंद आहे'}</b>${sec.hint?'<br>सूचना / हिंट: <b>'+esc(sec.hint)+'</b>':''}<br><span style="font-size:12.5px;color:var(--mu)">डिव्हाइस शेअर करत असल्यास PIN सेट करा. PIN विसरल्यास रिकव्हरी कोडने डेटा न पुसता नवा PIN ठेवता येतो.</span></div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" style="margin-bottom:10px">
    <div class="spf"><label class="lbl">🔢 नवीन PIN (4 अंक)</label><input id="setPin1" type="password" inputmode="numeric" maxlength="4" placeholder="उदा. 1234"></div>
-   <div class="spf"><label class="lbl">🔢 PIN पुन्हा टाका</label><input id="setPin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"></div>
+   <div class="spf"><label class="lbl">🔢 PIN पुन्हा टाका</label><input id="setPin2" type="password" inputmode="numeric" maxlength="4" placeholder="PIN पुन्हा टाका"></div>
    <div class="spf"><label class="lbl">🔑 रिकव्हरी कोड / गुप्त उत्तर</label><input id="setRecCode" type="text" placeholder="शाळेचा UDISE कोड" value=""></div>
    <div class="spf"><label class="lbl">💡 लक्षात राहण्यासाठी हिंट (ऐच्छिक)</label><input id="setPinHint" type="text" placeholder="उदा. माझा आवडता अंक" value="${esc(sec.hint||'')}"></div>
   </div>
@@ -2474,13 +2798,24 @@ function pinCard(){
  </div>`;
 }
 document.addEventListener('visibilitychange',()=>{
- if(document.hidden&&S.sec&&S.sec.enabled&&S.sec.pinHash){
-  pinUnlocked=false;
+ if(document.hidden){
+  idbFlush();
+  if(S.sec&&S.sec.enabled&&S.sec.pinHash)pinUnlocked=false;
  }else if(!document.hidden&&S.sec&&S.sec.enabled&&S.sec.pinHash&&!pinUnlocked){
   pinShowLock(true);
  }
 });
-addEventListener('DOMContentLoaded',()=>setTimeout(()=>pinShowLock(true),120));
+document.addEventListener('keydown',e=>{
+ const el=document.getElementById('pinLock');
+ if(!el||el.hidden)return;
+ const rec=document.getElementById('plRec');
+ if(rec&&!rec.hidden)return;
+ if(/^[0-9]$/.test(e.key)){e.preventDefault();pinKey(e.key);}
+ else if(e.key==='Backspace'){e.preventDefault();pinBack();}
+ else if(e.key==='Escape'||e.key==='Delete'){e.preventDefault();pinClear();}
+});
+if(document.readyState==='loading')addEventListener('DOMContentLoaded',()=>pinShowLock(true));
+else pinShowLock(true);
 
 function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('vtp',t==='vt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
  const el=document.getElementById('app');
@@ -2561,7 +2896,43 @@ V.dash=()=>{
   </div>
  </div>`;
 };
-go(S.spOk?'dash':'setup');
+let _appReady=false;
+(async function bootApp(){
+ try{
+  const dbData=await idbGetMain();
+  if(dbData&&typeof dbData==='object'){
+   const lsSec=S.sec,lsGs=S.gs;
+   Object.assign(S,dbData);
+   if(lsSec&&lsSec.enabled&&lsSec.pinHash)S.sec=lsSec;
+   if(lsGs&&(lsGs.email||lsGs.folder))S.gs=Object.assign({},S.gs,lsGs);
+  }else{
+   // Auto-migrate legacy localStorage ('cce-web-v1') into IndexedDB on first run
+   const legacy=localStorage.getItem(K);
+   if(legacy){
+    const old=JSON.parse(legacy);
+    if(old&&typeof old==='object'){
+     Object.assign(S,old);
+     await save(true);
+     try{localStorage.removeItem(K)}catch(e){}
+    }
+   }else{
+    saveCfgLS();
+   }
+  }
+ }catch(e){}
+ S.df=S.df||{mo:'घरकाम',fo:'शेती',ad:'',mq:'',fq:'',cat:''};
+ S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};
+ S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};
+ S.gs=S.gs||{email:'',folder:'',last:''};
+ S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:'2026-27',std:'१ ली',div:'अ',t:'',hm:'',ud:''};
+ S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};
+ S.sc.n=S.sc.n||1;S.sc.std=ST[S.sc.n-1];
+ S.spOk=S.spOk??!!S.sc.name;
+ clsInit();migrate();
+ _appReady=true;
+ go(S.spOk?'dash':'setup');
+ pinShowLock(false);
+})();
 /* ---------- Landing page logic ---------- */
 function lpMod(o){const m=document.getElementById('lpM');if(m){m.hidden=!o;const im=m.querySelector('.lp-av img');if(o&&im&&im.complete&&im.naturalWidth===0)lpImg(im)}}
 function lpEnter(){const l=document.getElementById('lp');if(!l)return;try{sessionStorage.setItem('cce-lp','1')}catch(e){}document.documentElement.classList.remove('lpon');l.classList.add('off');setTimeout(()=>l.remove(),380)}
@@ -2571,7 +2942,7 @@ function lpInstall(){if(dIP){pwaInstall();return}
 (function(){const l=document.getElementById('lp');if(!l)return;const lg=document.getElementById('lpLogo'),sv=document.querySelector('#ld svg');if(lg&&sv)lg.innerHTML=sv.outerHTML;
  addEventListener('appinstalled',()=>{const b=document.getElementById('lpIns');if(b)b.hidden=true;lpHint('✔ App इन्स्टॉल झाला. आता होम स्क्रीनवरून उघडा.')});
  addEventListener('keydown',e=>{if(e.key==='Escape')lpMod(0)})})();
-(function(){const l=document.getElementById('ld'),t0=Date.now();let d=0;const hide=()=>{if(d||!l)return;d=1;setTimeout(()=>{l.classList.add('off');setTimeout(()=>l.remove(),500)},Math.max(0,2600-(Date.now()-t0)))};document.readyState==='complete'?hide():addEventListener('load',hide);setTimeout(hide,5000)})();
+(function(){const l=document.getElementById('ld'),t0=Date.now();let d=0;const hide=()=>{if(d||!l)return;if(!_appReady){setTimeout(hide,60);return}d=1;setTimeout(()=>{l.classList.add('off');setTimeout(()=>l.remove(),500)},Math.max(0,1800-(Date.now()-t0)))};document.readyState==='complete'?hide():addEventListener('load',hide);setTimeout(()=>{_appReady=true;hide()},5000)})();
 </script>
 </body>
 </html>
