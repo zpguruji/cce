@@ -399,9 +399,10 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .p2g th{background:var(--h,#e9e9ef);color:var(--ht,#222);border:.25mm solid var(--ln,#888);font-size:11pt;font-weight:600;padding:1mm;height:9mm;text-align:center}
 .p2g td{border:.25mm solid var(--ln,#888);text-align:center;vertical-align:middle;font-size:11pt;padding:0 1mm;line-height:1.25;word-break:break-word}
 .p2g td.gd{font-weight:700}
-.p2g td.p2nt{vertical-align:top;padding:0}
-.p2g .p2nh{border-bottom:.25mm solid var(--ln,#888);padding:1.6mm 1mm;font-size:11pt}
-.p2g .p2nb{padding:1.8mm 2mm;font-size:10.5pt;line-height:1.35}
+.p2g td.p2nt{vertical-align:middle;padding:0 2mm}
+.p2g td:nth-child(1),.p2g td:nth-child(2){background:var(--hs,#f3f4f6);font-weight:700}
+.p2g .p2nh{display:inline-block;border-bottom:.35mm solid var(--ln,#888);padding:0 4mm 1mm;margin-bottom:1.2mm;font-size:11pt;font-weight:700}
+.p2g .p2nb{padding:.5mm 1mm;font-size:10.5pt;line-height:1.35}
 .p2s{margin-top:auto;display:flex;justify-content:space-between;font-size:9.5pt;padding-top:10mm}
 
 /* ---------- प्रगती पत्रक - 3 (रंगीत बाल-मैत्रीपूर्ण डिझाईन, A4 आडवे) ---------- */
@@ -808,6 +809,17 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 
 /* ===== तक्त्याचा हेडिंग रंग : स्क्रीन + प्रिंट ===== */
 :root{--thb:#e5e7eb;--tht:#000}
+:root{--ths:#f1f2f4}
+/* ===== तक्ते आकर्षक : नोंदवही व निकाल पत्रक (विषय/नाव स्तंभ रंगीत व bold, मजकूर मध्यभागी) ===== */
+.rt td{vertical-align:middle}
+.rt th{font-weight:800}
+.rt td.sl{font-weight:700;background:var(--ths);vertical-align:middle}
+.rt.p2 td{vertical-align:middle}
+.rt.p2 th{font-size:11.5px;padding:4px 4px}
+.rt.p2 td:last-child{padding:3px 8px;line-height:1.3}
+.rt.p2 td.sl{padding-left:8px;font-size:12px}
+.rt td.sn{font-weight:700;background:var(--ths);vertical-align:middle}
+
 .rpg th,.rpl th,.rsh th,.vtpg th,.agpg th{background:var(--thb)!important;color:var(--tht)!important}
 .rpg,.rpl,.rsh,.vtpg,.agpg{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 /* ===== मुखपृष्ठ (आडवे) : उजवी बाजू कट होऊ नये म्हणून ===== */
@@ -1105,8 +1117,8 @@ const gr=p=>p>=91?'अ-1':p>=81?'अ-2':p>=71?'ब-1':p>=61?'ब-2':p>=51?'क-1
 const r2=n=>Math.round(n*100)/100;
 
 /* तक्त्याचा हेडिंग रंग (निकाल पत्रक / नोंदवही / विविध तक्ते) */
-const TCS=[['','⬜ राखाडी (डिफॉल्ट)','#e5e7eb','#000'],['w','⚪ रंग नको (पांढरा)','#ffffff','#000'],['bl','🟦 आकाशी निळा','#cfe8ff','#0a3d62'],['gr','🟩 हिरवा','#d4f0d9','#14532d'],['yl','🟨 पिवळा','#fff3b0','#5c4300'],['og','🟧 केशरी','#ffe0b8','#7a3b00'],['pk','🟥 गुलाबी','#fbd5e5','#7a1f4b'],['pu','🟪 जांभळा','#e6d9fb','#3f1f7a'],['nv','🔵 गडद निळा (पांढरे अक्षर)','#0a3d62','#ffffff'],['dg','🟢 गडद हिरवा (पांढरे अक्षर)','#0b6b3a','#ffffff']];
-function applyTC(){try{const c=TCS.find(x=>x[0]===((S&&S.tc)||''))||TCS[0],r=document.documentElement.style;r.setProperty('--thb',c[2]);r.setProperty('--tht',c[3])}catch(e){}}
+const TCS=[['','⬜ राखाडी (डिफॉल्ट)','#e5e7eb','#000','#f1f2f4'],['w','⚪ रंग नको (पांढरा)','#ffffff','#000','#f5f5f5'],['bl','🟦 आकाशी निळा','#cfe8ff','#0a3d62','#e8f3ff'],['gr','🟩 हिरवा','#d4f0d9','#14532d','#eaf7ed'],['yl','🟨 पिवळा','#fff3b0','#5c4300','#fff9d6'],['og','🟧 केशरी','#ffe0b8','#7a3b00','#fff0dc'],['pk','🟥 गुलाबी','#fbd5e5','#7a1f4b','#fde9f1'],['pu','🟪 जांभळा','#e6d9fb','#3f1f7a','#f1eafd'],['nv','🔵 गडद निळा (पांढरे अक्षर)','#0a3d62','#ffffff','#dbe8f5'],['dg','🟢 गडद हिरवा (पांढरे अक्षर)','#0b6b3a','#ffffff','#dcefe4']];
+function applyTC(){try{const c=TCS.find(x=>x[0]===((S&&S.tc)||''))||TCS[0],r=document.documentElement.style;r.setProperty('--thb',c[2]);r.setProperty('--tht',c[3]);r.setProperty('--ths',c[4]||'#f1f2f4')}catch(e){}}
 function tcSet(v){S.tc=v;try{save()}catch(e){}applyTC()}
 function tcSel(){const cur=(S&&S.tc)||'';return`<div class="spf" style="margin-top:8px;width:100%"><label class="lbl">🎨 तक्त्याचा हेडिंग रंग (प्रिंटमध्येही येईल)</label><select class="w-full" onchange="tcSet(this.value)">${TCS.map(c=>`<option value="${c[0]}"${c[0]===cur?' selected':''}>${c[1]}</option>`).join('')}</select></div>`}
 let tab='setup',sem=1,sub=0,cur='';
@@ -1492,17 +1504,17 @@ function rwList(){const used=new Set(),L=RW.map(r=>{const i=S.subs.findIndex(u=>
 const RFN=['निरीक्षण','तोंडी काम','प्रात्यक्षिक','उपक्रम / कृती','प्रकल्प','चाचणी','स्वाध्याय / वर्गकार्य','इतर'];
 function rhead(x){return`<h3>● सातत्यपूर्ण सर्वांकष मूल्यमापन ●</h3><div class="rhd" style="font-size:10.5px"><span>${esc(S.sc.name)}</span><span>UDISE कोड: ${esc(S.sc.ud)||'-'}</span></div><div class="rhd"><span>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></span><span>सन : ${esc(S.sc.year)}</span></div><div class="rhd"><span>इयत्ता : <b>${esc(S.sc.std)}</b></span><span>तुकडी : <b>${esc(S.sc.div)}</b></span><span>हजेरी क्र. : <b>${esc(x.roll)}</b></span><span>${sname(sem)}</span></div>`}
 function rtable1(x,v2){const R=rwList(),W=v2?[4,13,6,...Array(8).fill(4.4),5,5,5,5,5,6,6]:[5,13,6,...Array(8).fill(4.4),5,5,5,5,5,6,5,5],cg=W.map(w=>`<col style="width:${w}%">`).join('');
- const rows=R.map((r,k)=>{if(r.i<0)return`<tr><td rowspan="2">${k+1}</td><td rowspan="2" class="sl">${r.l}</td><td>पैकी</td>${'<td>-</td>'.repeat(v2?15:14)}${v2?'':'<td rowspan="2">-</td><td rowspan="2">-</td>'}</tr><tr><td>प्राप्त</td>${'<td>-</td>'.repeat(v2?15:14)}</tr>`;
+ const rows=R.map((r,k)=>{if(r.i<0)return`<tr><td rowspan="2" class="sn">${k+1}</td><td rowspan="2" class="sl">${r.l}</td><td>पैकी</td>${'<td>-</td>'.repeat(v2?15:14)}${v2?'':'<td rowspan="2">-</td><td rowspan="2">-</td>'}</tr><tr><td>प्राप्त</td>${'<td>-</td>'.repeat(v2?15:14)}</tr>`;
   const u=S.subs[r.i],m=mk(sem,r.i,x.id)||{},fa=u.f||[],sa=u.s||[],cf=fa.some(v=>v>0),cs=sa.some(v=>v>0),mF=cf?bsum(fa):u.fe,mS=cs?bsum(sa):u.se,has=m.fe!==undefined||m.se!==undefined,
   tF=+m.fe||0,tS=+m.se||0,T=tF+tS,P=mF+mS,pc=has&&P?T*100/P:null,vl=(a,j)=>{const v=(a||[])[j];return v===undefined||v===''?(has?'':'-'):v},blank='<td class="gry"></td>'.repeat(4),J=[0,1,2,3,4,5,6,7];
   const mx=`<td>पैकी</td>${J.map(j=>`<td>${cf&&fa[j]>0?fa[j]:'-'}</td>`).join('')}<td>${mF||'-'}</td>${mS===0?blank:[0,1,2].map(j=>`<td>${cs&&sa[j]>0?sa[j]:'-'}</td>`).join('')+`<td>${mS}</td>`}<td>${P}</td>`;
   const ob=`<td>प्राप्त</td>${J.map(j=>`<td>${cf&&fa[j]>0?vl(m.f,j):'-'}</td>`).join('')}<td><b>${m.fe!==undefined&&m.fe!==''?tF:'-'}</b></td>${mS===0?blank:[0,1,2].map(j=>`<td>${cs&&sa[j]>0?vl(m.s,j):'-'}</td>`).join('')+`<td><b>${m.se!==undefined&&m.se!==''?tS:'-'}</b></td>`}<td><b>${has?T:'-'}</b></td>`;
-  return`<tr><td rowspan="2">${k+1}</td><td rowspan="2" class="sl">${r.l}</td>${mx}${v2?`<td>${pc===null?'-':gr(pc)}</td></tr><tr>${ob}<td><b>${pc===null?'-':Math.round(pc)}</b></td></tr>`:`<td rowspan="2"><b>${pc===null?'-':Math.round(pc)}</b></td><td rowspan="2">${pc===null?'-':gr(pc)}</td></tr><tr>${ob}</tr>`}`}).join('');
+  return`<tr><td rowspan="2" class="sn">${k+1}</td><td rowspan="2" class="sl">${r.l}</td>${mx}${v2?`<td>${pc===null?'-':gr(pc)}</td></tr><tr>${ob}<td><b>${pc===null?'-':Math.round(pc)}</b></td></tr>`:`<td rowspan="2"><b>${pc===null?'-':Math.round(pc)}</b></td><td rowspan="2">${pc===null?'-':gr(pc)}</td></tr><tr>${ob}</tr>`}`}).join('');
  return`<table class="rt"><colgroup>${cg}</colgroup><tr><th rowspan="3">अ.<br>नं.</th><th colspan="2" rowspan="2">तपशील</th><th colspan="9">(अ) आकारिक मूल्यमापन</th><th colspan="4">(ब) संकलित मूल्यमापन</th>${v2?'<th rowspan="3" class="vt2"><span>अ + ब</span></th><th rowspan="3">श्रेणी<br><span style="font-weight:400;font-size:9px">शे. गुण</span></th>':'<th rowspan="3" class="vt2"><span>अ + ब एकूण</span></th><th rowspan="3" class="vt2"><span>शेकडा गुण</span></th><th rowspan="3">श्रेणी</th>'}</tr>
  <tr>${RFN.map(n=>`<th class="vt2"><span>${n}</span></th>`).join('')}<th rowspan="2" class="vt2"><span>एकूण</span></th><th rowspan="2" class="vt2"><span>तोंडी</span></th><th rowspan="2" class="vt2"><span>प्रात्य.</span></th><th rowspan="2" class="vt2"><span>लेखी</span></th><th rowspan="2" class="vt2"><span>एकूण</span></th></tr>
  <tr><th>विषय</th><th>गुण</th>${[1,2,3,4,5,6,7,8].map(n=>`<th>${n}</th>`).join('')}</tr>${rows}</table>`}
 function rtable2(x,v2){const m=S.dsc[sem+'|'+x.id]||{},R=rwList(),G=[['s10','विशेष प्रगती'],['s11','आवड, छंद<br>कला, क्रीडा, साहित्य इ.'],['s12','सुधारणा आवश्यक'],['s13','व्यक्तिमत्व गुण विशेष<br>(अभिवृत्ती, कला, मुल्ये,<br>स्वभाव गुणविशेष)']];
- return`<table class="rt p2${v2?' s2':''}"><colgroup><col style="width:8%"><col style="width:28%"><col style="width:64%"></colgroup><tr><th>अ. नं.</th><th>विषय</th><th>वर्णनात्मक नोंदी</th></tr>${R.map((r,k)=>`<tr><td>${k+1}</td><td class="sl">${r.l}</td><td>${r.i<0?'-':esc(m[S.subs[r.i].id]||'')}</td></tr>`).join('')}${G.map((g,j)=>`<tr><td>${R.length+j+1}</td><td class="sl">${g[1]}</td><td>${esc(m[g[0]]||'')}</td></tr>`).join('')}</table>`}
+ return`<table class="rt p2${v2?' s2':''}"><colgroup><col style="width:8%"><col style="width:28%"><col style="width:64%"></colgroup><tr><th>अ. नं.</th><th>विषय</th><th>वर्णनात्मक नोंदी</th></tr>${R.map((r,k)=>`<tr><td class="sn">${k+1}</td><td class="sl">${r.l}</td><td>${r.i<0?'-':esc(m[S.subs[r.i].id]||'')}</td></tr>`).join('')}${G.map((g,j)=>`<tr><td class="sn">${R.length+j+1}</td><td class="sl">${g[1]}</td><td>${esc(m[g[0]]||'')}</td></tr>`).join('')}</table>`}
 V.rec=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.min(1,(innerWidth-30)/740).toFixed(3);
  return`<div class="card np"><h2>नोंदवही</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी पहिले पान गुण तक्ता व दुसरे पान वर्णनात्मक नोंदी. प्रिंट करताना A4 Portrait निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
  <div style="--z:${z}">${L.map(x=>`<div class="rpg">${rhead(x)}${rtable1(x)}${rsign()}</div><div class="rpg">${rhead(x)}${rtable2(x)}${rsign()}</div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
@@ -1717,7 +1729,7 @@ V.cvp=()=>coverTab(0);V.cvl=()=>coverTab(1);
 V.idx=()=>{if(sem===0)sem=1;const L=sorted(),per=25,pg=[];for(let i=0;i<L.length;i+=per)pg.push(L.slice(i,i+per));if(!pg.length)pg.push([]);const z=Math.min(1,(innerWidth-30)/740).toFixed(3);
  return`<div class="card np"><h2>अनुक्रमणिका</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">विद्यार्थ्यांची यादी (अ.नं., नाव, रजि. नं., जन्मतारीख, पृष्ठ क्र.). एका पानावर 25 विद्यार्थी; जास्त असल्यास पुढची पाने आपोआप येतात. LC घेतलेले विद्यार्थी त्या सत्राच्या यादीत येत नाहीत.</p></div>
  <div style="--z:${z}">${pg.map(a=>`<div class="rpg"><div class="ixh"><span>सत्र : <b>${sem===1?'प्रथम':'द्वितीय'}</b></span><h3>● अनुक्रमणिका ●</h3><span>इयत्ता : <b>${esc(S.sc.std)}</b></span></div>
- <table class="rt ixt"><colgroup><col style="width:10%"><col style="width:42%"><col style="width:16%"><col style="width:19%"><col style="width:13%"></colgroup><tr><th>अ.नं.</th><th>विद्यार्थ्याचे नाव</th><th>रजि. नं.</th><th>जन्मतारीख</th><th>पृष्ठ क्र.</th></tr>${a.map(x=>`<tr><td>${x.sn}</td><td class="l">${esc(x.name)}</td><td>${esc(x.reg)}</td><td>${esc(dmy(x.dob))}</td><td>${x.sn}</td></tr>`).join('')||'<tr><td colspan="5">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>'}</table></div>`).join('')}</div>`};
+ <table class="rt ixt"><colgroup><col style="width:10%"><col style="width:42%"><col style="width:16%"><col style="width:19%"><col style="width:13%"></colgroup><tr><th>अ.नं.</th><th>विद्यार्थ्याचे नाव</th><th>रजि. नं.</th><th>जन्मतारीख</th><th>पृष्ठ क्र.</th></tr>${a.map(x=>`<tr><td class="sn">${x.sn}</td><td class="l">${esc(x.name)}</td><td>${esc(x.reg)}</td><td>${esc(dmy(x.dob))}</td><td>${x.sn}</td></tr>`).join('')||'<tr><td colspan="5">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>'}</table></div>`).join('')}</div>`};
 let acur='';
 function syncAt(id){
  const w=S.wd[S.sc.year]||{},m=S.at['m|'+id]||{};
@@ -2112,13 +2124,13 @@ function rsTable(s,rows,C,start){
  const h3=C.map(c=>c.k===4?'<th class="vt2"><span>आकारिक</span></th><th class="vt2"><span>संकलित</span></th><th class="vt2"><span>एकूण</span></th>':`<th class="vt2"><span>${two(c)?'एकूण':'आकारिक'}</span></th>`).join('');
  const h4=C.map(c=>{const q=u(c);return c.k===4?(q?`<td>${q.fe}</td><td>${q.se}</td><td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td>-</td><td>-</td><td></td>'):(q?`<td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td></td>')}).join('');
  const body1=rows.map((x,n)=>{const a=S.at[s+'|'+x.id]||{},p=a.p!==undefined&&a.p!==''?a.p:'';
-  return`<tr><td>${start+n+1}</td><td class="sl">${esc(x.name)}</td><td>${x.g==='मुलगी'?'G':'B'}</td><td>${p}</td>${C.map(c=>{const r=rsData(s,x,c);
+  return`<tr><td class="sn">${start+n+1}</td><td class="sl">${esc(x.name)}</td><td>${x.g==='मुलगी'?'G':'B'}</td><td>${p}</td>${C.map(c=>{const r=rsData(s,x,c);
    if(c.k===4)return r?`<td>${r.fe}</td><td>${r.se}</td><td><b>${r.t}</b></td><td><b>${r.g}</b></td>`:`<td></td><td></td><td></td><td>${c.i<0?'-':''}</td>`;
    return r?`<td>${r.t}</td><td><b>${r.g}</b></td>`:`<td></td><td>${c.i<0?'-':''}</td>`}).join('')}</tr>`}).join('');
  const cells=(ss,x)=>C.map(c=>{const r=rsData(ss,x,c);if(c.k===4)return r?`<td>${r.fe}</td><td>${r.se}</td><td><b>${r.t}</b></td><td><b>${r.g}</b></td>`:`<td></td><td></td><td></td><td>${c.i<0?'-':''}</td>`;return r?`<td>${r.t}</td><td><b>${r.g}</b></td>`:`<td></td><td>${c.i<0?'-':''}</td>`}).join('');
- const body0=rows.map((x,n)=>`<tr><td rowspan="2">${start+n+1}</td><td rowspan="2" class="sl">${esc(x.name)}</td><td rowspan="2">${x.g==='मुलगी'?'G':'B'}</td><td>प्रथम</td>${cells(1,x)}</tr><tr><td>द्वितीय</td>${cells(2,x)}</tr>`).join('');
+ const body0=rows.map((x,n)=>`<tr><td rowspan="2" class="sn">${start+n+1}</td><td rowspan="2" class="sl">${esc(x.name)}</td><td rowspan="2">${x.g==='मुलगी'?'G':'B'}</td><td>प्रथम</td>${cells(1,x)}</tr><tr><td>द्वितीय</td>${cells(2,x)}</tr>`).join('');
  return`<table class="rt">${cg}<tr><th rowspan="3">अ.<br>नं.</th><th rowspan="3">विद्यार्थ्याचे नाव</th><th rowspan="3" class="vt2"><span>लिंग</span></th><th rowspan="3" class="vt2"><span>${s?'हजर दिवस':'सत्र'}</span></th>${h1}</tr><tr>${h2}</tr><tr>${h3}</tr><tr><th colspan="2" style="text-align:right">ठेवलेले गुण →</th><th></th><th>${s?wd:''}</th>${h4}</tr>${s?body1:body0}</table>`}
-function rsSum(s,L,C){const rows=C.map((c,k)=>{const cnt=Array(9).fill(0);let n=0;L.forEach(x=>{const r=rsData(s,x,c);if(r){const j=RG.indexOf(r.g);if(j>=0){cnt[j]++;n++}}});return`<tr><td>${k+1}</td><td class="sl">${esc(c.n)}</td>${cnt.map(v=>`<td>${v}</td>`).join('')}<td><b>${n}</b></td></tr>`}).join('');
+function rsSum(s,L,C){const rows=C.map((c,k)=>{const cnt=Array(9).fill(0);let n=0;L.forEach(x=>{const r=rsData(s,x,c);if(r){const j=RG.indexOf(r.g);if(j>=0){cnt[j]++;n++}}});return`<tr><td class="sn">${k+1}</td><td class="sl">${esc(c.n)}</td>${cnt.map(v=>`<td>${v}</td>`).join('')}<td><b>${n}</b></td></tr>`}).join('');
  return`<table class="rt rss"><tr><th>अ.नं.</th><th>विषय \\ श्रेणी</th>${RG.map(g=>`<th>${g}</th>`).join('')}<th>एकूण</th></tr>${rows}</table>`}
 function rsPages(s){const L=sorted(s),C=rsCols(),PER=s?15:9,pg=[];for(let i=0;i<L.length;i+=PER)pg.push(L.slice(i,i+PER));
  const sep=pg[pg.length-1].length>(s?6:3),N=pg.length+(sep?1:0),ft=p=>`<div class="rsh-f">पृष्ठ : ${p} /${N} &nbsp; इयत्ता : ${esc(S.sc.std)} | ${s?'सत्र : '+s:'वार्षिक निकाल'}</div>`,sm=()=>`<div class="rsh-b"><div class="sm1">${rsSum(s,L,C)}</div><div class="sg1">${rsign()}</div></div>`;
@@ -2163,7 +2175,7 @@ V.pc1=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी व
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">विद्यार्थ्याचा फोटो विद्यार्थी प्रोफाइलमधून येतो. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pcPage).join('')}</div>`};
 /* ---------- प्रगती पत्रक - 2 ---------- */
-const PC2T=[['nb','निळा','#dbeafe','#2563eb','#1e3a8a'],['hr','हिरवा','#dcfce7','#16a34a','#14532d'],['ke','केशरी','#ffedd5','#ea580c','#7c2d12'],['ja','जांभळा','#ede9fe','#7c3aed','#4c1d95'],['rk','राखाडी','#e5e7eb','#6b7280','#111827']];
+const PC2T=[['nb','निळा','#dbeafe','#2563eb','#1e3a8a','#eef5ff'],['hr','हिरवा','#dcfce7','#16a34a','#14532d','#eefbf2'],['ke','केशरी','#ffedd5','#ea580c','#7c2d12','#fff6ec'],['ja','जांभळा','#ede9fe','#7c3aed','#4c1d95','#f5f1fe'],['rk','राखाडी','#e5e7eb','#6b7280','#111827','#f3f4f6']];
 function pc2Th(){const k=(S.cv||{}).tc2;return PC2T.find(x=>x[0]===k)||PC2T[0]}
 function pc2Col(v){S.cv=S.cv||{};S.cv.tc2=v;save();go('pc2')}
 function pc2Rows(){const PL=['मराठी','हिंदी','इंग्रजी','गणित','','सा. शास्त्रे','कला','कार्यानुभव','शा. शिक्षण'],ES=['विज्ञान','परिसर अभ्यास 1','परिसर अभ्यास 2'],es=[];S.subs.forEach((u,i)=>{if(ES.includes(u.n))es.push(i)});
@@ -2178,7 +2190,7 @@ V.pc2=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी व
  if(cur&&!L.some(x=>x.id===cur))cur='';
  const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),R=pc2Rows(),th=pc2Th();
  return`<div class="card np mb-3"><h2>प्रगती पत्रक</h2><div class="spf" style="margin-bottom:10px"><label class="lbl">🎨 तक्त्याचा रंग</label><select class="w-full" onchange="pc2Col(this.value)">${PC2T.map(c=>`<option value="${c[0]}"${c[0]===th[0]?' selected':''}>${c[1]}</option>`).join('')}</select></div><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc2')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
-<p class="text-sm" style="color:var(--mu);margin:8px 0 0">डावीकडे प्रथम सत्र व उजवीकडे द्वितीय सत्र; श्रेणी गुणनोंदीवरून व वर्णनात्मक नोंदी (विशेष प्रगती, आवड/छंद, सुधारणा आवश्यक) शाब्दीक नोंदींमधून आपोआप येतात. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(x=>`<div class="pcs" style="--h:${th[2]};--ln:${th[3]};--ht:${th[4]}">${pc2Half(x,1,R)}${pc2Half(x,2,R)}</div>`).join('')}</div>`};
+<p class="text-sm" style="color:var(--mu);margin:8px 0 0">डावीकडे प्रथम सत्र व उजवीकडे द्वितीय सत्र; श्रेणी गुणनोंदीवरून व वर्णनात्मक नोंदी (विशेष प्रगती, आवड/छंद, सुधारणा आवश्यक) शाब्दीक नोंदींमधून आपोआप येतात. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(x=>`<div class="pcs" style="--h:${th[2]};--ln:${th[3]};--ht:${th[4]};--hs:${th[5]}">${pc2Half(x,1,R)}${pc2Half(x,2,R)}</div>`).join('')}</div>`};
 
 /* ---------- प्रगती पत्रक (१ पानी ) : वरतीच शेअरींग बटणे, कार्डवर खाली बटणे नाहीत ---------- */
 function p1pParentNum(mob){
