@@ -810,6 +810,15 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 /* ===== तक्त्याचा हेडिंग रंग : स्क्रीन + प्रिंट ===== */
 :root{--thb:#e5e7eb;--tht:#000}
 :root{--ths:#f1f2f4}
+ /* डॅशबोर्ड : सत्रनिहाय श्रेणी तक्ता */
+.db-gt{width:100%;border-collapse:separate;border-spacing:0;text-align:center;font-size:14px;border:1px solid var(--bd,#d9dee5);border-radius:10px;overflow:hidden}
+.db-gt th{background:var(--ac2,#e0f2fe);color:var(--ac,#0a3d62);padding:9px 6px;font-weight:800}
+.db-gt td{padding:8px 6px;border-top:1px solid var(--bd,#e5e7eb)}
+.db-gt tbody td:first-child{font-weight:800;color:var(--ac,#0a3d62)}
+.db-gt tbody tr:nth-child(even) td{background:rgba(127,127,127,.06)}
+.db-gt tr.bad td:first-child{color:#dc2626}
+.db-gt tfoot td{font-weight:800;background:var(--ac2,#e0f2fe)}
+
 /* ===== तक्ते आकर्षक : नोंदवही व निकाल पत्रक (विषय/नाव स्तंभ रंगीत व bold, मजकूर मध्यभागी) ===== */
 .rt td{vertical-align:middle}
 .rt th{font-weight:800}
@@ -1126,7 +1135,7 @@ const mk=(s,i,id)=>S.mk[s+'|'+i+'|'+id];
 function calc(s,st){ // s=1,2 or 0 (वार्षिक)
  const sems=s?[s]:[1,2];let any=false;
  const rows=S.subs.map((u,i)=>{let fe=0,se=0,has=false;
-  sems.forEach(q=>{const m=mk(q,i,st.id);if(m){has=true;fe+=+m.fe||0;se+=+m.se||0}});
+  sems.forEach(q=>{const m=mk(q,i,st.id);if(m&&bhF(u)){has=true;fe+=+m.fe||0;se+=+m.se||0}});  // भारांश भरलेला असेल तरच गणना
   const max=(u.fe+u.se)*sems.length,t=fe+se,p=has?t*100/max:null;if(has)any=true;
   return{fe,se,t,max,p,g:has?gr(p):'-',has}});
  const used=rows.filter(r=>r.has);
@@ -1274,13 +1283,13 @@ function MC(i,id,kind,j,v,el){const u=S.subs[i],key=sem+'|'+i+'|'+id,ak=kind==='
  const mm=S.mk[key]=S.mk[key]||{};if(j<0)mm[kind]=n;else{const a=mm[ak]=mm[ak]||[];a[j]=n;mm[kind]=a.reduce((p,q)=>p+(+q||0),0)}
  save();const e=document.getElementById('t'+id);if(e&&j>=0)e.innerHTML='<b>'+mm[kind]+'</b>'}
 function mtab(kind){if(sem===0)sem=1;const u=S.subs[sub]||S.subs[0];if(!u)return'<div class="card">आधी सेटअपमध्ये विषय जोडा.</div>';
- const N=kind==='fe'?8:3,nm=kind==='fe'?FL:SL,mx=(kind==='fe'?u.f:u.s)||Array(N).fill(0),cm=mx.some(x=>x>0),tm=cm?mx.reduce((a,b)=>a+(+b||0),0):(kind==='fe'?u.fe:u.se),L=sorted(),idx=[...Array(N).keys()];
+ const N=kind==='fe'?8:3,nm=kind==='fe'?FL:SL,mx=(kind==='fe'?u.f:u.s)||Array(N).fill(0),cm=mx.some(x=>x>0),tm=cm?mx.reduce((a,b)=>a+(+b||0),0):0,L=sorted(),idx=[...Array(N).keys()];
  return`<div class="card"><h2>${kind==='fe'?'आकारिक गुण नोंद':'संकलित गुण नोंद'}</h2><div class="mbar np">${semSel(0)}<select class="sub-s" onchange="sub=+this.value;go(tab)">${S.subs.map((x,i)=>`<option value="${i}"${i===sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select><label class="btn og cursor-pointer">⬆ आयात<input type="file" accept=".xlsx,.xls,.csv" hidden onchange="impMk(this.files[0])"></label><button class="btn bl" onclick="exMk()">⬇ निर्यात</button></div>
  <div class="sc"><table class="mt"><tr><th colspan="2">${sname(sem)}</th><th colspan="${N+1}">${esc(u.n)}</th></tr>
  <tr><th>अ.नं.</th><th class="stk">विद्यार्थ्याचे नाव</th>${idx.map(j=>`<th class="vt"><span>${nm[j]}</span></th>`).join('')}<th class="vt"><span>एकूण</span></th></tr>
- <tr><td colspan="2"><b>पैकी गुण</b></td>${idx.map(j=>`<td><b>${mx[j]>0?mx[j]:'-'}</b></td>`).join('')}<td><b>${tm}</b></td></tr>
- ${L.map(x=>{const m=mk(sem,sub,x.id)||{},a=m[kind==='fe'?'f':'s']||[],v=m[kind];return`<tr><td>${x.sn}</td><td class="l stk">${esc(x.name)}</td>${idx.map(j=>`<td><input type="number" inputmode="numeric" min="0" max="${mx[j]}" class="m"${mx[j]>0?'':' disabled'} value="${a[j]??''}" oninput="MC(${sub},'${x.id}','${kind}',${j},this.value,this)"></td>`).join('')}<td id="t${x.id}">${cm?'<b>'+(v!==undefined&&v!==''?+v||0:'-')+'</b>':`<input type="number" inputmode="numeric" min="0" max="${tm}" class="m" value="${v??''}" oninput="MC(${sub},'${x.id}','${kind}',-1,this.value,this)">`}</td></tr>`}).join('')||`<tr><td colspan="${N+3}">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>`}</table></div>
- <p class="text-sm mt-2" style="color:var(--mu)">"पैकी गुण" घटकानुसार गुणभार मध्ये भरलेल्या माहितीनुसार येतात. पैकी गुण ठरवलेला नसलेला घटक बंद (राखाडी) दिसतो${cm?'':'; तोपर्यंत "एकूण" स्तंभात थेट गुण भरा'}. पैकी गुणांपेक्षा जास्त गुण भरल्यास सूचना येते व ते स्वीकारले जात नाहीत.</p></div>`}
+ <tr><td colspan="2"><b>पैकी गुण</b></td>${idx.map(j=>`<td><b>${mx[j]>0?mx[j]:'-'}</b></td>`).join('')}<td><b>${cm?tm:'-'}</b></td></tr>
+ ${L.map(x=>{const m=mk(sem,sub,x.id)||{},a=m[kind==='fe'?'f':'s']||[],v=m[kind];return`<tr><td>${x.sn}</td><td class="l stk">${esc(x.name)}</td>${idx.map(j=>`<td><input type="number" inputmode="numeric" min="0" max="${mx[j]}" class="m"${mx[j]>0?'':' disabled'} value="${a[j]??''}" oninput="MC(${sub},'${x.id}','${kind}',${j},this.value,this)"></td>`).join('')}<td id="t${x.id}">${cm?'<b>'+(v!==undefined&&v!==''?+v||0:'-')+'</b>':`<input type="number" class="m" disabled value="${v??''}" title="आधी सेटअप › भारांश › घटकानुसार गुणभार मध्ये पैकी गुण भरा">`}</td></tr>`}).join('')||`<tr><td colspan="${N+3}">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>`}</table></div>
+ <p class="text-sm mt-2" style="color:var(--mu)">"पैकी गुण" घटकानुसार गुणभार मध्ये भरलेल्या माहितीनुसार येतात. पैकी गुण ठरवलेला नसलेला घटक बंद (राखाडी) दिसतो${cm?'':'. या विषयासाठी घटकानुसार पैकी गुण अजून भरलेले नाहीत, म्हणून "एकूण" स्तंभ भारांश भरल्यानंतरच दिसेल (सेटअप › भारांश › घटकानुसार गुणभार)'}. पैकी गुणांपेक्षा जास्त गुण भरल्यास सूचना येते व ते स्वीकारले जात नाहीत.</p></div>`}
 function modal(msg,btns){let d=document.getElementById('md');if(d)d.remove();d=document.createElement('div');d.id='md';
  d.innerHTML=`<div class="mb" role="dialog"><p>${esc(msg)}</p><div class="mr">${btns.map((b,i)=>`<button class="btn ${b[2]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;
  d.onclick=e=>{const b=e.target.closest('button');if(e.target===d||b){d.remove();if(b&&btns[+b.dataset.i][1])btns[+b.dataset.i][1]()}};document.body.appendChild(d)}
@@ -1505,10 +1514,10 @@ const RFN=['निरीक्षण','तोंडी काम','प्रा�
 function rhead(x){return`<h3>● सातत्यपूर्ण सर्वांकष मूल्यमापन ●</h3><div class="rhd" style="font-size:10.5px"><span>${esc(S.sc.name)}</span><span>UDISE कोड: ${esc(S.sc.ud)||'-'}</span></div><div class="rhd"><span>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></span><span>सन : ${esc(S.sc.year)}</span></div><div class="rhd"><span>इयत्ता : <b>${esc(S.sc.std)}</b></span><span>तुकडी : <b>${esc(S.sc.div)}</b></span><span>हजेरी क्र. : <b>${esc(x.roll)}</b></span><span>${sname(sem)}</span></div>`}
 function rtable1(x,v2){const R=rwList(),W=v2?[4,13,6,...Array(8).fill(4.4),5,5,5,5,5,6,6]:[5,13,6,...Array(8).fill(4.4),5,5,5,5,5,6,5,5],cg=W.map(w=>`<col style="width:${w}%">`).join('');
  const rows=R.map((r,k)=>{if(r.i<0)return`<tr><td rowspan="2" class="sn">${k+1}</td><td rowspan="2" class="sl">${r.l}</td><td>पैकी</td>${'<td>-</td>'.repeat(v2?15:14)}${v2?'':'<td rowspan="2">-</td><td rowspan="2">-</td>'}</tr><tr><td>प्राप्त</td>${'<td>-</td>'.repeat(v2?15:14)}</tr>`;
-  const u=S.subs[r.i],m=mk(sem,r.i,x.id)||{},fa=u.f||[],sa=u.s||[],cf=fa.some(v=>v>0),cs=sa.some(v=>v>0),mF=cf?bsum(fa):u.fe,mS=cs?bsum(sa):u.se,has=m.fe!==undefined||m.se!==undefined,
+  const u=S.subs[r.i],m=mk(sem,r.i,x.id)||{},fa=u.f||[],sa=u.s||[],cf=fa.some(v=>v>0),cs=sa.some(v=>v>0),none=!cf&&!cs,mF=cf?bsum(fa):0,mS=cs?bsum(sa):0,has=!none&&(m.fe!==undefined||m.se!==undefined),
   tF=+m.fe||0,tS=+m.se||0,T=tF+tS,P=mF+mS,pc=has&&P?T*100/P:null,vl=(a,j)=>{const v=(a||[])[j];return v===undefined||v===''?(has?'':'-'):v},blank='<td class="gry"></td>'.repeat(4),J=[0,1,2,3,4,5,6,7];
-  const mx=`<td>पैकी</td>${J.map(j=>`<td>${cf&&fa[j]>0?fa[j]:'-'}</td>`).join('')}<td>${mF||'-'}</td>${mS===0?blank:[0,1,2].map(j=>`<td>${cs&&sa[j]>0?sa[j]:'-'}</td>`).join('')+`<td>${mS}</td>`}<td>${P}</td>`;
-  const ob=`<td>प्राप्त</td>${J.map(j=>`<td>${cf&&fa[j]>0?vl(m.f,j):'-'}</td>`).join('')}<td><b>${m.fe!==undefined&&m.fe!==''?tF:'-'}</b></td>${mS===0?blank:[0,1,2].map(j=>`<td>${cs&&sa[j]>0?vl(m.s,j):'-'}</td>`).join('')+`<td><b>${m.se!==undefined&&m.se!==''?tS:'-'}</b></td>`}<td><b>${has?T:'-'}</b></td>`;
+  const mx=`<td>पैकी</td>${J.map(j=>`<td>${cf&&fa[j]>0?fa[j]:'-'}</td>`).join('')}<td>${mF||'-'}</td>${mS===0?(none?'<td>-</td>'.repeat(4):blank):[0,1,2].map(j=>`<td>${cs&&sa[j]>0?sa[j]:'-'}</td>`).join('')+`<td>${mS}</td>`}<td>${P||'-'}</td>`;
+  const ob=`<td>प्राप्त</td>${J.map(j=>`<td>${cf&&fa[j]>0?vl(m.f,j):'-'}</td>`).join('')}<td><b>${cf&&m.fe!==undefined&&m.fe!==''?tF:'-'}</b></td>${mS===0?(none?'<td>-</td>'.repeat(4):blank):[0,1,2].map(j=>`<td>${cs&&sa[j]>0?vl(m.s,j):'-'}</td>`).join('')+`<td><b>${cs&&m.se!==undefined&&m.se!==''?tS:'-'}</b></td>`}<td><b>${has?T:'-'}</b></td>`;
   return`<tr><td rowspan="2" class="sn">${k+1}</td><td rowspan="2" class="sl">${r.l}</td>${mx}${v2?`<td>${pc===null?'-':gr(pc)}</td></tr><tr>${ob}<td><b>${pc===null?'-':Math.round(pc)}</b></td></tr>`:`<td rowspan="2"><b>${pc===null?'-':Math.round(pc)}</b></td><td rowspan="2">${pc===null?'-':gr(pc)}</td></tr><tr>${ob}</tr>`}`}).join('');
  return`<table class="rt"><colgroup>${cg}</colgroup><tr><th rowspan="3">अ.<br>नं.</th><th colspan="2" rowspan="2">तपशील</th><th colspan="9">(अ) आकारिक मूल्यमापन</th><th colspan="4">(ब) संकलित मूल्यमापन</th>${v2?'<th rowspan="3" class="vt2"><span>अ + ब</span></th><th rowspan="3">श्रेणी<br><span style="font-weight:400;font-size:9px">शे. गुण</span></th>':'<th rowspan="3" class="vt2"><span>अ + ब एकूण</span></th><th rowspan="3" class="vt2"><span>शेकडा गुण</span></th><th rowspan="3">श्रेणी</th>'}</tr>
  <tr>${RFN.map(n=>`<th class="vt2"><span>${n}</span></th>`).join('')}<th rowspan="2" class="vt2"><span>एकूण</span></th><th rowspan="2" class="vt2"><span>तोंडी</span></th><th rowspan="2" class="vt2"><span>प्रात्य.</span></th><th rowspan="2" class="vt2"><span>लेखी</span></th><th rowspan="2" class="vt2"><span>एकूण</span></th></tr>
@@ -2111,8 +2120,10 @@ V.pv=()=>{
 /* ---------- निकाल पत्रक : प्रथम सत्र / द्वितीय सत्र / वार्षिक ---------- */
 const RSC=[['मराठी',['मराठी'],4],['हिंदी',['हिंदी'],4],['इंग्रजी',['इंग्रजी'],4],['गणित',['गणित'],4],['सा.वि./प.अ.',['विज्ञान','परिसर अभ्यास 1'],4],['स.शा.',['समाजशास्त्र','परिसर अभ्यास 2'],4],['कला',['कला'],2],['कार्यानुभव',['कार्यानुभव'],2],['शा.शि.',['शारीरिक शिक्षण'],2]];
 const RG=['अ-1','अ-2','ब-1','ब-2','क-1','क-2','ड','इ-1','इ-2'];
+// घटकानुसार भारांश (FE/SE पैकी गुण) भरलेला असेल तरच विषयाचे गुण/पैकी गुण दाखवले जातात
+const bhF=u=>!!u&&((u.f||[]).some(v=>v>0)||(u.s||[]).some(v=>v>0));
 function rsCols(){const used=new Set(),C=RSC.map(r=>{const i=S.subs.findIndex(u=>r[1].includes(u.n));if(i>=0)used.add(i);return{n:r[0],i,k:r[2]}});S.subs.forEach((u,i)=>{if(!used.has(i))C.push({n:u.n,i,k:4})});return C}
-function rsData(s,x,c){if(c.i<0)return null;if(s===0){const a=rsData(1,x,c),b=rsData(2,x,c);if(!a&&!b)return null;const u=S.subs[c.i],fe=(a?a.fe:0)+(b?b.fe:0),se=(a?a.se:0)+(b?b.se:0),t=fe+se;return{fe,se,t,g:gr(t*100/(((u.fe+u.se)||100)*(a&&b?2:1)))}}const m=mk(s,c.i,x.id)||{},u=S.subs[c.i],ok=v=>v!==undefined&&v!=='';if(!ok(m.fe)&&!ok(m.se))return null;const fe=+m.fe||0,se=+m.se||0,t=fe+se;return{fe,se,t,g:gr(t*100/((u.fe+u.se)||100))}}
+function rsData(s,x,c){if(c.i<0||!bhF(S.subs[c.i]))return null;if(s===0){const a=rsData(1,x,c),b=rsData(2,x,c);if(!a&&!b)return null;const u=S.subs[c.i],fe=(a?a.fe:0)+(b?b.fe:0),se=(a?a.se:0)+(b?b.se:0),t=fe+se;return{fe,se,t,g:gr(t*100/(((u.fe+u.se)||100)*(a&&b?2:1)))}}const m=mk(s,c.i,x.id)||{},u=S.subs[c.i],ok=v=>v!==undefined&&v!=='';if(!ok(m.fe)&&!ok(m.se))return null;const fe=+m.fe||0,se=+m.se||0,t=fe+se;return{fe,se,t,g:gr(t*100/((u.fe+u.se)||100))}}
 const rsWd=s=>{const w=(S.wd||{})[S.sc.year]||{};return(s===1?[0,1,2,3,4,5]:[6,7,8,9,10,11]).reduce((a,i)=>a+(+w[i]||0),0)};
 
 function rsHead(s){return`<div class="rsh-h"><div><div>${esc((S.cv||{}).zp||'')}</div><div class="sn">${esc(S.sc.name||'शाळेचे नाव')}</div><div>UDISE : ${esc(S.sc.ud)}</div></div><div class="c"><h3>● निकाल पत्रक ●</h3><div><b>${s?'सत्र : '+s:'वार्षिक'} | सन : ${esc(S.sc.year)}</b></div></div><div class="r"><div class="sn" style="font-size:14px">वर्गशिक्षक : ${esc(S.sc.t)}</div><div>इयत्ता : <b>${esc(S.sc.std)}</b> &nbsp;&nbsp; तुकडी : <b>${esc(S.sc.div)}</b></div></div></div>`}
@@ -2122,7 +2133,7 @@ function rsTable(s,rows,C,start){
  const h1=C.map(c=>`<th colspan="${c.k}">${esc(c.n)}</th>`).join('');
  const h2=C.map(c=>c.k===4?'<th>अ</th><th>ब</th><th>अ+ब</th><th rowspan="2" class="vt2"><span>श्रेणी</span></th>':`<th>${two(c)?'अ+ब':'अ'}</th><th rowspan="2" class="vt2"><span>श्रेणी</span></th>`).join('');
  const h3=C.map(c=>c.k===4?'<th class="vt2"><span>आकारिक</span></th><th class="vt2"><span>संकलित</span></th><th class="vt2"><span>एकूण</span></th>':`<th class="vt2"><span>${two(c)?'एकूण':'आकारिक'}</span></th>`).join('');
- const h4=C.map(c=>{const q=u(c);return c.k===4?(q?`<td>${q.fe}</td><td>${q.se}</td><td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td>-</td><td>-</td><td></td>'):(q?`<td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td></td>')}).join('');
+ const h4=C.map(c=>{const q=bhF(u(c))?u(c):null;return c.k===4?(q?`<td>${q.fe}</td><td>${q.se}</td><td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td>-</td><td>-</td><td></td>'):(q?`<td>${q.fe+q.se}</td><td></td>`:'<td>-</td><td></td>')}).join('');
  const body1=rows.map((x,n)=>{const a=S.at[s+'|'+x.id]||{},p=a.p!==undefined&&a.p!==''?a.p:'';
   return`<tr><td class="sn">${start+n+1}</td><td class="sl">${esc(x.name)}</td><td>${x.g==='मुलगी'?'G':'B'}</td><td>${p}</td>${C.map(c=>{const r=rsData(s,x,c);
    if(c.k===4)return r?`<td>${r.fe}</td><td>${r.se}</td><td><b>${r.t}</b></td><td><b>${r.g}</b></td>`:`<td></td><td></td><td></td><td>${c.i<0?'-':''}</td>`;
@@ -3298,9 +3309,11 @@ V.dash=()=>{
  const pct=(a,b)=>b?Math.round((a*100)/b):0;
  const td=new Date(),mmdd=String(td.getMonth()+1).padStart(2,'0')+'-'+String(td.getDate()).padStart(2,'0');
  const bdays=L.filter(x=>(x.dob||'').slice(5,10)===mmdd);
- const G=['अ-1','अ-2','ब-1','ब-2','क-1','क-2','ड','इ-1','इ-2'],gCnt=Object.fromEntries(G.map(g=>[g,0]));
- let graded=0;
- L.forEach(x=>{const c=calc(0,x);if(c.any&&gCnt[c.g]!==undefined){gCnt[c.g]++;graded++}});
+ const G=['अ-1','अ-2','ब-1','ब-2','क-1','क-2','ड','इ-1','इ-2'],gC1=Object.fromEntries(G.map(g=>[g,0])),gC2=Object.fromEntries(G.map(g=>[g,0]));
+ let gr1=0,gr2=0;
+ // सत्रनिहाय श्रेणी संख्या (वार्षिक नाही): एका सत्राचे गुण भरले असले तरी श्रेणी त्याच सत्राच्या गुणांवरून येते
+ sorted(1).forEach(x=>{const c=calc(1,x);if(c.any&&gC1[c.g]!==undefined){gC1[c.g]++;gr1++}});
+ sorted(2).forEach(x=>{const c=calc(2,x);if(c.any&&gC2[c.g]!==undefined){gC2[c.g]++;gr2++}});
  const prg=(lbl,a,b)=>`<div class="db-prg"><div class="db-prgh"><span>${lbl}</span><span style="color:var(--ac)">${a}/${b} (${pct(a,b)}%)</span></div><div class="db-bar"><i style="width:${pct(a,b)}%"></i></div></div>`;
  return`<div class="card hc" style="overflow:hidden;padding-bottom:12px">
   <div class="db-hero">
@@ -3345,8 +3358,8 @@ V.dash=()=>{
   `:'<p class="text-sm" style="color:var(--mu);margin:0">अजून विद्यार्थी जोडलेले नाहीत. वरच्या <b>"➕ नवीन विद्यार्थी"</b> बटनावर क्लिक करून सुरुवात करा.</p>'}
  </div>
  <div class="card hc">
-  <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">🏅 वार्षिक श्रेणी सारांश (${graded} विद्यार्थी)</h2>
-  <div class="db-gr">${G.map((g,i)=>`<div class="db-gcell${i>=7?' bad':''}"><b>${g}</b><span>${gCnt[g]}</span></div>`).join('')}</div>
+  <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">🏅 श्रेणी सारांश (सत्रनिहाय)</h2>
+  <div class="sc"><table class="db-gt"><thead><tr><th>श्रेणी</th><th>प्रथम सत्र</th><th>द्वितीय सत्र</th></tr></thead><tbody>${G.map((g,i)=>`<tr class="${i>=7?'bad':''}"><td>${g}</td><td>${gC1[g]}</td><td>${gC2[g]}</td></tr>`).join('')}</tbody><tfoot><tr><td>श्रेणी मिळालेले</td><td>${gr1}</td><td>${gr2}</td></tr></tfoot></table></div>
   <div class="mt-3 flex justify-between items-center text-xs" style="color:var(--mu)">
    <span>शेवटचे Drive Sync: <b>${esc((S.gs||{}).last||'अजून नाही')}</b></span>
    <button class="btn alt" style="min-height:34px;padding:4px 10px;font-size:13px" onclick="ss='sp';go('setup')">⚙️ शाळा प्रोफाइल</button>
