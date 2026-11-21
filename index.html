@@ -822,6 +822,7 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 /* ---------- प्रगती पत्रक (१ पानी ) : A4 प्रिंटमध्ये अतिरिक्त रिकामे पान येऊ नये व मजकूर कापला जाऊ नये म्हणून CSS ---------- */
 @page p1pp{size:A4 portrait;margin:6mm}
 .p1pw{zoom:var(--z,1);overflow-x:auto;max-width:100%}
+.p1p-card{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .p1p-card{width:196mm;min-height:282mm;box-sizing:border-box;background:#fff;color:#102a43;margin:0 auto 14px;border:2px solid #0a3d62;border-radius:5mm;padding:5mm 6.2mm 8mm;box-shadow:0 3px 12px #0002;font-family:'Noto Sans Devanagari','Mukta','Nirmala UI',system-ui,sans-serif;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .p1p-top{background:linear-gradient(135deg,#0a3d62 0%,#0b6b6b 100%);color:#fff;border-radius:3.5mm;padding:2.8mm 4.5mm;border-bottom:1.1mm solid #f59e0b;display:flex;align-items:center;justify-content:space-between;gap:3mm}
 .p1p-top-l{min-width:0;flex:1}
@@ -875,7 +876,7 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
   html.p1pp body::before,html.p1pp #hd,html.p1pp #ov,html.p1pp #dw,html.p1pp #ft,html.p1pp .ab,html.p1pp .np{display:none!important}
   html.p1pp main{padding:0!important;margin:0!important;max-width:none!important;width:196mm!important}
   html.p1pp .p1pw{zoom:1!important;overflow:visible!important;width:196mm!important}
-  html.p1pp .p1p-card{page:p1pp;width:196mm!important;min-height:0!important;max-height:278mm!important;height:auto!important;margin:0!important;border:1.5px solid #0a3d62!important;box-shadow:none!important;overflow:hidden!important;page-break-inside:avoid!important;break-inside:avoid!important}
+  html.p1pp .p1p-card{page:p1pp;width:196mm!important;min-height:272mm!important;max-height:278mm!important;height:auto!important;margin:0!important;border:1.5px solid #0a3d62!important;box-shadow:none!important;overflow:hidden!important;page-break-inside:avoid!important;break-inside:avoid!important}
   html.p1pp .p1p-card+.p1p-card{break-before:page!important;page-break-before:always!important}
   html.p1pp .p1p-card:last-child{break-after:auto!important;page-break-after:auto!important}
 }
@@ -2181,10 +2182,15 @@ V.pc2=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी व
 
 /* ---------- प्रगती पत्रक (१ पानी ) : वरतीच शेअरींग बटणे, कार्डवर खाली बटणे नाहीत ---------- */
 function p1pParentNum(mob){
- let d=String(mob||'').replace(/\D/g,'');
- if(d.length===12&&d.startsWith('91'))d=d.slice(2);
- if(d.length===11&&d.startsWith('0'))d=d.slice(1);
- return d.length===10?'91'+d:'';
+ // एकापेक्षा जास्त क्रमांक (, ; / & किंवा नवीन ओळ) असले तरी पहिला वैध १० अंकी क्रमांक घेतो
+ const parts=String(mob||'').split(/[,;\/&|\n]|\s{2,}|\s-\s|अथवा|किंवा|आणि/);
+ for(const p of parts){
+  let d=p.replace(/\D/g,'');
+  if(d.length===12&&d.startsWith('91'))d=d.slice(2);
+  if(d.length===11&&d.startsWith('0'))d=d.slice(1);
+  if(/^[6-9]\d{9}$/.test(d))return '91'+d;
+ }
+ return '';
 }
 function p1pAttTotals(id){
  const w=(S.wd||{})[S.sc.year]||{},m=S.at['m|'+id]||{},ok=v=>v!==undefined&&v!=='';
@@ -2210,6 +2216,7 @@ function p1pRemarksSummary(id){
  };
 }
 function p1pMessage(x){
+ const pt=v=>String(v??'').trim();
  const R=pc2Rows();
  const lines=R.map(r=>`• ${r.l}: स.१ *${pc2Grade(1,r.ix,x.id)}* | स.२ *${pc2Grade(2,r.ix,x.id)}*`).join('\n');
  const at=p1pAttTotals(x.id);
@@ -2217,10 +2224,10 @@ function p1pMessage(x){
  const wt1=a1.wt??n0.wt??'-',ht1=a1.ht??n0.ht??'-',wt2=a2.wt??'-',ht2=a2.ht??'-';
  const rm=p1pRemarksSummary(x.id);
  return[
-  `📄 *प्रगती पत्रक (${esc(S.sc.name||'शाळा')})*`,
-  `📅 सन: *${esc(S.sc.year)}* | UDISE: ${esc(S.sc.ud)||'-'}`,
-  `👤 नाव: *${esc(x.name)}* (इयत्ता ${esc(S.sc.std)} ${esc(S.sc.div||'')}, रोल: ${esc(x.roll)}, रजि.: ${esc(x.reg)||'-'})`,
-  `👩 आई: ${esc(x.mn)||'-'} | 👨 वडील: ${esc(x.fn||fatherOf(x.name))||'-'} | 🎂 जन्म: ${esc(dmy(x.dob))||'-'}`,
+  `📄 *प्रगती पत्रक (${pt(S.sc.name||'शाळा')})*`,
+  `📅 सन: *${pt(S.sc.year)}* | UDISE: ${pt(S.sc.ud)||'-'}`,
+  `👤 नाव: *${pt(x.name)}* (इयत्ता ${pt(S.sc.std)} ${pt(S.sc.div||'')}, रोल: ${pt(x.roll)}, रजि.: ${pt(x.reg)||'-'})`,
+  `👩 आई: ${pt(x.mn)||'-'} | 👨 वडील: ${pt(x.fn||fatherOf(x.name))||'-'} | 🎂 जन्म: ${pt(dmy(x.dob))||'-'}`,
   `⚖️📏 वजन/उंची: स.१ (${wt1} kg / ${ht1} cm) | स.२ (${wt2} kg / ${ht2} cm)`,
   ``,
   `*विषयनिहाय श्रेणी:*`,
@@ -2230,7 +2237,7 @@ function p1pMessage(x){
   rm.im?`📌 *सुधारणा आवश्यक:* ${rm.im}`:'',
   rm.pe?`✨ *व्यक्तिमत्व गुण:* ${rm.pe}`:'',
   `\n📅 *उपस्थिती दिवस:* स.१ (${at.s1p}/${at.s1w}) | स.२ (${at.s2p}/${at.s2w}) | एकूण: *${at.tp}/${at.tw}*`,
-  `वर्गशिक्षक: *${esc(S.sc.t||'-')}*`
+  `वर्गशिक्षक: *${pt(S.sc.t||'-')}*`
  ].filter(Boolean).join('\n');
 }
 function p1pGetTargetStudent(L){
@@ -2240,10 +2247,18 @@ function p1pGetTargetStudent(L){
  }
  return L[0]||null;
 }
+function p1pNeedStudent(L){
+ if(!L.length){alert('विद्यार्थी सापडला नाही.');return null}
+ const f=cur&&L.find(s=>s.id===cur);
+ if(f)return f;
+ if(L.length===1)return L[0];
+ alert('आधी वरच्या यादीतून एक विद्यार्थी निवडा (पालकांना त्यांच्याच मुलाचे पत्रक जाण्यासाठी).');
+ return null;
+}
 function p1pSendWaTop(){
  const L=sorted(0);
- const x=p1pGetTargetStudent(L);
- if(!x){alert('विद्यार्थी सापडला नाही.');return}
+ const x=p1pNeedStudent(L);
+ if(!x)return;
  const txt=p1pMessage(x);
  const ph=p1pParentNum(x.mob);
  if(!ph){
@@ -2253,8 +2268,8 @@ function p1pSendWaTop(){
 }
 function p1pCopyTextTop(){
  const L=sorted(0);
- const x=p1pGetTargetStudent(L);
- if(!x){alert('विद्यार्थी सापडला नाही.');return}
+ const x=p1pNeedStudent(L);
+ if(!x)return;
  const txt=p1pMessage(x);
  if(navigator.clipboard&&navigator.clipboard.writeText){
   navigator.clipboard.writeText(txt).then(()=>alert(x.name+' यांचा प्रगती पत्रक संदेश कॉपी झाला आहे.')).catch(()=>p1pFallbackCopy(txt));
@@ -2272,7 +2287,7 @@ function p1pEnsureCanvasLib(){
   s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
   s.async=true;
   s.onload=()=>window.html2canvas?res(window.html2canvas):rej(new Error('NO_H2C'));
-  s.onerror=()=>rej(new Error('LOAD_ERR'));
+  s.onerror=()=>rej(new Error('इंटरनेट आवश्यक आहे - इमेज तयार करणारी लायब्ररी (html2canvas) लोड झाली नाही. इंटरनेट चालू करून पुन्हा प्रयत्न करा.'));
   document.head.appendChild(s);
  });
 }
@@ -2355,32 +2370,55 @@ function p1pCanvasToPngBlob(canvas){
   canvas.toBlob(b=>b?res(b):rej(new Error('BLOB_ERR')),'image/png');
  });
 }
+const _p1pCache={};let _p1pAll=null,_p1pBusy=false;
+function p1pSig(x){const c=document.getElementById('p1p_card_'+x.id);return p1pMessage(x)+'|'+(x.ph?x.ph.length:0)+'|'+(c?c.innerHTML.length:0)}
+async function p1pGetFile(x){
+ const sig=p1pSig(x),c=_p1pCache[x.id];
+ if(c&&c.sig===sig)return c.file;
+ const canvas=await p1pRenderSingleCardCanvas(x);
+ const blob=await p1pCanvasToPngBlob(canvas);
+ canvas.width=canvas.height=0;
+ const file=new File([blob],'pragati-patrak-'+(x.roll||x.id)+'.png',{type:'image/png'});
+ _p1pCache[x.id]={sig,file};
+ const ks=Object.keys(_p1pCache);if(ks.length>4)delete _p1pCache[ks[0]];
+ return file;
+}
+async function p1pPrefetch(){
+ try{
+  const L=sorted(0),x=cur&&L.find(s=>s.id===cur);if(!x)return;
+  await p1pEnsureCanvasLib();
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  if(tab==='pc1p'&&cur===x.id)await p1pGetFile(x);
+ }catch(e){}
+}
+function p1pBtn(t){const b=document.getElementById('p1pShBtn');if(b){if(!b.dataset.t)b.dataset.t=b.textContent;b.textContent=t===null?b.dataset.t:t}}
 async function p1pShareCardTop(){
+ if(_p1pBusy)return;
  const L=sorted(0);
  if(!L.length){alert('विद्यार्थी सापडला नाही.');return}
+ _p1pBusy=true;
  try{
-  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
-  await p1pEnsureCanvasLib();
-  if(cur){
-   const x=L.find(s=>s.id===cur)||L[0];
-   const ph=p1pParentNum(x.mob);
-   const canvas=await p1pRenderSingleCardCanvas(x);
-   const blob=await p1pCanvasToPngBlob(canvas);
-   const fname='pragati-patrak-'+(x.roll||x.id)+'.png';
-   const file=new File([blob],fname,{type:'image/png'});
+  const one=cur?(L.find(s=>s.id===cur)||null):(L.length===1?L[0]:null);
+  if(one){
+   const x=one,ph=p1pParentNum(x.mob);
+   // आधीच तयार इमेज असेल तर लगेच शेअर होते (ब्राउझरचा "क्लिक परवाना" संपण्याआधी)
+   p1pBtn('⏳ इमेज तयार होत आहे…');
+   const file=await p1pGetFile(x);
+   p1pBtn(null);
+   const fname=file.name;
    if(navigator.canShare&&navigator.canShare({files:[file]})){
     try{
-     await navigator.share({
-      title:'प्रगती पत्रक - '+x.name,
-      text:`प्रगती पत्रक: ${x.name} (पालक क्र.: ${x.mob||'-'})`,
-      files:[file]
-     });
+     await navigator.share({title:'प्रगती पत्रक - '+x.name,text:`प्रगती पत्रक: ${x.name}`,files:[file]});
      return;
     }catch(e){
      if(e&&e.name==='AbortError')return;
+     if(e&&(e.name==='NotAllowedError'||e.name==='SecurityError')){
+      alert('इमेज तयार झाली आहे. शेअर सुरू करण्यासाठी कृपया "इमेज पाठवा" बटण पुन्हा एकदा दाबा.');
+      return;
+     }
     }
    }
-   dl(fname,blob);
+   await dl(fname,file);
    if(ph){
     alert(x.name+' यांचे प्रगती पत्रक ('+fname+') डाउनलोड झाले आहे. आता पालकांच्या ('+x.mob+') WhatsApp चॅटमध्ये जाऊन इमेज पाठवा.');
     window.open(`https://wa.me/${ph}?text=${encodeURIComponent(`नमस्कार, ${x.name} यांचे प्रगती पत्रक पाठवत आहोत.`)}`,'_blank','noopener');
@@ -2389,34 +2427,45 @@ async function p1pShareCardTop(){
    }
    return;
   }
-  const files=[];
-  for(let i=0;i<L.length;i++){
-   const st=L[i];
-   const cnv=await p1pRenderSingleCardCanvas(st);
-   const blb=await p1pCanvasToPngBlob(cnv);
-   const fn=(i+1)+'-pragati-patrak-'+(st.roll||st.id)+'.png';
-   files.push(new File([blb],fn,{type:'image/png'}));
+  // सर्व विद्यार्थी
+  let files=_p1pAll&&_p1pAll.n===L.length&&_p1pAll.sig===L.map(p1pSig).join('#').length?_p1pAll.files:null;
+  if(!files){
+   if(!confirm('सर्व '+L.length+' विद्यार्थ्यांच्या इमेजेस एकत्र शेअर होतील (WhatsApp मध्ये एकावेळी कमाल ३० इमेजेस). प्रत्येक पालकाला वैयक्तिक पाठवण्यासाठी वरून विद्यार्थी निवडा.\n\nतरीही सर्व इमेजेस तयार करायच्या?'))return;
+   files=[];
+   for(let i=0;i<L.length;i++){
+    p1pBtn('⏳ '+(i+1)+'/'+L.length);
+    files.push(await p1pGetFile(L[i]));
+   }
+   p1pBtn(null);
+   _p1pAll={n:L.length,sig:L.map(p1pSig).join('#').length,files};
   }
   if(navigator.canShare&&navigator.canShare({files})){
    try{
-    await navigator.share({
-     title:'सर्व विद्यार्थ्यांची प्रगती पत्रके ('+files.length+')',
-     text:`सर्व ${files.length} विद्यार्थ्यांची प्रगती पत्रक इमेजेस`,
-     files
-    });
+    await navigator.share({title:'प्रगती पत्रके ('+files.length+')',text:'प्रगती पत्रक इमेजेस ('+files.length+')',files});
     return;
    }catch(e){
     if(e&&e.name==='AbortError')return;
+    if(e&&(e.name==='NotAllowedError'||e.name==='SecurityError')){
+     alert('सर्व इमेजेस तयार झाल्या आहेत. शेअर सुरू करण्यासाठी "इमेज पाठवा" बटण पुन्हा एकदा दाबा.');
+     return;
+    }
    }
   }
   for(let i=0;i<files.length;i++){
-   dl(files[i].name,files[i]);
+   await dl(files[i].name,files[i]);
    await new Promise(r=>setTimeout(r,180));
   }
   alert('सर्व '+files.length+' विद्यार्थ्यांची प्रगती पत्रक इमेजेस डाउनलोड झाली आहेत.');
  }catch(e){
+  p1pBtn(null);
   alert('इमेज तयार करताना अडचण आली: '+((e&&e.message)||e));
- }
+ }finally{_p1pBusy=false;p1pBtn(null)}
+}
+function p1pStep(d){
+ const L=sorted(0);if(!L.length)return;
+ let i=L.findIndex(x=>x.id===cur);
+ i=i<0?(d>0?0:L.length-1):Math.max(0,Math.min(L.length-1,i+d));
+ cur=L[i].id;go('pc1p');
 }
 function p1pOneCard(x,R){
  const c=S.sc,zp=(S.cv||{}).zp||'';
@@ -2501,17 +2550,20 @@ V.pc1p=()=>{
  if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
  if(cur&&!L.some(x=>x.id===cur))cur='';
  const list=cur?L.filter(x=>x.id===cur):L;
- const activeStu=p1pGetTargetStudent(L);
+ const activeStu=cur?L.find(x=>x.id===cur):(L.length===1?L[0]:null);
+ const _pid=cur;if(_pid)setTimeout(()=>{if(tab==='pc1p'&&cur===_pid)p1pPrefetch()},900);else setTimeout(()=>{if(tab==='pc1p')p1pEnsureCanvasLib().catch(()=>{})},1500);
  const R=pc2Rows();
  const z=scrZoom(196*3.7795+2);
  return`<div class="card hc np mb-3"><h2>📄 प्रगती पत्रक (१ पानी )</h2>
   <div class="flex flex-wrap gap-2 items-center">
-   <select style="flex:1;min-width:180px" onchange="cur=this.value;go('pc1p')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select>
+   <button type="button" class="btn alt" style="flex:none;padding:8px 12px" onclick="p1pStep(-1)" aria-label="मागील विद्यार्थी">◀</button>
+   <select style="flex:1;min-width:140px" onchange="cur=this.value;go('pc1p')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select>
+   <button type="button" class="btn alt" style="flex:none;padding:8px 12px" onclick="p1pStep(1)" aria-label="पुढील विद्यार्थी">▶</button>
    <button type="button" class="btn" onclick="print()">🖨 प्रिंट (A4)</button>
   </div>
   <div class="br" style="margin-top:10px">
    <button type="button" class="btn" onclick="p1pSendWaTop()">💬 WhatsApp मेसेज</button>
-   <button type="button" class="btn og" onclick="p1pShareCardTop()">🖼️ इमेज पाठवा</button>
+   <button type="button" id="p1pShBtn" class="btn og" onclick="p1pShareCardTop()">🖼️ इमेज पाठवा</button>
    <button type="button" class="btn alt" onclick="p1pCopyTextTop()">📋 मेसेज कॉपी</button>
   </div>
   <p class="text-xs mt-2" style="color:var(--mu);margin-bottom:0">सध्या निवडलेला विद्यार्थी: <b>${activeStu?esc(activeStu.name)+' (पालक क्र.: '+esc(activeStu.mob||'-')+')':'-'}</b>. विशिष्ट विद्यार्थ्याचे प्रगती पत्रक पाठवण्यासाठी वरून विद्यार्थी निवडा.</p>
