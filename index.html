@@ -810,6 +810,49 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 /* ===== तक्त्याचा हेडिंग रंग : स्क्रीन + प्रिंट ===== */
 :root{--thb:#e5e7eb;--tht:#000}
 :root{--ths:#f1f2f4}
+
+/* भारांश : विषय निवड पट्टी (स्क्रीन न सरकता विषय बदलणे) */
+.bhbar{position:sticky;top:124px;z-index:17;display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:8px -4px 10px;padding:8px 4px;background:var(--card);border-bottom:1px solid var(--bd)}
+.bhbar::-webkit-scrollbar{display:none}
+.bhchip{flex:none;white-space:nowrap;padding:7px 14px;min-height:38px;border-radius:99px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-weight:700;font-size:14px}
+.bhchip.ok{border-color:#16a34a}
+.bhchip.ok::before{content:'✔ ';color:#16a34a}
+.bhchip.on{background:var(--ac);color:var(--card);border-color:var(--ac)}
+.bhchip.on.ok::before{color:#bbf7d0}
+.bhsub{font-size:18px;font-weight:800;color:var(--ac);margin:4px 0 2px}
+.bhsub span{font-size:13px;font-weight:600;color:var(--mu)}
+.bhnav{display:flex;gap:10px;margin-top:14px}
+.bhnav .btn{flex:1;min-width:0}
+
+
+/* श्रेणी तक्ता */
+.gtpg{padding:3mm 4mm 0!important;box-sizing:border-box!important}
+.gt-h{text-align:center;line-height:1.35}
+.gt-h .z{font-size:12pt;font-weight:800}
+.gt-h .h{font-size:14pt;font-weight:800;margin:.5mm 0 1.5mm}
+.gt-i{display:flex;justify-content:space-between;font-size:10pt;font-weight:700;margin-top:.6mm}
+.vtpg .gt-t{margin-top:2mm}
+.gt-t th,.gt-t td{padding:0;font-size:10pt}
+.gt-t th{height:7mm}
+.gt-t td.sn,.gt-t td.gsb{background:var(--ths);font-weight:700}
+.gt-t td.gsb{padding-left:1.2mm}
+.gt-t td.tt{font-weight:800;background:var(--ths)}
+.gt-b{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;margin-top:6mm}
+.vtpg .gt-s{width:95mm;border-collapse:collapse}
+.gt-s th,.gt-s td{height:7mm;text-align:center;font-size:10pt}
+.gt-s td:first-child{font-weight:800;background:var(--ths)}
+.gt-sg{display:flex;gap:12mm;flex:1;justify-content:flex-end}
+.gt-sg>div{width:60mm;text-align:center;font-size:10pt;font-weight:800;border-top:.3mm solid #000;padding-top:1mm;line-height:1.4}
+
+
+/* सूचना 2 : चुकीचे गुण (लाल) व अपूर्ण गुणनोंद */
+input.mxe{border-color:#dc2626!important;background:#fee2e2!important;color:#7f1d1d!important;animation:mxs .3s}
+@keyframes mxs{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.pend summary{cursor:pointer;font-weight:800;padding:8px 2px;color:var(--ac,#0a3d62)}
+.pend-r{padding:7px 10px;border-radius:10px;background:rgba(127,127,127,.09);margin:6px 0}
+.pend-b{all:unset;cursor:pointer;display:block;font-size:14px;color:var(--ac,#0a3d62)}
+.pend-n{font-size:12.5px;color:var(--mu,#64748b);margin-top:2px}
+
  /* डॅशबोर्ड : सत्रनिहाय श्रेणी तक्ता */
 .db-gt{width:100%;border-collapse:separate;border-spacing:0;text-align:center;font-size:14px;border:1px solid var(--bd,#d9dee5);border-radius:10px;overflow:hidden}
 .db-gt th{background:var(--ac2,#e0f2fe);color:var(--ac,#0a3d62);padding:9px 6px;font-weight:800}
@@ -1003,6 +1046,7 @@ let S=defState();
 })();
 
 let _dbReady=false,_idbReadErr=false,_idb=null,_idbTimer=null,_idbDirty=false,_idbWarnAt=0,_idbLastErr='';
+let _myTs=0,_conflict=false,_forceNext=false;const K_TS='cce-web-ts',TAB_ID=Math.random().toString(36).slice(2);
 function idbReportError(err,lsOk){
  const msg=(err&&err.message)||String(err||'Unknown error');
  _idbLastErr=msg;
@@ -1051,14 +1095,33 @@ function idbGetMain(){
   rq.onerror=e=>rej(e.target.error||new Error('IDB_READ_ERR'));
  }));
 }
-function idbPutMain(data){
+function idbPutMain(data,force){
  return idbOpen().then(db=>new Promise((res,rej)=>{
-  const tx=db.transaction(IDB_STORE,'readwrite');
-  const rq=tx.objectStore(IDB_STORE).put(data,'main');
-  rq.onerror=e=>rej(e.target.error||new Error('IDB_PUT_ERR'));
+  const tx=db.transaction(IDB_STORE,'readwrite'),st=tx.objectStore(IDB_STORE);
+  const g=st.get('main');
+  g.onerror=e=>rej(e.target.error||new Error('IDB_GET_ERR'));
+  g.onsuccess=()=>{
+   const cur=g.result;
+   // दुसऱ्या टॅब/विंडोने याहून नवीन डेटा लिहिला असेल तर ओव्हरराइट करू नये
+   if(!force&&cur&&cur._ts&&cur._ts>_myTs){const e=new Error('CCE_CONFLICT');e.conflictTs=cur._ts;try{tx.abort()}catch(x){}rej(e);return}
+   const rq=st.put(data,'main');
+   rq.onerror=e=>rej(e.target.error||new Error('IDB_PUT_ERR'));
+  };
   tx.oncomplete=()=>res();
   tx.onerror=e=>rej(e.target.error||tx.error||new Error('IDB_TX_ERR'));
   tx.onabort=e=>rej(e.target.error||tx.error||new Error('IDB_ABORT'));
+ }));
+}
+function idbPutKey(key,val){
+ return idbOpen().then(db=>new Promise((res,rej)=>{
+  const tx=db.transaction(IDB_STORE,'readwrite');tx.objectStore(IDB_STORE).put(val,key);
+  tx.oncomplete=()=>res();tx.onerror=tx.onabort=e=>rej(e.target.error||tx.error||new Error('IDB_KEY_ERR'));
+ }));
+}
+function idbGetKey(key){
+ return idbOpen().then(db=>new Promise((res,rej)=>{
+  const rq=db.transaction(IDB_STORE,'readonly').objectStore(IDB_STORE).get(key);
+  rq.onsuccess=()=>res(rq.result||null);rq.onerror=e=>rej(e.target.error||new Error('IDB_GETK_ERR'));
  }));
 }
 function saveCfgLS(){
@@ -1074,43 +1137,132 @@ function saveCfgLS(){
    bf:S.bf,
    ag:S.ag,
    idCard:S.idCard,
-    tc:S.tc
+    tc:S.tc,
+    bkTs:S.bkTs
   };
   localStorage.setItem(K_CFG,JSON.stringify(cfg));
  }catch(e){
   console.error('[CCE Config LS Error]',e);
  }
 }
-function idbFlush(){
- if(_idbTimer){clearTimeout(_idbTimer);_idbTimer=null;}
- if(!_dbReady||!_idbDirty)return Promise.resolve();
- _idbDirty=false;
- const payload={
+function snapPayload(){
+ return{
   sc:S.sc,subs:S.subs,cat:S.cat,df:S.df,wd:S.wd,cv:S.cv,
   st:S.st,mk:S.mk,at:S.at,nt:S.nt,dsc:S.dsc,xn:S.xn,
   arch:S.arch,cls:S.cls,ai:S.ai,
   spOk:S.spOk,dfOk:S.dfOk,bhOk:S.bhOk,
-  vt:S.vt,bf:S.bf,ag:S.ag,idCard:S.idCard,tc:S.tc,
-  gs:S.gs,sec:S.sec,_ts:Date.now()
+  vt:S.vt,bf:S.bf,ag:S.ag,idCard:S.idCard,tc:S.tc,bkTs:S.bkTs,
+  gs:S.gs,sec:S.sec
  };
+}
+function idbFlush(){
+ if(_idbTimer){clearTimeout(_idbTimer);_idbTimer=null;}
+ if(!_dbReady||!_idbDirty||_conflict)return Promise.resolve();
+ _idbDirty=false;
+ const payload=Object.assign(snapPayload(),{_ts:Date.now()});
  if(_idbReadErr){
   // IndexedDB वाचता आली नव्हती: ही स्थिती खऱ्या डेटावर आधारित नाही, म्हणून आपोआप परत लागू होणार नाही असा वेगळा 'rescue' प्रत ठेवतो
   try{localStorage.setItem(K_RESCUE,JSON.stringify({t:payload._ts,d:payload}))}catch(e2){}
   return Promise.resolve();
  }
- return idbPutMain(payload).then(()=>{
-  _idbLastErr='';
-  try{localStorage.removeItem(K_FB)}catch(e){}
+ const force=_forceNext;_forceNext=false;
+ return idbPutMain(payload,force).then(()=>{
+  _idbLastErr='';_myTs=payload._ts;
+  try{localStorage.setItem(K_TS,String(payload._ts));localStorage.removeItem(K_FB)}catch(e){}
   const w=document.getElementById('idbWarn');
   if(w)w.remove();
  }).catch(err=>{
   _idbDirty=true;
+  if(err&&err.message==='CCE_CONFLICT'){_conflict=true;showConflict(false);return}
   _idb=null;
   let lsOk=false;
   // वेळेच्या शिक्क्यासह तात्पुरती प्रत: पुढच्या वेळी IndexedDB पेक्षा नवीन असेल तर ती वापरली जाते
   try{localStorage.setItem(K_FB,JSON.stringify({t:payload._ts,d:payload}));lsOk=true;}catch(e2){}
   idbReportError(err,lsOk);
  });
+}
+/* ===== दोन टॅब/विंडो संरक्षण ===== */
+function showConflict(remote){
+ if(document.getElementById('cceConflict'))return;
+ const d=document.createElement('div');d.id='cceConflict';
+ d.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#7f1d1d;color:#fff;padding:12px 14px;font:600 14px/1.5 system-ui,sans-serif;box-shadow:0 4px 18px rgba(0,0,0,.35)';
+ d.innerHTML='<div>⚠️ '+(remote?'हा डेटा दुसऱ्या टॅब/विंडोमध्ये बदलला आहे.':'दुसऱ्या टॅब/विंडोने याहून नवीन डेटा सेव्ह केला आहे.')+' त्यामुळे या टॅबमधील नवीन बदल सेव्ह होणार नाहीत, जोपर्यंत तुम्ही खालीलपैकी एक निवडत नाही.</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button onclick="cceReload()" style="flex:1;min-width:130px;padding:9px;border:0;border-radius:9px;background:#fff;color:#7f1d1d;font-weight:800">🔄 रीलोड करा (नवीन डेटा घ्या)</button><button onclick="cceBkMine()" style="flex:1;min-width:130px;padding:9px;border:0;border-radius:9px;background:#fde68a;color:#78350f;font-weight:800">⬇ या टॅबचे बॅकअप</button><button onclick="cceKeepMine()" style="flex:1;min-width:130px;padding:9px;border:1px solid #fff;border-radius:9px;background:transparent;color:#fff;font-weight:800">💾 या टॅबचा डेटा ठेवा</button></div>';
+ document.body.appendChild(d);
+}
+function cceReload(){_idbDirty=false;_conflict=false;location.reload()}
+function cceBkMine(){dl('cce-this-tab-backup-'+bkStamp()+'.json',JSON.stringify(S))}
+function cceKeepMine(){cf('दुसऱ्या टॅब/विंडोमध्ये केलेले नवीन बदल पुसले जातील आणि या टॅबचा डेटा कायम होईल. पुढे जायचे?',async()=>{_conflict=false;_forceNext=true;_idbDirty=true;const w=document.getElementById('cceConflict');if(w)w.remove();await idbFlush()},'होय, हा डेटा ठेवा')}
+function cceCheckRemote(){try{const t=+localStorage.getItem(K_TS)||0;if(t>_myTs&&_dbReady)showConflict(true)}catch(e){}}
+addEventListener('storage',e=>{if(e.key===K_TS&&(+e.newValue||0)>_myTs&&_dbReady)showConflict(true)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)cceCheckRemote()});
+const bkStamp=()=>{const d=new Date(),z=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'_'+z(d.getHours())+z(d.getMinutes())};
+/* ===== पुसण्याआधी आपोआप बॅकअप / मागील स्थिती ===== */
+async function autoBk(reason,withFile){
+ let snap=null,json=null;
+ try{snap=(typeof structuredClone==='function')?structuredClone(snapPayload()):JSON.parse(JSON.stringify(snapPayload()));json=withFile?JSON.stringify(S):null}catch(e){}
+ try{if(snap&&_dbReady&&!_idbReadErr)await idbPutKey('prev',{ts:Date.now(),reason,data:snap})}catch(e){}
+ if(withFile&&json){try{await dl('cce-auto-backup-'+reason+'-'+bkStamp()+'.json',json);await new Promise(r=>setTimeout(r,700))}catch(e){}}
+}
+function applyBackupObj(d){
+ S=Object.assign(defState(),d);S.df=S.df||{};S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};S.gs=S.gs||{email:'',folder:'',last:''};S.cv=S.cv||{zp:''};S.sc=S.sc||{};S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};
+ S.sc.n=S.sc.n||stdN(S.sc.std)||1;S.sc.std=ST[S.sc.n-1];
+ S.spOk=!!((S.sc.name||'').trim());clsInit();migrate();save(true);
+ if(S.spOk){go('dash')}else{ss='sp';go('setup')};pinShowLock(false);
+}
+async function loadPrevBox(){
+ const el=document.getElementById('prevBox');if(!el)return;
+ try{
+  const p=await idbGetKey('prev');
+  if(!p||!p.data){el.innerHTML='';return}
+  const t=new Date(p.ts).toLocaleString('mr-IN'),n=(p.data.st||[]).length;
+  el.innerHTML='<div class="card hc np" style="margin-top:14px"><h2>↩ पुसण्याआधीची स्थिती</h2><p class="text-sm" style="color:var(--mu);margin:0 0 10px">कोणतीही माहिती पुसण्यापूर्वी अॅप आपोआप शेवटची स्थिती जपून ठेवते: <b>'+esc(t)+'</b> ('+esc(p.reason||'')+', विद्यार्थी: '+n+'). चुकून काढले असल्यास येथून परत आणा.</p><button type="button" class="btn alt full" onclick="restorePrev()">↩ ही स्थिती परत आणा</button></div>';
+ }catch(e){el.innerHTML=''}
+}
+function restorePrev(){
+ cf('सध्याचा डेटा "पुसण्याआधीच्या स्थितीने" बदलला जाईल (सध्याचा डेटाही पुन्हा परत आणता येईल). पुढे जायचे?',async()=>{
+  try{const p=await idbGetKey('prev');if(!p||!p.data){alert('मागील स्थिती सापडली नाही');return}
+   await autoBk('before-undo',false);
+   applyBackupObj(p.data);alert('मागील स्थिती परत आणली आहे.');
+  }catch(e){alert('परत आणता आले नाही: '+((e&&e.message)||e))}
+ },'होय, परत आणा');
+}
+
+/* ===== सूचना 2 : चुकीचे गुण रोखणे / अपूर्ण गुण / भारांश दुवा ===== */
+function cceToast(m){let t=document.getElementById('cceToast');if(!t){t=document.createElement('div');t.id='cceToast';t.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);max-width:90%;z-index:99998;background:#7f1d1d;color:#fff;padding:10px 16px;border-radius:12px;font:600 14px/1.4 system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.35);text-align:center';document.body.appendChild(t)}t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>{t.style.display='none'},2600)}
+const bhGo=()=>{ss='gh';go('setup')};
+const bhBox='style="width:100%;margin:8px 0;padding:10px 12px;border-radius:12px;background:#fffbeb;border:1px solid #f59e0b;color:#7c2d12;font-size:13.5px;line-height:1.5"';
+const bhBtn='<button type="button" class="btn og" style="margin-top:6px;min-height:36px;padding:4px 12px" onclick="bhGo()">➡ भारांश भरा</button>';
+function bhWarn(){
+ const b=S.subs.filter(u=>!bhF(u));if(!b.length)return '';
+ return`<div class="np" ${bhBox}>⚠️ <b>भारांश भरलेला नाही:</b> ${b.map(u=>esc(u.n)).join(', ')}. यामुळे या विषयांचे गुण/श्रेणी येथे रिकामे दिसतात.<br>${bhBtn}</div>`;
+}
+function pendList(q){
+ const L=sorted(q),out=[],ok=v=>v!==undefined&&v!==null&&v!=='';
+ S.subs.forEach((u,i)=>{
+  const fN=(u.f||[]).map((v,j)=>v>0?j:-1).filter(j=>j>=0),sN=(u.s||[]).map((v,j)=>v>0?j:-1).filter(j=>j>=0);
+  if(!fN.length&&!sN.length){out.push({i,u,noBh:true,names:[]});return}
+  const names=L.filter(x=>{const m=mk(q,i,x.id)||{},f=m.f||[],s2=m.s||[];return fN.some(j=>!ok(f[j]))||sN.some(j=>!ok(s2[j]))}).map(x=>x.name);
+  if(names.length)out.push({i,u,names,noBh:false,feMiss:L.some(x=>{const m=mk(q,i,x.id)||{},f=m.f||[];return fN.some(j=>!ok(f[j]))})});
+ });
+ return out;
+}
+function pendGo(q,i){const o=pendList(q).find(r=>r.i===i);sem=q;sub=i;go(o&&!o.feMiss?'se':'fe')}
+function pendCard(){
+ if(!sorted(0).length)return '';
+ const nb=S.subs.filter(u=>!bhF(u));
+ const sec=(q,lbl)=>{
+  const pd=pendList(q).filter(o=>!o.noBh),tot=pd.reduce((a,o)=>a+o.names.length,0);
+  if(!pd.length)return`<div class="text-sm" style="padding:6px 2px">✅ <b>${lbl}</b> — भारांश भरलेल्या सर्व विषयांचे गुण भरले आहेत.</div>`;
+  return`<details class="pend"${pd.length?' open':''}><summary>⏳ ${lbl} — ${pd.length} विषयांत गुण बाकी (${tot} नोंदी)</summary>${pd.map(o=>`<div class="pend-r"><button type="button" class="pend-b" onclick="pendGo(${q},${o.i})"><b>${esc(o.u.n)}</b> — ${o.names.length} विद्यार्थी बाकी ›</button><div class="pend-n">${o.names.slice(0,10).map(esc).join(', ')}${o.names.length>10?' … +'+(o.names.length-10)+' आणखी':''}</div></div>`).join('')}</details>`;
+ };
+ return`<div class="card hc"><h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">⏳ अपूर्ण गुणनोंद</h2>${nb.length?`<div ${bhBox}>⚠️ <b>भारांश भरलेला नाही:</b> ${nb.map(u=>esc(u.n)).join(', ')}.<br>${bhBtn}</div>`:''}${sec(1,'प्रथम सत्र')}${sec(2,'द्वितीय सत्र')}<div class="text-xs" style="color:var(--mu);margin-top:6px">विषयावर टॅप केल्यास त्या विषयाची गुणनोंद उघडते.</div></div>`;
+}
+/* ===== बॅकअप आठवण ===== */
+function bkAge(){const t=+S.bkTs||0;return t?Math.floor((Date.now()-t)/864e5):null}
+function bkRemind(){
+ if(!S.st||!S.st.length)return '';
+ const d=bkAge();if(d!==null&&d<7)return '';
+ return`<div class="card hc np" style="border-left:6px solid #f59e0b;background:#fffbeb;color:#7c2d12"><div style="font-weight:800;font-size:16px">⚠️ ${d===null?'अजून बॅकअप घेतलेला नाही':'शेवटचा बॅकअप '+(d===0?'आज':d+' दिवसांपूर्वी')}</div><p class="text-sm" style="margin:6px 0 10px;color:#7c2d12">ब्राउझर डेटा साफ झाला किंवा फोन बदलला तर संपूर्ण माहिती जाऊ शकते. आत्ताच बॅकअप फाईल डाउनलोड करून ठेवा.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" style="flex:1;min-width:150px" onclick="backup().then(()=>go('dash'))">⬇ आत्ता बॅकअप घ्या</button><button type="button" class="btn alt" style="flex:1;min-width:150px" onclick="go('bk')">☁️ Drive Sync / इतर</button></div></div>`;
 }
 const save=(immediate)=>{
  if(!_dbReady)return Promise.resolve();
@@ -1146,19 +1298,19 @@ function sorted(q){const d=q===undefined;if(d)q=(tab==='stu'||tab==='at')?true:[
 const F=(k,v)=>{if(spd)spd[k]=v;else{S.sc[k]=v;save();hs()}};
 const Sb=(i,k,v)=>{const u=S.subs[i];u[k]=k==='n'?v:+v||0;if(k==='fe')u.f=null;if(k==='se')u.s=null;save()};
 const addSub=()=>{S.subs.push({n:'नवीन विषय',fe:40,se:60});save();go('setup')};
-const delSub=i=>cf('हा विषय काढायचा आहे का?',()=>{S.subs.splice(i,1);const o=S.mk;S.mk={};Object.keys(o).forEach(k=>{const a=k.split('|'),x=+a[1];if(x===i)return;a[1]=x>i?x-1:x;S.mk[a.join('|')]=o[k]});const mxi=Math.max(0,S.subs.length-1);if(sub>mxi)sub=mxi;if(cs>mxi)cs=mxi;save();go('setup')},'होय, काढा');
+const delSub=i=>cf('हा विषय काढायचा आहे का?',()=>{autoBk('subject-delete',false);S.subs.splice(i,1);const o=S.mk;S.mk={};Object.keys(o).forEach(k=>{const a=k.split('|'),x=+a[1];if(x===i)return;a[1]=x>i?x-1:x;S.mk[a.join('|')]=o[k]});const mxi=Math.max(0,S.subs.length-1);if(sub>mxi)sub=mxi;if(cs>mxi)cs=mxi;save();go('setup')},'होय, काढा');
 
 const A=(s,id,k,v)=>{const key=s+'|'+id;S.at[key]=S.at[key]||{};S.at[key][k]=v;save()};
 const N=(id,k,v)=>{S.nt[id]=S.nt[id]||{};S.nt[id][k]=v;save()};
 
-const delStu=id=>cf('विद्यार्थी काढायचा आहे का? त्याचे गुण जातील.',()=>{S.st=S.st.filter(x=>x.id!==id);Object.keys(S.mk).forEach(k=>{if(k.endsWith('|'+id))delete S.mk[k]});save();go('stu')},'होय, काढा');
+const delStu=id=>cf('विद्यार्थी काढायचा आहे का? त्याचे गुण जातील.',()=>{autoBk('student-delete',false);S.st=S.st.filter(x=>x.id!==id);Object.keys(S.mk).forEach(k=>{if(k.endsWith('|'+id))delete S.mk[k]});save();go('stu')},'होय, काढा');
 async function dl(name,data){try{const d=(window.claude&&claude.use)?await claude.use('downloads'):null;if(d){await d.save({filename:name,data});return}}catch(e){if(e&&e.code==='declined')return}
  try{const mt=name.endsWith('.xlsx')?'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':'application/json',b=data instanceof Blob?data:new Blob([data],{type:mt}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(u)},5000)}catch(e){alert('फाईल सेव्ह झाली नाही: '+((e&&e.message)||e))}}
-const backup=()=>dl('cce-backup.json',JSON.stringify(S));
+const backup=()=>{S.bkTs=Date.now();try{save()}catch(e){}return dl('cce-backup-'+bkStamp()+'.json',JSON.stringify(S))};
 function xl(name,aoa){if(!window.XLSX){alert('Excel लायब्ररी लोड झाली नाही');return}const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(aoa),'Sheet1');dl(name,XLSX.write(wb,{bookType:'xlsx',type:'array'}))}
 function xin(f,cb){if(!f||!window.XLSX)return;const r=new FileReader();r.onload=()=>{try{const wb=XLSX.read(r.result,{type:'array'});cb(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''}))}catch(e){alert('Excel फाईल वाचता आली नाही')}};r.readAsArrayBuffer(f)}
-function restore(f){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||typeof d!=='object')throw 0;S=Object.assign(defState(),d);S.df=S.df||{};S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};S.gs=S.gs||{email:'',folder:'',last:''};S.cv=S.cv||{zp:''};S.sc=S.sc||{};S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};S.spOk=!!((S.sc.name||'').trim());clsInit();migrate();save(true);if(S.spOk){go('dash')}else{ss='sp';go('setup')};pinShowLock(false);alert('बॅकअप माहिती यशस्वीरित्या रिस्टोअर झाली.')}catch(e){alert('फाईल चुकीची आहे')}};r.readAsText(f)}
-function reset(){cf('सर्व माहिती पुसायची आहे का?',async()=>{try{localStorage.removeItem(K);localStorage.removeItem(K_CFG);localStorage.removeItem(K_FB);localStorage.removeItem(K_RESCUE);}catch(e){}try{if(_idb){_idb.close();_idb=null;}if(window.indexedDB){await new Promise(r=>{const rq=indexedDB.deleteDatabase(IDB_NAME);rq.onsuccess=rq.onerror=rq.onblocked=()=>r();});}}catch(e){}location.reload()},'होय, पुसा')}
+function restore(f){const r=new FileReader();r.onload=async()=>{let d;try{d=JSON.parse(r.result);if(!d||typeof d!=='object')throw 0}catch(e){alert('फाईल चुकीची आहे');return}try{await autoBk('before-restore',true);applyBackupObj(d);alert('बॅकअप माहिती यशस्वीरित्या रिस्टोअर झाली.')}catch(e){alert('फाईल चुकीची आहे')}};r.readAsText(f)}
+function reset(){cf('सर्व माहिती पुसायची आहे का? (पुसण्याआधी बॅकअप फाईल आपोआप डाउनलोड होईल)',async()=>{await autoBk('reset',true);try{localStorage.removeItem(K);localStorage.removeItem(K_CFG);localStorage.removeItem(K_FB);localStorage.removeItem(K_RESCUE);}catch(e){}try{if(_idb){_idb.close();_idb=null;}if(window.indexedDB){await new Promise(r=>{const rq=indexedDB.deleteDatabase(IDB_NAME);rq.onsuccess=rq.onerror=rq.onblocked=()=>r();});}}catch(e){}location.reload()},'होय, पुसा')}
 const hdr=(t)=>`<div class="text-center mb-2"><div class="font-bold text-lg">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="text-sm">UDISE कोड: ${esc(S.sc.ud)||'-'}</div><div>${t} — शैक्षणिक वर्ष ${esc(S.sc.year)} | इयत्ता ${esc(S.sc.std)} तुकडी ${esc(S.sc.div)}</div></div>`;
 const semSel=(all)=>`<select class="np" onchange="sem=+this.value;go(tab)">${all?'<option value="0"'+(sem===0?' selected':'')+'>वार्षिक (दोन्ही सत्र)</option>':''}<option value="1"${sem===1?' selected':''}>प्रथम सत्र</option><option value="2"${sem===2?' selected':''}>द्वितीय सत्र</option></select>`;
 const sname=s=>s===0?'वार्षिक':s===1?'प्रथम सत्र':'द्वितीय सत्र';
@@ -1187,7 +1339,7 @@ V.marks=()=>{if(sem===0)sem=1;const u=S.subs[sub];if(!u)return'<div class="card"
  <div class="sc"><table><tr><th>क्र.</th><th>नाव</th>${c.map(q=>`<th>${q.l} /${q.max}</th>`).join('')}<th>एकूण /${u.fe+u.se}</th></tr>
  ${sorted().map(x=>{const m=mk(sem,sub,x.id)||{},t=(+m.fe||0)+(+m.se||0);return`<tr><td>${esc(x.sn)}</td><td class="l">${esc(x.name)}</td>${c.map((q,ci)=>`<td><input type="number" inputmode="numeric" class="m" value="${gv(m,q)??''}" oninput="M(${sub},'${x.id}',${ci},this.value,this)"></td>`).join('')}<td id="t${x.id}">${m.fe!==undefined||m.se!==undefined?t+' <b>'+gr(t*100/(u.fe+u.se))+'</b>':'-'}</td></tr>`}).join('')||`<tr><td colspan="${c.length+3}">विद्यार्थी जोडलेले नाहीत.</td></tr>`}</table></div></div>`};
 function exMk(){const u=S.subs[sub],c=cols(u),a=[['क्र.','नाव',...c.map(q=>q.l+' /'+q.max)]];sorted().forEach(x=>{const m=mk(sem,sub,x.id)||{};a.push([x.roll,x.name,...c.map(q=>gv(m,q)??'')])});xl('gun-'+u.n+'-'+sname(sem)+'.xlsx',a)}
-function impMk(f){xin(f,a=>{const c=cols(S.subs[sub]);let n=0;a.slice(1).forEach(r=>{const x=S.st.find(s=>String(s.roll)===String(r[0]));if(!x)return;c.forEach((q,ci)=>{let v=r[2+ci];v=v===''?'':+v;if(v!==''&&(isNaN(v)||v<0||v>q.max))v='';setM(sub,x.id,q,v,sem)});n++});save();alert(n+' विद्यार्थ्यांचे गुण भरले');go(tab)})}
+function impMk(f){xin(f,a=>{const c=cols(S.subs[sub]);let n=0,bad=0;a.slice(1).forEach(r=>{const x=S.st.find(s=>String(s.roll)===String(r[0]));if(!x)return;c.forEach((q,ci)=>{let v=r[2+ci];v=v===''?'':+v;if(v!==''&&(isNaN(v)||v<0||v>q.max)){v='';bad++}setM(sub,x.id,q,v,sem)});n++});save();alert(n+' विद्यार्थ्यांचे गुण भरले'+(bad?'. '+bad+' मूल्ये पैकी गुणांपेक्षा जास्त/चुकीची असल्याने वगळली (रिकामी ठेवली).':''));go(tab)})}
 
 
 
@@ -1255,12 +1407,12 @@ function slist(){const L=sorted(true);return`<div class="card hc np"><h2>वि�
 V.stu=()=>ed?sform():slist();
 
 const GR=[{id:'dash',ic:'🏠',n:'डॅशबोर्ड',d:'dash',s:[['dash','डॅशबोर्ड']]},
-{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
+{id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['sm','विषय व्यवस्थापन'],['gh','भारांश'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['cl','वर्ग व्यवस्थापन'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
 {id:'fill',ic:'✏️',n:'माहिती भरा',d:'stu',s:[['stu','विद्यार्थी प्रोफाइल'],['hw','वजन व उंची'],['at','हजर दिवस'],['fe','आकारिक गुण नोंद'],['se','संकलित गुण नोंद'],['dn','शाब्दीक नोंदी']]},
 {id:'rep',ic:'📊',n:'निकाल पत्रक',d:'res1',s:[['res1','प्रथम सत्र'],['res2','द्वितीय सत्र'],['res0','वार्षिक']]},
 {id:'pc',ic:'🧾',n:'प्रगती पत्रक',d:'pc2',acc:1,s:[['pc2','प्रगती पत्रक'],['pc1p','प्रगती पत्रक (१ पानी )'],['pc1','मुखपृष्ठ 1'],['pc3','मुखपृष्ठ 2'],['pc4','मुखपृष्ठ 3'],['pc5','मुखपृष्ठ 4']]},
 {id:'rec',ic:'📒',n:'नोंदवही',d:'rec',acc:1,s:[['cvp','मुखपृष्ठ (उभे)'],['cvl','मुखपृष्ठ (आडवे)'],['idx','अनुक्रमणिका'],['rec','नोंदवही नमुना 1'],['rec2','नोंदवही नमुना 2']]},
-{id:'vt',ic:'📋',n:'विविध तक्ते',d:'vt',s:[['vt','विविध तक्ते'],['age','वय तक्ता'],['bf','बोनाफाईड'],['id','ओळखपत्र']]},
+{id:'vt',ic:'📋',n:'विविध तक्ते',d:'vt',s:[['vt','विविध तक्ते'],['age','वय तक्ता'],['gt','श्रेणी तक्ता'],['bf','बोनाफाईड'],['id','ओळखपत्र']]},
 {id:'bk',ic:'☁️',n:'बॅकअप',d:'bk',s:[['bk','बॅकअप']]},
 {id:'gd',ic:'📖',n:'App गाईड',d:'gd',s:[['gd','App गाईड']]},
 {id:'ct',ic:'📞',n:'संपर्क',d:'ct',s:[['ct','संपर्क']]},
@@ -1272,23 +1424,24 @@ function tg(id){ox=ox===id?'':id;document.querySelector('#dw .dl').innerHTML=dwL
 function dwList(){return GR.map(g=>{const multi=g.s.length>1||g.acc,on=grp()===g,open=multi&&ox===g.id;
  return`<button class="di${on?' on':''}" onclick="${multi?`tg('${g.id}')`:`go('${g.d}')`}"><span>${g.ic}</span><b class="flex-1">${g.n}</b>${multi?`<i class="ch${open?' o':''}">›</i>`:''}</button>`+(open?`<div class="sm">${g.s.map(x=>{const st=g.id==='setup',a=st?(tab==='setup'&&x[0]===ss):x[0]===tab;return`<button class="${a?'on':''}" onclick="${st?`ss='${x[0]}';go('setup')`:`go('${x[0]}')`}">${x[1]}</button>`}).join('')}</div>`:'')}).join('')}
 function subbar(){const cb=clsBar();if(tab==='setup')return cb;const g=grp();if(!g||g.s.length<2)return cb;return cb+`<div class="sb np">${g.s.map(x=>{const st=g.id==='setup',on=st?x[0]===ss:x[0]===tab;return`<button class="${on?'on':''}" onclick="${st?`ss='${x[0]}';go('setup')`:`go('${x[0]}')`}">${x[1]}</button>`}).join('')}</div>`}
-const oAll=V.setup;V.setup=()=>{if(ss==='wd')return wdCard();if(ss==='gh')return bhTab();if(ss==='pr')return promoteCard();const d=new DOMParser().parseFromString('<body>'+oAll(),'text/html'),m={sp:['शाळा व वर्ग'],df:['डिफॉल्ट माहिती'],bh:['विषय व गुणभार','श्रेणी तक्ता'],gh:['घटकानुसार गुणभार']}[ss],cs0=[...d.body.children];return m.map(n=>cs0.filter(c=>((c.querySelector('h2')||{}).textContent||'').startsWith(n)).map(c=>c.outerHTML).join('')).join('')};
+const oAll=V.setup;V.setup=()=>{if(ss==='sm')return smTab();if(ss==='wd')return wdCard();if(ss==='gh')return bhTab();if(ss==='pr')return promoteCard();const d=new DOMParser().parseFromString('<body>'+oAll(),'text/html'),m={sp:['शाळा व वर्ग'],df:['डिफॉल्ट माहिती'],bh:['विषय व गुणभार','श्रेणी तक्ता'],gh:['घटकानुसार गुणभार']}[ss],cs0=[...d.body.children];return m.map(n=>cs0.filter(c=>((c.querySelector('h2')||{}).textContent||'').startsWith(n)).map(c=>c.outerHTML).join('')).join('')};
 function M(i,id,ci,v,el){const u=S.subs[i],c=cols(u)[ci],pv=gv(mk(sem,i,id)||{},c);let n=v===''?'':+v;
  if(n!==''&&(isNaN(n)||n<0||n>c.max)){el.value=pv??'';alert('"'+c.l.replace(/^(FE|SE)\d /,'')+'" साठी पैकी गुण '+c.max+' आहेत; त्यापेक्षा जास्त गुण भरता येणार नाहीत.');return}
  setM(i,id,c,n,sem);save();const m=mk(sem,i,id),k=(c.k==='f'||c.k==='fe')?'fe':'se';document.getElementById('t'+id).innerHTML='<b>'+(+m[k]||0)+'</b>'}
 
 V.fe=()=>mtab('fe');V.se=()=>mtab('se');
 function MC(i,id,kind,j,v,el){const u=S.subs[i],key=sem+'|'+i+'|'+id,ak=kind==='fe'?'f':'s',mm0=S.mk[key]||{},mxs=j<0?(kind==='fe'?u.fe:u.se):((kind==='fe'?u.f:u.s)||[])[j]||0,pv=j<0?mm0[kind]:(mm0[ak]||[])[j];
- let n=v===''?'':+v;if(n!==''&&(isNaN(n)||n<0||n>mxs)){el.value=pv??'';alert('पैकी गुण '+mxs+' आहेत; त्यापेक्षा जास्त किंवा उणे गुण भरता येणार नाहीत.');return}
+ let n=v===''?'':+v;if(n!==''&&(isNaN(n)||n<0||n>mxs)){el.value=pv??'';el.classList.add('mxe');setTimeout(()=>el.classList.remove('mxe'),1600);cceToast('पैकी गुण '+mxs+' आहेत; त्यापेक्षा जास्त किंवा उणे गुण भरता येणार नाहीत.');return}
  const mm=S.mk[key]=S.mk[key]||{};if(j<0)mm[kind]=n;else{const a=mm[ak]=mm[ak]||[];a[j]=n;mm[kind]=a.reduce((p,q)=>p+(+q||0),0)}
  save();const e=document.getElementById('t'+id);if(e&&j>=0)e.innerHTML='<b>'+mm[kind]+'</b>'}
 function mtab(kind){if(sem===0)sem=1;const u=S.subs[sub]||S.subs[0];if(!u)return'<div class="card">आधी सेटअपमध्ये विषय जोडा.</div>';
  const N=kind==='fe'?8:3,nm=kind==='fe'?FL:SL,mx=(kind==='fe'?u.f:u.s)||Array(N).fill(0),cm=mx.some(x=>x>0),tm=cm?mx.reduce((a,b)=>a+(+b||0),0):0,L=sorted(),idx=[...Array(N).keys()];
  return`<div class="card"><h2>${kind==='fe'?'आकारिक गुण नोंद':'संकलित गुण नोंद'}</h2><div class="mbar np">${semSel(0)}<select class="sub-s" onchange="sub=+this.value;go(tab)">${S.subs.map((x,i)=>`<option value="${i}"${i===sub?' selected':''}>${esc(x.n)}</option>`).join('')}</select><label class="btn og cursor-pointer">⬆ आयात<input type="file" accept=".xlsx,.xls,.csv" hidden onchange="impMk(this.files[0])"></label><button class="btn bl" onclick="exMk()">⬇ निर्यात</button></div>
+ ${cm?'':`<div class="np" ${bhBox}>⚠️ <b>${esc(u.n)}</b> या विषयाचा भारांश (घटकानुसार पैकी गुण) अजून भरलेला नाही, म्हणून गुण भरता येत नाहीत.<br>${bhBtn}</div>`}
  <div class="sc"><table class="mt"><tr><th colspan="2">${sname(sem)}</th><th colspan="${N+1}">${esc(u.n)}</th></tr>
  <tr><th>अ.नं.</th><th class="stk">विद्यार्थ्याचे नाव</th>${idx.map(j=>`<th class="vt"><span>${nm[j]}</span></th>`).join('')}<th class="vt"><span>एकूण</span></th></tr>
  <tr><td colspan="2"><b>पैकी गुण</b></td>${idx.map(j=>`<td><b>${mx[j]>0?mx[j]:'-'}</b></td>`).join('')}<td><b>${cm?tm:'-'}</b></td></tr>
- ${L.map(x=>{const m=mk(sem,sub,x.id)||{},a=m[kind==='fe'?'f':'s']||[],v=m[kind];return`<tr><td>${x.sn}</td><td class="l stk">${esc(x.name)}</td>${idx.map(j=>`<td><input type="number" inputmode="numeric" min="0" max="${mx[j]}" class="m"${mx[j]>0?'':' disabled'} value="${a[j]??''}" oninput="MC(${sub},'${x.id}','${kind}',${j},this.value,this)"></td>`).join('')}<td id="t${x.id}">${cm?'<b>'+(v!==undefined&&v!==''?+v||0:'-')+'</b>':`<input type="number" class="m" disabled value="${v??''}" title="आधी सेटअप › भारांश › घटकानुसार गुणभार मध्ये पैकी गुण भरा">`}</td></tr>`}).join('')||`<tr><td colspan="${N+3}">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>`}</table></div>
+ ${L.map(x=>{const m=mk(sem,sub,x.id)||{},a=m[kind==='fe'?'f':'s']||[],v=m[kind];return`<tr><td>${x.sn}</td><td class="l stk">${esc(x.name)}</td>${idx.map(j=>`<td><input type="number" inputmode="numeric" min="0" max="${mx[j]}" class="m${a[j]!==undefined&&a[j]!==''&&+a[j]>mx[j]?' mxe':''}"${mx[j]>0?'':' disabled'} value="${a[j]??''}" oninput="MC(${sub},'${x.id}','${kind}',${j},this.value,this)"></td>`).join('')}<td id="t${x.id}">${cm?'<b>'+(v!==undefined&&v!==''?+v||0:'-')+'</b>':`<input type="number" class="m" disabled value="${v??''}" title="आधी सेटअप › भारांश › घटकानुसार गुणभार मध्ये पैकी गुण भरा">`}</td></tr>`}).join('')||`<tr><td colspan="${N+3}">या सत्रासाठी विद्यार्थी नाहीत.</td></tr>`}</table></div>
  <p class="text-sm mt-2" style="color:var(--mu)">"पैकी गुण" घटकानुसार गुणभार मध्ये भरलेल्या माहितीनुसार येतात. पैकी गुण ठरवलेला नसलेला घटक बंद (राखाडी) दिसतो${cm?'':'. या विषयासाठी घटकानुसार पैकी गुण अजून भरलेले नाहीत, म्हणून "एकूण" स्तंभ भारांश भरल्यानंतरच दिसेल (सेटअप › भारांश › घटकानुसार गुणभार)'}. पैकी गुणांपेक्षा जास्त गुण भरल्यास सूचना येते व ते स्वीकारले जात नाहीत.</p></div>`}
 function modal(msg,btns){let d=document.getElementById('md');if(d)d.remove();d=document.createElement('div');d.id='md';
  d.innerHTML=`<div class="mb" role="dialog"><p>${esc(msg)}</p><div class="mr">${btns.map((b,i)=>`<button class="btn ${b[2]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;
@@ -1347,7 +1500,7 @@ V.setup=()=>ss==='sp'?spCard():oV2();
 function Pcommit(){S.cv=S.cv||{};S.cv.zp=(spd.zp||'').trim();delete spd.zp;Object.assign(S.sc,spd);S.sc.std=ST[(S.sc.n||1)-1];spd=null;save();hs()}
 
 
-function Pclr(){cf('शाळा प्रोफाइलची सर्व माहिती पुसायची आहे का?',()=>{S.sc={name:'',year:yl(curAY()),std:ST[0],n:1,div:'अ',t:'',hm:'',ud:''};S.cv=S.cv||{};S.cv.zp='';S.spOk=false;spd=null;save();hs();go('setup')},'होय, पुसा')}
+function Pclr(){cf('शाळा प्रोफाइलची सर्व माहिती पुसायची आहे का?',()=>{autoBk('profile-clear',false);S.sc={name:'',year:yl(curAY()),std:ST[0],n:1,div:'अ',t:'',hm:'',ud:''};S.cv=S.cv||{};S.cv.zp='';S.spOk=false;spd=null;save();hs();go('setup')},'होय, पुसा')}
 const CATN=['मराठी','हिंदी','इंग्रजी','गणित','विज्ञान','परिसर अभ्यास 1','परिसर अभ्यास 2','समाजशास्त्र','कला','कार्यानुभव','शारीरिक शिक्षण'];
 let bdr=null;S.bhOk=S.bhOk??false;
 function applyCat(old){const nw=S.cat.filter(u=>u.on),m={};old.forEach((u,i)=>{const j=nw.findIndex(x=>x.id===u.id);if(j>=0)m[i]=j});
@@ -1364,32 +1517,89 @@ function stdSubs(n,ask){if(ask&&Object.keys(S.mk).length&&!window._ok){cf('ग�
 function openArch(i){const a=S.arch[i];if(!a.cat)a.cat=a.subs.map((u,k)=>({...u,id:u.id||'u'+k,on:true}));
  const cur={sc:S.sc,subs:S.subs,cat:S.cat,st:S.st,mk:S.mk,at:S.at,nt:S.nt};Object.assign(S,a);S.subs=S.cat.filter(u=>u.on);S.arch[i]=cur;bdr=null;save();go('setup')}
 const bsum=a=>(a||[]).reduce((p,q)=>p+(+q||0),0);
-function Bon(i,v){bdr.cat[i].on=v;go('setup')}
-function Badd(){const e=document.getElementById('ns'),n=(e.value||'').trim();if(!n){alert('नवीन विषयाचे नाव भरा.');return}if(bdr.cat.some(u=>u.n===n)){alert('हा विषय यादीत आधीच आहे.');return}bdr.cat.push({id:'c'+Date.now(),n,on:true,fe:40,se:60});go('setup')}
-function Bdel(id){cf('सदर विषय काढायचा आहे का? त्याचे भरलेले गुणही जातील.',()=>{if(S.cat.some(u=>u.id===id)){const old=S.subs;S.cat=S.cat.filter(u=>u.id!==id);applyCat(old)}bdr.cat=bdr.cat.filter(u=>u.id!==id);save();go('setup')},'होय, काढा')}
 function Bc(k,j,v){const u=bdr.cat.find(x=>x.id===bdr.sel);if(!u)return;const a=u[k]=u[k]||Array(k==='f'?8:3).fill(0);a[j]=Math.max(0,Math.min(100,Math.round(+v||0)));
- const f=bsum(u.f),s=bsum(u.s),$=i=>document.getElementById(i);if($('bt1'))$('bt1').textContent=f;if($('bt2'))$('bt2').textContent=s;if($('bt3'))$('bt3').textContent=f+s}
+ const f=bsum(u.f),s=bsum(u.s),$=i=>document.getElementById(i);if($('bt1'))$('bt1').textContent=f;if($('bt2'))$('bt2').textContent=s;if($('bt3'))$('bt3').textContent=f+s;
+ if(bdr)bdr.dirty=true;
+ const ch=document.querySelector('#bhBar .bhchip.on');if(ch)ch.classList.toggle('ok',(f+s)>0)}
 function Bcommit(){if(!bdr.cat.some(u=>u.on)){alert('किमान एक विषय निवडा.');return false}const old=S.subs;
  S.cat=bdr.cat.map(u=>{const x={...u,f:u.f&&[...u.f],s:u.s&&[...u.s]},f=bsum(x.f),s=bsum(x.s);if(f>0||s>0){x.fe=f;x.se=s}return x});applyCat(old);bdr=null;save();return true}
 function Bsave(){if(S.bhOk){alert('भारांश माहिती आधीच जतन आहे. बदल करण्यासाठी "अपडेट" दाबा.');return}if(!Bcommit())return;S.bhOk=true;save();alert('भारांश जतन झाले.');go('setup')}
 function Bupd(){if(!S.bhOk){alert('भारांश अजून जतन केलेले नाही. आधी "जतन करा" दाबा.');return}if(!Bcommit())return;alert('भारांश अपडेट झाले.');go('setup')}
-function Bclr(){cf('सर्व विषयांचे आकारिक व संकलित घटकांचे पैकी गुण पुसायचे आहेत का? (विषयांची यादी तशीच राहील.)',()=>{S.cat.forEach(u=>{u.f=null;u.s=null;u.fe=40;u.se=60});S.subs=S.cat.filter(u=>u.on);S.bhOk=false;bdr=null;save();go('setup')},'होय, पुसा')}
-function bhTab(){if(!bdr)bdr={cat:JSON.parse(JSON.stringify(S.cat)),sel:null};
- const C=bdr.cat,act=C.filter(u=>u.on);if(!act.find(u=>u.id===bdr.sel))bdr.sel=act[0]?act[0].id:null;
- const u=C.find(x=>x.id===bdr.sel),f=(u&&u.f)||Array(8).fill(0),s=(u&&u.s)||Array(3).fill(0),
- pick=u?`<div class="spf" style="margin-bottom:12px"><label class="lbl">📘 विषय निवडा</label><select onchange="bdr.sel=this.value;go('setup')">${act.map(x=>`<option value="${x.id}"${x.id===bdr.sel?' selected':''}>${esc(x.n)}</option>`).join('')}</select></div>`:'<div class="tip" style="margin:0 0 12px">आधी किमान एक विषय निवडा.</div>';
- const grItems=[['९१ आणि वरील','अ-1',0],['८१ – ९०','अ-2',0],['७१ – ८०','ब-1',0],['६१ – ७०','ब-2',0],['५१ – ६०','क-1',0],['४१ – ५०','क-2',0],['३३ – ४०','ड',0],['२१ – ३२','इ-1',1],['२१ पेक्षा कमी','इ-2',1]];
- return`<div class="card hc np" style="overflow:hidden"><div class="sph"><div class="spic">⚖️</div><div style="min-width:0;flex:1"><div class="spt">भारांश व विषय व्यवस्थापन</div><div class="sps">लागू विषय: <b>${act.length}</b> / ${C.length} • सन ${esc(S.sc.year)}</div></div><span class="spb">${S.bhOk?'✔ जतन':'नवीन नोंद'}</span></div>
- <div class="sec" style="margin-top:4px">📚 विषय व्यवस्थापन</div>
- <p class="text-sm mb-2" style="color:var(--mu)">या वर्गासाठी लागू असलेल्या विषयांवर खूण करा. खूण केलेले विषयच गुणनोंद व रिपोर्टमध्ये येतात.</p>
- <div class="adr"><input id="ns" placeholder="नवीन विषयाचे नाव"><button class="btn bl" onclick="Badd()">＋ जोडा</button></div>
- <div class="prl">${C.map((x,i)=>`<div class="prrow"><input type="checkbox"${x.on?' checked':''} onchange="Bon(${i},this.checked)"><span class="prn">${esc(x.n)}</span><button class="btn del" style="width:auto;min-height:34px;padding:2px 8px" onclick="Bdel('${x.id}')" aria-label="काढा">✕</button></div>`).join('')}</div>
+function Bclr(){cf('सर्व विषयांचे आकारिक व संकलित घटकांचे पैकी गुण पुसायचे आहेत का? (विषयांची यादी तशीच राहील.)',()=>{autoBk('bhaar-clear',false);S.cat.forEach(u=>{u.f=null;u.s=null;u.fe=40;u.se=60});S.subs=S.cat.filter(u=>u.on);S.bhOk=false;bdr=null;save();go('setup')},'होय, पुसा')}
+/* ---------- भारांश : विषयनिहाय गुणभार भरणे (स्क्रीन न सरकता विषय बदलणे) ---------- */
+/* ---------- सेटअप › विषय व्यवस्थापन (स्वतंत्र sub tab; बदल लगेच जतन) ---------- */
+function smRe(){const y=window.scrollY;go('setup');window.scrollTo(0,y)}
+function smGo(){const f=()=>{ss='sm';go('setup')};if(bdr&&bdr.dirty)cf('भारांशमधील जतन न केलेले बदल जातील. विषय व्यवस्थापनाकडे जायचे का?',f,'होय, जा');else f()}
+function smOn(i,v){
+ const u=S.cat[i],old=S.subs;if(!u)return;
+ if(!v&&S.cat.filter(x=>x.on).length<=1){alert('किमान एक विषय निवडा.');smRe();return}
+ const doIt=()=>{u.on=v;applyCat(old);save();smRe()};
+ const oi=old.findIndex(x=>x.id===u.id);
+ if(!v&&oi>=0&&Object.keys(S.mk).some(k=>+k.split('|')[1]===oi)){smRe();cf('"'+u.n+'" या विषयाचे भरलेले गुण पुसले जातील. विषय वगळायचा का?',()=>{autoBk('subject-off',false);doIt()},'होय, वगळा');return}
+ doIt();
+}
+function smAdd(){
+ const e=document.getElementById('ns'),n=(e.value||'').trim();
+ if(!n){alert('नवीन विषयाचे नाव भरा.');return}
+ if(S.cat.some(u=>u.n===n)){alert('हा विषय यादीत आधीच आहे.');return}
+ const old=S.subs;S.cat.push({id:'c'+Date.now(),n,on:true,fe:40,se:60,f:null,s:null});applyCat(old);save();smRe();
+}
+function smDel(id){
+ const u=S.cat.find(x=>x.id===id);if(!u)return;
+ if(S.cat.filter(x=>x.on&&x.id!==id).length<1){alert('किमान एक विषय ठेवणे आवश्यक आहे.');return}
+ cf('"'+u.n+'" हा विषय यादीतून काढायचा आहे का? त्याचे भरलेले गुणही जातील.',()=>{autoBk('subject-delete',false);const old=S.subs;S.cat=S.cat.filter(x=>x.id!==id);applyCat(old);save();smRe()},'होय, काढा');
+}
+function smTab(){
+ const C=S.cat,act=C.filter(u=>u.on);
+ return`<div class="card hc np"><div class="sph"><div class="spic">📚</div><div style="min-width:0;flex:1"><div class="spt">विषय व्यवस्थापन</div><div class="sps">लागू विषय: <b>${act.length}</b> / ${C.length} • ${esc(clsName(S.sc))}</div></div></div>
+ <p class="text-sm mb-2" style="color:var(--mu)">या वर्गासाठी लागू असलेल्या विषयांवर खूण करा. खूण केलेले विषयच गुणनोंद व रिपोर्टमध्ये येतात. बदल लगेच जतन होतात.</p>
+ <div class="adr"><input id="ns" placeholder="नवीन विषयाचे नाव"><button class="btn bl" onclick="smAdd()">＋ जोडा</button></div>
+ <div class="prl" style="max-height:none">${C.map((x,i)=>`<div class="prrow"><input type="checkbox"${x.on?' checked':''} onchange="smOn(${i},this.checked)"><span class="prn">${esc(x.n)}</span><button class="btn del" style="width:auto;min-height:34px;padding:2px 8px" onclick="smDel('${x.id}')" aria-label="काढा">✕</button></div>`).join('')}</div>
+ <div class="br" style="margin-top:6px"><button type="button" class="btn alt" onclick="stdSubs(+S.sc.n||1,true)">🔄 इयत्तेनुसार विषय आपोआप निवडा</button></div>
+ <div class="tip" style="margin:14px 0 0">⚖️ विषयाचे पैकी गुण (भारांश) भरण्यासाठी <b>भारांश</b> टॅब वापरा.<br><button type="button" class="btn og" style="margin-top:6px;min-height:36px;padding:4px 14px" onclick="bhGo()">➡ भारांश भरा</button></div></div>`;
+}
+const bhFilled=x=>(bsum(x.f)+bsum(x.s))>0;
+function bhChips(){return bdr.cat.filter(u=>u.on).map(x=>`<button type="button" class="bhchip${x.id===bdr.sel?' on':''}${bhFilled(x)?' ok':''}" data-id="${x.id}" onclick="bhPick('${x.id}')">${esc(x.n)}</button>`).join('')}
+function bhAreaHtml(){
+ const C=bdr.cat,act=C.filter(u=>u.on),u=C.find(x=>x.id===bdr.sel);
+ if(!u)return '<div class="tip" style="margin:0 0 12px">आधी किमान एक विषय निवडा.</div>';
+ const f=u.f||Array(8).fill(0),s=u.s||Array(3).fill(0),i=act.findIndex(x=>x.id===u.id);
+ const inp=(k,j,v)=>`<input type="number" inputmode="numeric" enterkeyhint="next" min="0" max="100" class="bhinp" value="${v||0}" onfocus="this.select()" onkeydown="bhKey(event,this)" oninput="Bc('${k}',${j},this.value)">`;
+ return`<div class="bhsub">📘 ${esc(u.n)} <span>(${i+1} / ${act.length})</span></div>
  <div class="sec">✏️ आकारिक मूल्यमापन क्षेत्र</div>
- ${pick}${u?`<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${FL.map((n,j)=>`<div class="bhrow"><span class="bhlbl">${n}</span><input type="number" inputmode="numeric" min="0" max="100" class="bhinp" value="${f[j]||0}" oninput="Bc('f',${j},this.value)"></div>`).join('')}</div><div class="wt" style="margin-top:12px">एकूण आकारिक: <span id="bt1">${bsum(f)}</span></div>`:''}
+ <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${FL.map((n,j)=>`<div class="bhrow"><span class="bhlbl">${n}</span>${inp('f',j,f[j])}</div>`).join('')}</div>
+ <div class="wt" style="margin-top:12px">एकूण आकारिक: <span id="bt1">${bsum(f)}</span></div>
  <div class="sec">📝 संकलित मूल्यमापन</div>
- ${u?`<div class="spf" style="margin-bottom:12px"><label class="lbl">📖 विषय</label><div style="font-weight:700;font-size:15.5px;color:var(--tx)">${esc(u.n)}</div></div>
- <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${SL.map((n,j)=>`<div class="bhrow"><span class="bhlbl">${n}</span><input type="number" inputmode="numeric" min="0" max="100" class="bhinp" value="${s[j]||0}" oninput="Bc('s',${j},this.value)"></div>`).join('')}</div>
- <div class="ats"><div><span class="slb">आकारिक</span><span class="svl">${bsum(f)}</span></div><div><span class="slb">संकलित</span><span class="svl"><span id="bt2">${bsum(s)}</span></span></div><div class="tot"><span class="slb">एकूण</span><span class="svl"><span id="bt3">${bsum(f)+bsum(s)}</span></span></div></div>`:'<div class="tip" style="margin:0">आधी किमान एक विषय निवडा.</div>'}
+ <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">${SL.map((n,j)=>`<div class="bhrow"><span class="bhlbl">${n}</span>${inp('s',j,s[j])}</div>`).join('')}</div>
+ <div class="ats"><div><span class="slb">आकारिक</span><span class="svl">${bsum(f)}</span></div><div><span class="slb">संकलित</span><span class="svl"><span id="bt2">${bsum(s)}</span></span></div><div class="tot"><span class="slb">एकूण</span><span class="svl"><span id="bt3">${bsum(f)+bsum(s)}</span></span></div></div>
+ <div class="bhnav"><button type="button" class="btn alt" onclick="bhStep(-1)">◀ मागील विषय</button><button type="button" class="btn" onclick="bhStep(1)">पुढील विषय ▶</button></div>`;
+}
+function bhFix(){
+ try{const hd=document.getElementById('hd'),sb=document.querySelector('#app .sb'),b=document.getElementById('bhBar');
+  if(b)b.style.top=((hd?hd.offsetHeight:62)+(sb&&getComputedStyle(sb).position==='sticky'?sb.offsetHeight:0))+'px'}catch(e){}
+}
+function bhRefresh(focus){
+ const a=document.getElementById('bhArea'),b=document.getElementById('bhBar');
+ if(!a||!b){go('setup');return}
+ b.innerHTML=bhChips();a.innerHTML=bhAreaHtml();
+ const on=b.querySelector('.bhchip.on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});
+ if(focus){const i=a.querySelector('.bhinp');if(i){i.focus({preventScroll:true});i.select&&i.select()}}
+}
+function bhPick(id,focus){bdr.sel=id;bhRefresh(focus)}
+function bhStep(d){const act=bdr.cat.filter(u=>u.on);if(!act.length)return;const i=act.findIndex(x=>x.id===bdr.sel),n=act[(i+d+act.length)%act.length];bhPick(n.id,true)}
+function bhKey(e,el){
+ if(e.key!=='Enter')return;e.preventDefault();
+ const ins=[...document.querySelectorAll('#bhArea .bhinp')],i=ins.indexOf(el);
+ if(i>=0&&i<ins.length-1){ins[i+1].focus();ins[i+1].select&&ins[i+1].select()}else bhStep(1);
+}
+function bhTab(){if(!bdr)bdr={cat:JSON.parse(JSON.stringify(S.cat)),sel:null,dirty:false};
+ const C=bdr.cat,act=C.filter(u=>u.on);if(!act.find(u=>u.id===bdr.sel))bdr.sel=act[0]?act[0].id:null;
+ setTimeout(bhFix,30);
+ const grItems=[['९१ आणि वरील','अ-1',0],['८१ – ९०','अ-2',0],['७१ – ८०','ब-1',0],['६१ – ७०','ब-2',0],['५१ – ६०','क-1',0],['४१ – ५०','क-2',0],['३३ – ४०','ड',0],['२१ – ३२','इ-1',1],['२१ पेक्षा कमी','इ-2',1]];
+ return`<div class="card hc np"><div class="sph"><div class="spic">⚖️</div><div style="min-width:0;flex:1"><div class="spt">भारांश (घटकानुसार गुणभार)</div><div class="sps">लागू विषय: <b>${act.length}</b> / ${C.length} • सन ${esc(S.sc.year)}</div></div><span class="spb">${S.bhOk?'✔ जतन':'नवीन नोंद'}</span></div>
+ <div class="bhbar" id="bhBar">${bhChips()}</div>
+ <div id="bhArea">${bhAreaHtml()}</div>
+ <div class="tip" style="margin:18px 0 0">📚 विषय जोडायचे, काढायचे किंवा निवडायचे असल्यास <b>विषय व्यवस्थापन</b> टॅब वापरा.<br><button type="button" class="btn alt" style="margin-top:6px;min-height:36px;padding:4px 14px" onclick="smGo()">➡ विषय व्यवस्थापन</button></div>
  <div class="sec">🏅 श्रेणी तक्ता (टक्केवारीवर आधारित)</div>
  <div class="grgrid">${grItems.map(g=>`<div class="grpill${g[2]?' bad':''}"><b>${g[1]}</b>${g[0]}</div>`).join('')}</div>
  <div class="br" style="margin-top:16px"><button class="btn" onclick="Bsave()">💾 जतन करा</button><button class="btn og" onclick="Bupd()">🔄 अपडेट</button><button class="btn red" onclick="Bclr()">🗑 सर्व पुसा</button></div></div>`}
@@ -1433,7 +1643,7 @@ V.dn=()=>{if(sem===0)sem=1;const L=sorted();if(!L.length)return'<div class="card
  return`<div class="card" style="overflow:hidden"><div class="navb"><button class="nb" aria-label="मागील विद्यार्थी" onclick="dnGo(-1)"${k===0?' disabled':''}>‹</button><span>${k+1} / ${L.length}</span><button class="nb" aria-label="पुढील विद्यार्थी" onclick="dnGo(1)"${k===L.length-1?' disabled':''}>›</button></div>
  <div class="dnh">${x.ph?`<img src="${x.ph}" alt="">`:'<div class="ph0">👤</div>'}<div style="min-width:0;flex:1"><div class="nm">${esc(x.name)}</div><div class="rl">रोल नं. ${esc(x.roll)}${x.reg?' • रजि. नं. '+esc(x.reg):''}</div></div>${semSel(0)}</div>
  <h2>शाब्दीक नोंदी</h2>${fldList().map(f=>`<div class="dnf"><div class="dnl"><label>${esc(f.l)}</label>${notesOf(f.nk).length?`<button class="sg2" onclick="dnPick('${f.k}')">📝 सुचवलेल्या नोंदी</button>`:''}</div><textarea id="d_${f.k}" rows="2" oninput="dnSet('${f.k}',this.value)">${esc(m[f.k]||'')}</textarea></div>`).join('')}
- <p class="text-sm" style="color:var(--mu)">फक्त "भारांश › विषय व्यवस्थापन" मध्ये खूण केलेले विषय येथे येतात. नोंदी आपोआप जतन होतात; ‹ › बटनाने दुसऱ्या विद्यार्थ्याकडे जा.</p></div>`};
+ <p class="text-sm" style="color:var(--mu)">फक्त "सेटअप › विषय व्यवस्थापन" मध्ये खूण केलेले विषय येथे येतात. नोंदी आपोआप जतन होतात; ‹ › बटनाने दुसऱ्या विद्यार्थ्याकडे जा.</p></div>`};
 function dnPick(k){const f=fldList().find(z=>z.k===k),st=S.st.find(z=>z.id===dcur)||{},a=notesOf(f.nk).map(n=>gen(n,st.g));let d=document.getElementById('sh');if(d)d.remove();d=document.createElement('div');d.id='sh';
  d.innerHTML=`<div class="shb"><div class="shh"><b>${esc(f.l)} — सुचवलेल्या नोंदी</b><button class="btn alt" data-x="1">बंद करा</button></div><input class="shs" placeholder="शोधा…"><div class="shl">${a.map((n,i)=>`<button data-i="${i}">${esc(n)}</button>`).join('')}</div></div>`;
  d.onclick=e=>{const b=e.target.closest('button');if(e.target===d||(b&&b.dataset.x)){d.remove();return}
@@ -1525,7 +1735,7 @@ function rtable1(x,v2){const R=rwList(),W=v2?[4,13,6,...Array(8).fill(4.4),5,5,5
 function rtable2(x,v2){const m=S.dsc[sem+'|'+x.id]||{},R=rwList(),G=[['s10','विशेष प्रगती'],['s11','आवड, छंद<br>कला, क्रीडा, साहित्य इ.'],['s12','सुधारणा आवश्यक'],['s13','व्यक्तिमत्व गुण विशेष<br>(अभिवृत्ती, कला, मुल्ये,<br>स्वभाव गुणविशेष)']];
  return`<table class="rt p2${v2?' s2':''}"><colgroup><col style="width:8%"><col style="width:28%"><col style="width:64%"></colgroup><tr><th>अ. नं.</th><th>विषय</th><th>वर्णनात्मक नोंदी</th></tr>${R.map((r,k)=>`<tr><td class="sn">${k+1}</td><td class="sl">${r.l}</td><td>${r.i<0?'-':esc(m[S.subs[r.i].id]||'')}</td></tr>`).join('')}${G.map((g,j)=>`<tr><td class="sn">${R.length+j+1}</td><td class="sl">${g[1]}</td><td>${esc(m[g[0]]||'')}</td></tr>`).join('')}</table>`}
 V.rec=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.min(1,(innerWidth-30)/740).toFixed(3);
- return`<div class="card np"><h2>नोंदवही</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी पहिले पान गुण तक्ता व दुसरे पान वर्णनात्मक नोंदी. प्रिंट करताना A4 Portrait निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
+ return`<div class="card np"><h2>नोंदवही</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी पहिले पान गुण तक्ता व दुसरे पान वर्णनात्मक नोंदी. प्रिंट करताना A4 Portrait निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
  <div style="--z:${z}">${L.map(x=>`<div class="rpg">${rhead(x)}${rtable1(x)}${rsign()}</div><div class="rpg">${rhead(x)}${rtable2(x)}${rsign()}</div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
 function pcheck(){const d=spd,m=[];if(!(d.name||'').trim())m.push('शाळेचे नाव');if(!(d.ud||'').trim())m.push('UDISE कोड');else if(!/^\d{11}$/.test(d.ud))m.push('UDISE कोड (11 अंकी असावा)');if(!d.year)m.push('शैक्षणिक वर्ष');if(!d.n)m.push('इयत्ता');if(!(d.t||'').trim())m.push('वर्गशिक्षक');if(!(d.hm||'').trim())m.push('मुख्याध्यापक');
  if(m.length){alert('कृपया खालील माहिती भरा (तुकडी वगळता सर्व माहिती आवश्यक आहे):\n• '+m.join('\n• '));return false}return true}
@@ -1664,6 +1874,7 @@ function gRestoreVer(idx){
  const item=list[idx];
  if(!item||!item.file){alert('ही बॅकअप आवृत्ती उपलब्ध नाही.');return}
  cf('आवृत्ती '+(idx+1)+' ('+item.time+' • '+(item.stCnt||0)+' विद्यार्थी) रिस्टोअर करायची आहे का? सध्याचा डेटा या आवृत्तीने बदलला जाईल.',async()=>{
+  await autoBk('before-drive-version',true);
   gbusy=true;
   try{
    gset('Google शी जोडत आहे…');
@@ -1696,8 +1907,8 @@ async function gSync(){if(gbusy)return;gbusy=true;try{gset('Google शी जो
  for(let i=0;i<ks.length;i++){gset('जतन होत आहे: '+ks[i]+' ('+(i+1)+'/'+ks.length+')');await gPut(f,ks[i],P[ks[i]])}
  gset('Version History (मागील ३ आवृत्त्या) अपडेट होत आहे…');
  await gSaveHistory(f,prevSnap,prevTime);
- S.gs.last=new Date().toLocaleString('mr-IN');save();gset('✔ सर्व माहिती (वय तक्ता, बोनाफाईडसह) व Version History Drive वर जतन झाली.');go('bk')}catch(e){gerr(e)}gbusy=false}
-function gRestore(){if(gbusy)return;cf('Drive मधील माहितीने या ब्राउझरमधील सध्याची माहिती बदलली जाईल. पुढे जायचे?',async()=>{gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();const f=await gFolder(),D={};
+ S.gs.last=new Date().toLocaleString('mr-IN');S.bkTs=Date.now();save();gset('✔ सर्व माहिती (वय तक्ता, बोनाफाईडसह) व Version History Drive वर जतन झाली.');go('bk')}catch(e){gerr(e)}gbusy=false}
+function gRestore(){if(gbusy)return;cf('Drive मधील माहितीने या ब्राउझरमधील सध्याची माहिती बदलली जाईल. पुढे जायचे?',async()=>{await autoBk('before-drive-restore',true);gbusy=true;try{gset('Google शी जोडत आहे…');await gAuth();const f=await gFolder(),D={};
  for(const n of ['school','subjects','students','photos','marks','notes','attendance','archive','classes']){gset('आणत आहे: '+n+'.json');D[n]=await gGet(f,n+'.json')}
  if(!D.school&&!D.students){gset('CCE_Data फोल्डरमध्ये बॅकअप सापडला नाही. आधी "Drive वर जतन" करा.');gbusy=false;return}
  const keep=S.gs;if(D.school)Object.assign(S,D.school);if(D.subjects)S.cat=D.subjects.cat;
@@ -1706,8 +1917,9 @@ function gRestore(){if(gbusy)return;cf('Drive मधील माहितीन
  S.gs=keep;S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};migrate();S.subs=S.cat.filter(u=>u.on);save(true);gset('✔ Drive मधील माहिती (वय तक्ता, बोनाफाईडसह) आणली.');go('bk')}catch(e){gerr(e)}gbusy=false},'होय, आणा')}
 function Gem(){S.gs.email=(document.getElementById('gmi').value||'').trim();gNoHint=false;gtok=null;save();gset(S.gs.email?'Gmail पत्ता जतन झाला: '+S.gs.email:'Gmail पत्ता रिकामा केला.')}
 function Gfg(){S.gs.email='';gtok=null;save();go('bk')}
-V.bk=()=>{gLoad().catch(()=>{});const g=S.gs,hl=(ghist&&ghist.length)?ghist:(g.hist||[]);
- return`<div class="card hc np"><h2>बॅकअप (फाईल)</h2><p class="bkp">मुख्य माहिती (विद्यार्थी, फोटो, गुण व नोंदी) ब्राउझरच्या मोठ्या IndexedDB डेटाबेसमध्ये आणि App Lock व सेटिंग्ज localStorage मध्ये सुरक्षित साठवले जातात. तरीही नियमित बॅकअप फाईल डाउनलोड करून ठेवा.</p><div class="br"><button class="btn" onclick="backup()">⬇ डाउनलोड</button><label class="btn alt cursor-pointer">⬆ उघडा<input type="file" accept=".json" hidden onchange="restore(this.files[0])"></label><button class="btn red" onclick="reset()">सर्व पुसा</button></div></div>
+V.bk=()=>{gLoad().catch(()=>{});setTimeout(loadPrevBox,60);const g=S.gs,hl=(ghist&&ghist.length)?ghist:(g.hist||[]);
+ return`<div class="card hc np"><h2>बॅकअप (फाईल)</h2><p class="bkp">मुख्य माहिती (विद्यार्थी, फोटो, गुण व नोंदी) ब्राउझरच्या मोठ्या IndexedDB डेटाबेसमध्ये आणि App Lock व सेटिंग्ज localStorage मध्ये सुरक्षित साठवले जातात. तरीही नियमित बॅकअप फाईल डाउनलोड करून ठेवा.</p><p class="text-sm" style="margin:0 0 10px">शेवटचा बॅकअप: <b>${S.bkTs?new Date(S.bkTs).toLocaleString('mr-IN'):'अजून घेतलेला नाही'}</b></p><div class="br"><button class="btn" onclick="backup()">⬇ डाउनलोड</button><label class="btn alt cursor-pointer">⬆ उघडा<input type="file" accept=".json" hidden onchange="restore(this.files[0])"></label><button class="btn red" onclick="reset()">सर्व पुसा</button></div></div>
+ <div id="prevBox"></div>
  <div class="card hc np" style="margin-top:14px"><h2>Google Drive Sync</h2>
  <div class="gk">खाते: <b>${esc(g.email)||'अजून जोडलेले नाही'}</b><br>Drive फोल्डर: <b>CCE_Data</b>${g.last?'<br>शेवटचे sync: <b>'+esc(g.last)+'</b>':''}</div>
  <label class="lbl">Gmail पत्ता (एकदा टाका — पुढे खाते निवडावे लागत नाही)</label><div class="gin"><input id="gmi" type="email" inputmode="email" placeholder="tumcha@gmail.com" value="${esc(g.email)}"><button class="btn alt" onclick="Gem()">जतन</button><button class="btn red" onclick="Gfg()">विसरा</button></div>
@@ -1726,7 +1938,7 @@ V.bk=()=>{gLoad().catch(()=>{});const g=S.gs,hl=(ghist&&ghist.length)?ghist:(g.h
  <div class="tip">💡 <b>Choose an account</b> (खाते निवडा) पान आल्यावर आधी एकदा <b>Back</b> दाबा, मग खाते निवडा.<br>पहिल्या यशस्वी sync नंतर Gmail पत्ता आठवला जातो, त्यामुळे पुढे हे पान येत नाही.</div></div>`};
 function rlhead(x){return`<div class="rlh"><div><div>इयत्ता : <b>${esc(S.sc.std)}</b> &nbsp; तुकडी : <b>${esc(S.sc.div)}</b></div><div>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></div></div><div class="c"><h3>● सातत्यपूर्ण सर्वांकष मूल्यमापन ●</h3><div style="font-size:10.5px">${esc(S.sc.name)} • UDISE कोड: ${esc(S.sc.ud)||'-'}</div><div>हजेरी क्र. : <b>${esc(x.roll)}</b></div></div><div class="r"><div>सन : ${esc(S.sc.year)}</div><div>${sname(sem)}</div></div></div>`}
 V.rec2=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.max(.42,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
- return`<div class="card np"><h2>नोंदवही नमुना 2</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec2')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4 आडवे)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी एका A4 आडव्या पानावर डावीकडे गुण तक्ता व उजवीकडे वर्णनात्मक नोंदी. प्रिंट करताना A4 Landscape निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
+ return`<div class="card np"><h2>नोंदवही नमुना 2</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec2')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4 आडवे)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी एका A4 आडव्या पानावर डावीकडे गुण तक्ता व उजवीकडे वर्णनात्मक नोंदी. प्रिंट करताना A4 Landscape निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
  <div class="sc" style="--z:${z}">${L.map(x=>`<div class="rpl">${rlhead(x)}<div class="rlb"><div class="rlL">${rtable1(x,1)}${rsign()}</div><div class="rlR">${rtable2(x,1)}</div></div></div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
 S.cv=S.cv||{zp:''};
 const dmy=s=>{const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(s||'');return m?m[3]+'-'+m[2]+'-'+m[1]:(s||'')};
@@ -2150,7 +2362,7 @@ function rsPages(s){const L=sorted(s),C=rsCols(),PER=s?15:9,pg=[];for(let i=0;i<
 function resView(s){
  if(!sorted(s).length)return'<div class="card">या सत्रासाठी विद्यार्थी नाहीत. आधी विद्यार्थी प्रोफाइल भरा.</div>';
  const z=Math.max(.3,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
- return`<div class="card np mb-3"><h2>${sname(s)} निकाल पत्रक</h2>${tcSel()}<div style="display:flex;gap:10px;margin-top:10px"><button class="btn alt" style="flex:1;min-width:0;white-space:nowrap" onclick="exRes(${s})">📊 Excel</button><button class="btn" style="flex:1;min-width:0;white-space:nowrap" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:8px 0 0">प्रत्येक पानावर ${s?15:9} विद्यार्थी; शेवटी श्रेणीनिहाय संख्या तक्ता व सही. प्रिंट करताना A4 Landscape (आडवे) निवडा.</p></div><div class="sc" style="--z:${z}">${rsPages(s)}</div>`}
+ return`<div class="card np mb-3"><h2>${sname(s)} निकाल पत्रक</h2>${bhWarn()}${tcSel()}<div style="display:flex;gap:10px;margin-top:10px"><button class="btn alt" style="flex:1;min-width:0;white-space:nowrap" onclick="exRes(${s})">📊 Excel</button><button class="btn" style="flex:1;min-width:0;white-space:nowrap" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:8px 0 0">प्रत्येक पानावर ${s?15:9} विद्यार्थी; शेवटी श्रेणीनिहाय संख्या तक्ता व सही. प्रिंट करताना A4 Landscape (आडवे) निवडा.</p></div><div class="sc" style="--z:${z}">${rsPages(s)}</div>`}
 V.res1=()=>resView(1);V.res2=()=>resView(2);V.res0=()=>resView(0);V.res=V.res1;
 function exRes(s){const L=sorted(s),C=rsCols(),h=['क्र.','नाव','लिंग','हजर दिवस'];C.forEach(c=>{if(c.k===4)h.push(c.n+' आकारिक',c.n+' संकलित',c.n+' एकूण',c.n+' श्रेणी');else h.push(c.n+' एकूण',c.n+' श्रेणी')});
  const a=[h];L.forEach((x,n)=>{const t=S.at[s+'|'+x.id]||{},r=[n+1,x.name,x.g==='मुलगी'?'G':'B',t.p??''];C.forEach(c=>{const d=rsData(s,x,c);if(c.k===4)r.push(d?d.fe:'',d?d.se:'',d?d.t:'',d?d.g:'');else r.push(d?d.t:'',d?d.g:'')});a.push(r)});
@@ -2764,6 +2976,49 @@ ${tcSel()}<div style="display:flex;gap:10px;margin-top:10px"><button class="btn"
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">अ. क्र. व विद्यार्थ्याचे नाव हे २ कॉलम कायम राहतात आणि त्यापुढे १ ते ६ कॉलम (जास्तीत जास्त एकूण ८ कॉलम) एका A4 पानावर आपोआप बसतात. "✖ कॉलम नको" निवडल्यास तो कॉलम वगळला जातो; "रिकामा" निवडल्यास हाताने लिहिण्यासाठी कोरा कॉलम येतो.</p></div>
 ${L.length?`<div class="vtw" style="--z:${z}">${vtPages(L)}</div>`:'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>'}`;
 };
+
+/* ---------- श्रेणी तक्ता (विषयनिहाय श्रेणी : मुले/मुली) ---------- */
+let gtS=1;
+const gtSet=v=>{gtS=v;go('gt')};
+function gtData(q){
+ const L=sorted(q),isB=x=>x.g==='मुलगा',isG=x=>x.g==='मुलगी';
+ const C=L.map(x=>({x,c:calc(q,x)}));
+ const rows=S.subs.map((u,i)=>{
+  const cnt=RG.map(()=>[0,0]);let tb=0,tg=0;
+  C.forEach(({x,c})=>{const r=c.rows[i];if(!r||!r.has)return;const gi=RG.indexOf(r.g);if(gi<0)return;const k=isG(x)?1:0;cnt[gi][k]++;if(k)tg++;else tb++});
+  return{n:u.n,cnt,tb,tg};
+ });
+ const pb=L.filter(isB).length,pg=L.filter(isG).length;
+ // उपस्थिती = ज्यांचे किमान एका विषयाचे गुण (भारांशासह) भरलेले आहेत
+ const ab=C.filter(o=>o.c.any&&isB(o.x)).length,ag=C.filter(o=>o.c.any&&isG(o.x)).length;
+ return{rows,pb,pg,ab,ag};
+}
+function gtExcel(){
+ const d=gtData(gtS),h=['अ.नं.','विषय'];RG.forEach(g=>h.push(g+' मुले',g+' मुली'));h.push('एकूण मुले','एकूण मुली');
+ const a=[h];d.rows.forEach((r,i)=>a.push([i+1,r.n,...r.cnt.flat(),r.tb,r.tg]));
+ a.push([]);a.push(['','तपशील','मुले','मुली','एकूण']);a.push(['','पट',d.pb,d.pg,d.pb+d.pg]);a.push(['','उपस्थिती',d.ab,d.ag,d.ab+d.ag]);
+ xl('shreni-takta-'+sname(gtS)+'.xlsx',a);
+}
+V.gt=()=>{
+ const q=gtS,d=gtData(q),n=d.rows.length||1,z=scrZoom(281*3.7795+2);
+ const rh=Math.max(6,Math.min(10,97/n)).toFixed(2);
+ const yr=S.sc.year||'',zp=(S.cv||{}).zp||'';
+ const gh=RG.map(g=>`<th colspan="2">${g}</th>`).join('')+'<th colspan="2">एकूण</th>';
+ const bg=RG.concat(['x']).map(()=>'<th>मुले</th><th>मुली</th>').join('');
+ const body=d.rows.map((r,i)=>`<tr style="height:${rh}mm"><td class="sn">${i+1}</td><td class="gsb l">${esc(r.n)}</td>${r.cnt.map(c=>`<td>${c[0]}</td><td>${c[1]}</td>`).join('')}<td class="tt">${r.tb}</td><td class="tt">${r.tg}</td></tr>`).join('');
+ const seg=(v,l)=>`<button class="${q===v?'on':''}" onclick="gtSet(${v})">${l}</button>`;
+ return`<div class="card np mb-3"><h2>श्रेणी तक्ता</h2>
+<div class="spf" style="margin-bottom:10px"><label class="lbl">📅 सत्र निवडा</label><div class="vtseg">${seg(1,'प्रथम सत्र')}${seg(2,'द्वितीय सत्र')}${seg(0,'वार्षिक')}</div></div>
+${bhWarn()}${tcSel()}<div style="display:flex;gap:10px;margin-top:10px"><button class="btn" style="flex:1;min-width:0" onclick="print()">🖨 प्रिंट (A4 आडवे)</button><button class="btn alt" style="flex:1;min-width:0" onclick="gtExcel()">📊 Excel</button></div>
+<p class="text-sm" style="color:var(--mu);margin:8px 0 0">प्रत्येक विषयात कोणत्या श्रेणीत किती मुले व मुली आहेत हे तक्त्यात दिसते. श्रेणी त्या सत्राच्या गुणांवरून (भारांश भरलेल्या विषयांसाठीच) येते. "उपस्थिती" म्हणजे ज्यांचे किमान एका विषयाचे गुण भरलेले आहेत ते विद्यार्थी. प्रिंट करताना A4 Landscape (आडवे) निवडा.</p></div>
+${sorted(0).length?`<div class="vtw" style="--z:${z}"><div class="vtpg vl gtpg"><div class="gt-h">${zp?`<div class="z">${esc(zp)}</div>`:''}<div class="h">● विषयनिहाय श्रेणी तक्ता ●</div>
+<div class="gt-i"><span>${esc(S.sc.name||'शाळेचे नाव')}</span><span>सत्र : ${q===0?'वार्षिक':q} | सन : ${esc(yr)}</span></div>
+<div class="gt-i"><span>इयत्ता : ${esc(S.sc.std||'')} &nbsp; तुकडी : ${esc(S.sc.div||'')}</span><span>UDISE Code : ${esc(S.sc.ud||'')}</span></div></div>
+<table class="gt-t"><colgroup><col style="width:8mm"><col style="width:33mm"></colgroup>
+<tr><th rowspan="2">अ.<br>नं.</th><th rowspan="2">श्रेणी /<br>विषय</th>${gh}</tr><tr>${bg}</tr>${body}</table>
+<div class="gt-b"><table class="gt-s"><tr><th>तपशील</th><th>मुले</th><th>मुली</th><th>एकूण</th></tr><tr><td>पट</td><td>${d.pb}</td><td>${d.pg}</td><td>${d.pb+d.pg}</td></tr><tr><td>उपस्थिती</td><td>${d.ab}</td><td>${d.ag}</td><td>${d.ab+d.ag}</td></tr></table>
+<div class="gt-sg"><div>वर्गशिक्षक<br><span style="font-weight:600">${esc(S.sc.t||'')}</span></div><div>मुख्याध्यापक<br><span style="font-weight:600">${esc(S.sc.hm||'')}</span></div></div></div></div></div>`:'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>'}`;
+};
 /* ---------- PWA : system back / navigation arrows ---------- */
 let navIdx=0,navMax=0,navKey='',navInit=false,dmOn=false;
 const nvKey=()=>tab+'|'+(tab==='setup'?ss:'');
@@ -2816,7 +3071,7 @@ function clsAdd(){clsInit();const j=1-S.ai;if(S.cls[j]){alert('दोन वर�
  S.cls[j]={sc:{n,std:ST[n-1],div:d,t:S.sc.t||''},cat,st:[],mk:{},at:{},nt:{},dsc:{},xn:{},arch:[],bhOk:false};
  clsSwitch(j,'stu')}
 function clsDel(){clsInit();const j=1-S.ai,o=S.cls[j];if(!o)return;
- cf('सध्याचा वर्ग ('+clsName(S.sc)+') व त्याची सर्व माहिती (विद्यार्थी, गुण, हजेरी, नोंदी) कायमची काढली जाईल. पुढे जायचे?',()=>{clsLoad(o);S.cls=[null,null];S.ai=0;clsReset();save();go('setup')},'होय, काढा')}
+ cf('सध्याचा वर्ग ('+clsName(S.sc)+') व त्याची सर्व माहिती (विद्यार्थी, गुण, हजेरी, नोंदी) कायमची काढली जाईल. पुढे जायचे?',async()=>{await autoBk('class-delete',true);clsLoad(o);S.cls=[null,null];S.ai=0;clsReset();save();go('setup')},'होय, काढा')}
 function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.length:o.st.length;
  let h=`<div class="card hc np"><div class="sph"><div class="spic">🏫</div><div style="min-width:0;flex:1"><div class="spt">वर्ग व्यवस्थापन</div><div class="sps">सध्याचा वर्ग: <b>${esc(clsName(S.sc))}</b> • विद्यार्थी ${S.st.length}</div></div><span class="spb">${o?'२ वर्ग':'१ वर्ग'}</span></div>`;
  if(o){h+=`<p class="text-sm" style="color:var(--mu);margin:4px 0 10px">वर्ग बदलण्यासाठी वरचा "वर्ग" पट्टा किंवा खालील बटण वापरा. प्रत्येक वर्गाची विद्यार्थी यादी, गुण, हजेरी, नोंदी व पत्रके स्वतंत्र आहेत.</p>
@@ -2829,7 +3084,7 @@ function clPage(){clsInit();const j=1-S.ai,o=S.cls[j],cnt=sc=>sc===S.sc?S.st.len
  return h+'</div>'}
 const oV5=V.setup;V.setup=()=>ss==='cl'?clPage():oV5();
 
-const SETUP_ORDER=[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['cl','वर्ग व्यवस्थापन'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['gh','भारांश'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']];
+const SETUP_ORDER=GR.find(g=>g.id==='setup').s;   // सेटअप sub menu चाच क्रम (एकच स्रोत)
 function setupNextBar(){
  const idx=SETUP_ORDER.findIndex(x=>x[0]===ss);
  if(idx<0||idx>=SETUP_ORDER.length-1)return'';
@@ -3285,7 +3540,7 @@ document.addEventListener('keydown',e=>{
 if(document.readyState==='loading')addEventListener('DOMContentLoaded',()=>pinShowLock(true));
 else pinShowLock(true);
 
-function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
+function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt'||t==='gt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
  const el=document.getElementById('app');
  if(el){try{el.innerHTML=subbar()+V[t]();requestAnimationFrame(sbCenter)}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
 }
@@ -3347,6 +3602,7 @@ V.dash=()=>{
    <button class="db-qbtn" onclick="go('bk')"><span>☁️</span>बॅकअप / Sync</button>
   </div>
  </div>
+ ${bkRemind()}
  <div class="card hc">
   <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">📈 कामकाज पूर्णता स्थिती</h2>
   ${L.length?`
@@ -3357,6 +3613,7 @@ V.dash=()=>{
    ${prg('💬 द्वितीय सत्र शाब्दीक नोंदी',n2,L.length)}
   `:'<p class="text-sm" style="color:var(--mu);margin:0">अजून विद्यार्थी जोडलेले नाहीत. वरच्या <b>"➕ नवीन विद्यार्थी"</b> बटनावर क्लिक करून सुरुवात करा.</p>'}
  </div>
+ ${pendCard()}
  <div class="card hc">
   <h2 style="font-size:16px;padding-bottom:7px;margin-bottom:10px">🏅 श्रेणी सारांश (सत्रनिहाय)</h2>
   <div class="sc"><table class="db-gt"><thead><tr><th>श्रेणी</th><th>प्रथम सत्र</th><th>द्वितीय सत्र</th></tr></thead><tbody>${G.map((g,i)=>`<tr class="${i>=7?'bad':''}"><td>${g}</td><td>${gC1[g]}</td><td>${gC2[g]}</td></tr>`).join('')}</tbody><tfoot><tr><td>श्रेणी मिळालेले</td><td>${gr1}</td><td>${gr2}</td></tr></tfoot></table></div>
@@ -3378,8 +3635,8 @@ let _appReady=false;
   const dbData=await Promise.race([idbGetMain(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('IDB_TIMEOUT')),15000))]);
   const fb=readFb();
   if(dbData&&typeof dbData==='object'){
-   if(fb&&(fb.t||0)>(dbData._ts||0)){applyData(fb.d);recovered=true}   // IndexedDB मध्ये सेव्ह न झालेली नवीन प्रत
-   else{applyData(dbData);if(fb){try{localStorage.removeItem(K_FB)}catch(e){}}}
+   if(fb&&(fb.t||0)>(dbData._ts||0)){applyData(fb.d);_myTs=dbData._ts||0;recovered=true}   // IndexedDB मध्ये सेव्ह न झालेली नवीन प्रत
+   else{applyData(dbData);_myTs=dbData._ts||0;if(fb){try{localStorage.removeItem(K_FB)}catch(e){}}}
   }else if(fb){
    applyData(fb.d);recovered=true;
   }else{
