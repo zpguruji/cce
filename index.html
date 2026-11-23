@@ -811,6 +811,42 @@ html.lpon #hd,html.lpon main,html.lpon #ft{visibility:hidden}
 :root{--thb:#e5e7eb;--tht:#000}
 :root{--ths:#f1f2f4}
 
+/* मुखपृष्ठ 5 */
+.pcs.p6>div{padding:6mm}
+.p6b{height:100%;border:.5mm dotted #111;box-sizing:border-box;padding:5mm 6mm;display:flex;flex-direction:column;color:#111}
+.p6t{text-align:center;font-weight:800;font-size:10.5pt;margin-bottom:3.5mm}
+.p6at{width:100%;border-collapse:collapse}
+.p6at th{background:#ffd98a;border:.25mm solid #f2b84b;font-weight:800;padding:1.3mm .6mm;line-height:1.25;text-align:center;font-size:9pt}
+.p6at td{border:.25mm solid #f2b84b;height:7.2mm;text-align:center;background:#fff;padding:0 1mm;font-size:9pt}
+.p6at td.mn{background:#fff3cf;font-weight:600}
+.p6nt{font-size:9pt;margin:2mm 1mm}
+.p6gt{margin-top:auto}
+.p6gt .t{text-align:center;font-size:9pt;font-weight:700;margin-bottom:1.5mm}
+.p6gt table{width:100%;border-collapse:collapse}
+.p6gt td{border:.25mm solid #f2b84b;text-align:center;font-size:8.4pt;padding:1mm 0;line-height:1.5}
+.p6gt tr:first-child td{background:#fff3cf}
+.p6gt tr:last-child td{font-weight:700}
+.p6zp{text-align:center;font-size:9pt;min-height:4mm}
+.p6ud{text-align:center;font-weight:800;font-size:10.5pt;margin-top:1mm}
+.p6sn{text-align:center;font-weight:800;font-size:17pt;color:#17806f;line-height:1.3;margin:5mm 3mm 1.5mm}
+.p6ad{text-align:center;font-size:10pt;margin:0 2mm}
+.p6ad:empty{display:none}
+.p6yr{text-align:center;font-weight:800;font-size:12pt;margin:3mm 0 1mm}
+.p6tt{align-self:center;margin:3mm 0 7mm;border:.3mm solid #f2b84b;background:#fff3cf;padding:2.4mm 11mm;font-size:20pt;font-weight:800;line-height:1.25}
+.p6w,.p6w2{display:flex;font-size:11.5pt;margin:2.4mm 0;line-height:1.35}
+.p6w .l,.p6h .l{flex:none;font-weight:600}
+.p6w .l{width:41mm}
+.p6w .v,.p6h .v{font-weight:800;flex:1;min-width:0}
+.p6h{display:flex;flex:1;min-width:0}
+.p6h .l{width:30mm}
+.p6h+.p6h .l{width:20mm}
+.p6hl{margin-top:auto;border-top:.25mm solid #999;padding-top:2mm;text-align:center}
+.p6hl b{font-size:9.5pt}
+.p6hl table{margin:2mm auto 0;border-collapse:collapse;font-size:9pt}
+.p6hl th,.p6hl td{border:.25mm solid #f2b84b;padding:0 3mm;text-align:center;height:7mm;min-width:23mm}
+.p6hl th{background:#fff3cf;font-weight:700}
+
+
 /* भारांश : विषय निवड पट्टी (स्क्रीन न सरकता विषय बदलणे) */
 .bhbar{position:sticky;top:124px;z-index:17;display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:8px -4px 10px;padding:8px 4px;background:var(--card);border-bottom:1px solid var(--bd)}
 .bhbar::-webkit-scrollbar{display:none}
@@ -1252,6 +1288,8 @@ function pendCard(){
  const nb=S.subs.filter(u=>!bhF(u));
  const sec=(q,lbl)=>{
   const pd=pendList(q).filter(o=>!o.noBh),tot=pd.reduce((a,o)=>a+o.names.length,0);
+  // एकाही विषयाचा भारांश भरलेला नसेल तर "सर्व गुण भरले" असा संदेश चुकीचा ठरतो
+  if(!S.subs.some(bhF))return`<div class="text-sm" style="padding:6px 2px;color:var(--mu)">ℹ️ <b>${lbl}</b> — भारांश भरल्यानंतर गुणनोंदीची स्थिती येथे दिसेल.</div>`;
   if(!pd.length)return`<div class="text-sm" style="padding:6px 2px">✅ <b>${lbl}</b> — भारांश भरलेल्या सर्व विषयांचे गुण भरले आहेत.</div>`;
   return`<details class="pend"${pd.length?' open':''}><summary>⏳ ${lbl} — ${pd.length} विषयांत गुण बाकी (${tot} नोंदी)</summary>${pd.map(o=>`<div class="pend-r"><button type="button" class="pend-b" onclick="pendGo(${q},${o.i})"><b>${esc(o.u.n)}</b> — ${o.names.length} विद्यार्थी बाकी ›</button><div class="pend-n">${o.names.slice(0,10).map(esc).join(', ')}${o.names.length>10?' … +'+(o.names.length-10)+' आणखी':''}</div></div>`).join('')}</details>`;
  };
@@ -1410,7 +1448,7 @@ const GR=[{id:'dash',ic:'🏠',n:'डॅशबोर्ड',d:'dash',s:[['dash',
 {id:'setup',ic:'⚙️',n:'सेटअप',d:'setup',s:[['sp','शाळा प्रोफाइल'],['pk','App Lock'],['sm','विषय व्यवस्थापन'],['gh','भारांश'],['wd','कामाचे दिवस'],['df','डिफॉल्ट माहिती'],['cl','वर्ग व्यवस्थापन'],['nt','शाब्दीक नोंदी'],['pr','वर्गोन्नती']]},
 {id:'fill',ic:'✏️',n:'माहिती भरा',d:'stu',s:[['stu','विद्यार्थी प्रोफाइल'],['hw','वजन व उंची'],['at','हजर दिवस'],['fe','आकारिक गुण नोंद'],['se','संकलित गुण नोंद'],['dn','शाब्दीक नोंदी']]},
 {id:'rep',ic:'📊',n:'निकाल पत्रक',d:'res1',s:[['res1','प्रथम सत्र'],['res2','द्वितीय सत्र'],['res0','वार्षिक']]},
-{id:'pc',ic:'🧾',n:'प्रगती पत्रक',d:'pc2',acc:1,s:[['pc2','प्रगती पत्रक'],['pc1p','प्रगती पत्रक (१ पानी )'],['pc1','मुखपृष्ठ 1'],['pc3','मुखपृष्ठ 2'],['pc4','मुखपृष्ठ 3'],['pc5','मुखपृष्ठ 4']]},
+{id:'pc',ic:'🧾',n:'प्रगती पत्रक',d:'pc2',acc:1,s:[['pc2','प्रगती पत्रक'],['pc1p','प्रगती पत्रक (१ पानी )'],['pc1','मुखपृष्ठ 1'],['pc3','मुखपृष्ठ 2'],['pc4','मुखपृष्ठ 3'],['pc5','मुखपृष्ठ 4'],['pc6','मुखपृष्ठ 5']]},
 {id:'rec',ic:'📒',n:'नोंदवही',d:'rec',acc:1,s:[['cvp','मुखपृष्ठ (उभे)'],['cvl','मुखपृष्ठ (आडवे)'],['idx','अनुक्रमणिका'],['rec','नोंदवही नमुना 1'],['rec2','नोंदवही नमुना 2']]},
 {id:'vt',ic:'📋',n:'विविध तक्ते',d:'vt',s:[['vt','विविध तक्ते'],['age','वय तक्ता'],['gt','श्रेणी तक्ता'],['bf','बोनाफाईड'],['id','ओळखपत्र']]},
 {id:'bk',ic:'☁️',n:'बॅकअप',d:'bk',s:[['bk','बॅकअप']]},
@@ -2918,6 +2956,33 @@ V.pc5=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी व
  return`<div class="card np mb-3"><h2>मुखपृष्ठ 4 (चित्रमय)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc5')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 ते 3 प्रमाणेच आहे; फक्त रंगीत चित्रमय डिझाईन. रंगीत प्रिंट घ्या. प्रिंट करताना A4 Landscape (आडवे), Margins : None व "Background graphics" चालू ठेवा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc5Page).join('')}</div>`};
+
+/* ---------- मुखपृष्ठ 5 (आडवे : डावीकडे उपस्थिती, उजवीकडे मुखपृष्ठ; ठिपक्यांची चौकट) ---------- */
+function pc6Page(x){
+ const w=(S.wd||{})[S.sc.year]||{},m=S.at['m|'+x.id]||{},a1=S.at['1|'+x.id]||{},a2=S.at['2|'+x.id]||{},n0=S.nt[x.id]||{},ok=v=>v!==undefined&&v!=='';
+ const rows=MN.map((u,i)=>{const wk=+w[i]||0,pv=m[i];return`<tr><td class="mn">${u[0]}</td><td>${wk||'-'}</td><td>${ok(pv)?pv:''}</td>${i%3?'':'<td class="p6s" rowspan="3"></td><td class="p6s" rowspan="3"></td>'}${i%6?'':'<td class="p6s" rowspan="6"></td>'}</tr>`}).join('');
+ const hv=(a,k)=>{const v=a[k]??(a===a1?n0[k]:undefined);return ok(v)?esc(v):''};
+ const G=[['91','ते','100','अ-1'],['81','ते','90','अ-2'],['71','ते','80','ब-1'],['61','ते','70','ब-2'],['51','ते','60','क-1'],['41','ते','50','क-2'],['33','ते','40','ड'],['21','ते','32','इ-1'],['21','पेक्षा','कमी','इ-2']];
+ let age=x.dob?calcAgeMarathi(x.dob,agS().dt):'';{const am=String(age).match(/(\d+)\s*वर्ष\D*?(\d+)\s*महिन/);if(am)age=am[1]+' व '+am[2]+' म'}
+ const half=(l,v)=>`<div class="p6h"><span class="l">◦ ${l}</span><span class="v">: ${v?esc(v):''}</span></div>`;
+ const full=(l,v)=>`<div class="p6w"><span class="l">◦ ${l}</span><span class="v">: ${v?esc(v):''}</span></div>`;
+ return`<div class="pcs p6"><div class="p6l"><div class="p6b"><div class="p6t">● उपस्थिती ●</div>
+<table class="p6at"><tr><th>महिना</th><th>कामाचे<br>दिवस</th><th>हजर<br>दिवस</th><th>वर्गशिक्षक<br>स्वाक्षरी</th><th>पालक<br>स्वाक्षरी</th><th>मुख्याध्यापक<br>स्वाक्षरी</th></tr>${rows}</table>
+<div class="p6nt">उन्हाळी सुट्टीनंतर शाळा दि. <b data-cv="ro">${pcv('ro')||'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'}</b> रोजी सुरू होईल.</div>
+<div class="p6gt"><div class="t">◦ श्रेणी तक्ता ◦</div><table><tr>${G.map(g=>`<td>${g[0]}<br>${g[1]}<br>${g[2]}</td>`).join('')}</tr><tr>${G.map(g=>`<td>${g[3]}</td>`).join('')}</tr></table></div></div></div>
+<div class="p6r"><div class="p6b"><div class="p6zp">${esc((S.cv||{}).zp||'')||'&nbsp;'}</div><div class="p6ud">UDISE : ${esc(S.sc.ud)}</div>
+<div class="p6sn">${esc(S.sc.name||'शाळेचे नाव')}</div><div class="p6ad" data-cv="sa">${pcv('sa')}</div><div class="p6yr">सन : ${esc(S.sc.year)}</div>
+<div class="p6tt">● प्रगती पत्रक ●</div>
+<div class="p6dl">${full('विद्यार्थ्याचे नाव',x.name)}<div class="p6w2">${half('हजेरी क्र.',x.roll)}${half('रजि. नं.',x.reg)}</div><div class="p6w2">${half('इयत्ता',S.sc.std)}${half('तुकडी',S.sc.div)}</div><div class="p6w2">${half('जन्मतारीख',dmy(x.dob))}${half('वय',age)}</div>${full('आईचे नाव',x.mn)}${full('वडिलांचे नाव',x.fn||fatherOf(x.name))}${full('पत्ता',x.ad)}</div>
+<div class="p6hl"><b>● आरोग्यविषयक माहिती ●</b><table><tr><th></th><th>प्रथम सत्र</th><th>द्वितीय सत्र</th></tr><tr><th>वजन (किग्रॅ)</th><td>${hv(a1,'wt')}</td><td>${hv(a2,'wt')}</td></tr><tr><th>उंची (सेमी)</th><td>${hv(a1,'ht')}</td><td>${hv(a2,'ht')}</td></tr></table></div></div></div></div>`;
+}
+V.pc6=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
+ if(cur&&!L.some(x=>x.id===cur))cur='';
+ const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 5</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc6')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}${inp('sa','शाळेचा पत्ता (ऐच्छिक)','उदा. मु. पो. ..., ता. ..., जि. ...')}</div>
+<p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 ते 4 प्रमाणेच (शाळा प्रोफाइल, विद्यार्थी प्रोफाइल, कामाचे दिवस, हजर दिवस व वजन/उंची) घेतली जाते. "वय" जन्मतारखेवरून व वय तक्त्यातील दिनांकानुसार येते. शाळेचा पत्ता रिकामा ठेवल्यास ती ओळ छापली जात नाही. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc6Page).join('')}</div>`};
 /* ---------- विविध तक्ते ---------- */
 const VTC=[['dob','जन्मतारीख',28],['age','वय',34],['jt','जात',22],['cat','जात संवर्ग',20],['mn','आईचे नाव',30],['fn','वडिलांचे नाव',30],['mob','मोबाईल नंबर',28],['rm','शेरा',30],['em','रिकामा (हाताने लिहिण्यासाठी)',22],['off','✖ कॉलम नको',0]];
 function vtS(){
@@ -3540,7 +3605,7 @@ document.addEventListener('keydown',e=>{
 if(document.readyState==='loading')addEventListener('DOMContentLoaded',()=>pinShowLock(true));
 else pinShowLock(true);
 
-function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-5]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt'||t==='gt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
+function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-6]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt'||t==='gt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
  const el=document.getElementById('app');
  if(el){try{el.innerHTML=subbar()+V[t]();requestAnimationFrame(sbCenter)}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
 }
