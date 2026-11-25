@@ -1053,9 +1053,11 @@ try{if(['standalone','fullscreen','minimal-ui'].some(function(m){return matchMed
 <footer id="ft" class="np"><span class="fd"></span><div class="ftx">संकल्पना व निर्मिती : <b>श्री. सोमनाथ गायकवाड सर</b></div></footer>
 <script>
 const K='cce-web-v1',K_CFG='cce-web-cfg-v1',IDB_NAME='cce_nikal_db',IDB_STORE='state',K_FB='cce-web-fallback-v1',K_RESCUE='cce-web-rescue-v1';
+// नवीन वापरकर्त्यासाठी शैक्षणिक वर्ष तारखेवरून (जून पासून नवे वर्ष)
+function defYear(){const d=new Date(),y=d.getFullYear(),a=d.getMonth()>=5?y:y-1;return a+'-'+String((a+1)%100).padStart(2,'0')}
 function defState(){
  return{
-  sc:{name:'',year:'2026-27',std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''},
+  sc:{name:'',year:defYear(),std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''},
   subs:[['मराठी',70,30],['हिंदी',70,30],['इंग्रजी',60,40],['गणित',60,40],['आपले सभोवतालचे जग 1',50,50],['कला',40,60],['कार्यानुभव',40,60],['शा. शिक्षण',50,50]].map(a=>({n:a[0],fe:a[1],se:a[2]})),
   st:[],mk:{},at:{},nt:{},
   sec:{enabled:false,pinHash:'',recHash:'',hint:''},
@@ -1833,7 +1835,7 @@ function gApplySnapshot(snap){
  S.df=S.df||{mo:'घरकाम',fo:'शेती',ad:'',mq:'',fq:'',cat:''};
  S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};
  S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};
- S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:'2026-27',std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''};
+ S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:defYear(),std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''};
   S.sc.n=S.sc.n||stdN(S.sc.std)||1;S.sc.std=ST[S.sc.n-1];
  S.gs=keepGs;
  S.sec=keepSec||{enabled:false,pinHash:'',recHash:'',hint:''};
@@ -3221,7 +3223,7 @@ V.bf=()=>{
  return`<div class="card hc np mb-3"><h2>📜 बोनाफाईड प्रमाणपत्र</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" style="margin-bottom:10px">
    <div class="spf"><label class="lbl">👤 विद्यार्थी निवडा</label><select class="w-full" onchange="bfSet('stId',this.value)"><option value="ALL"${b.stId==='ALL'?' selected':''}>सर्व विद्यार्थी (${L.length})</option>${L.map(x=>`<option value="${x.id}"${x.id===selId&&b.stId!=='ALL'?' selected':''}>${esc(x.roll)} - ${esc(x.name)}</option>`).join('')}</select></div>
-   <div class="spf"><label class="lbl">🔢 जा. क्र. / पत्र क्र.</label><input value="${esc(b.no)}" placeholder="उदा. 45 / 2026-27" oninput="bfSet('no',this.value)"></div>
+   <div class="spf"><label class="lbl">🔢 जा. क्र. / पत्र क्र.</label><input value="${esc(b.no)}" placeholder="उदा. 45 / ${esc(S.sc.year)}" oninput="bfSet('no',this.value)"></div>
    <div class="spf"><label class="lbl">📅 प्रमाणपत्र दिनांक</label><input type="date" value="${esc(b.dt)}" oninput="bfSet('dt',this.value)"></div>
    <div class="spf"><label class="lbl">🎯 दाखल्याचे कारण</label><input value="${esc(b.pur)}" placeholder="उदा. शैक्षणिक व इतर कारणासाठी" oninput="bfSet('pur',this.value)"></div>
   </div>
@@ -3743,7 +3745,7 @@ let _appReady=false;
  S.st=S.st||[];S.mk=S.mk||{};S.at=S.at||{};S.nt=S.nt||{};
  S.wd=S.wd||{};S.dsc=S.dsc||{};S.xn=S.xn||{};
  S.gs=S.gs||{email:'',folder:'',last:''};
- S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:'2026-27',std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''};
+ S.cv=S.cv||{zp:''};S.sc=S.sc||{name:'',year:defYear(),std:'पहिली',n:1,div:'अ',t:'',hm:'',ud:''};
  S.sec=S.sec||{enabled:false,pinHash:'',recHash:'',hint:''};
  S.sc.n=S.sc.n||stdN(S.sc.std)||1;S.sc.std=ST[S.sc.n-1];
  S.spOk=!!((S.sc.name||'').trim());
