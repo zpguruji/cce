@@ -315,7 +315,7 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .rlL .rt td{height:6.1mm}.rlL .rt .vt2{height:62px}.rt.p2.s2 td{height:10mm;font-size:11px;padding:2px 5px}
 .rlL .rsg{margin-top:8px}.rlL .rsg .sp{height:7mm}
 @page recl{size:A4 landscape;margin:8mm}
-@media print{.rpl{page:recl;width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}.rpl:last-child{break-after:auto;page-break-after:auto}}
+@media print{.rpl{width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;height:193mm!important}.rpl~.rpl{break-before:page;page-break-before:always}}
 .cov{position:relative;background:#fff;color:#111;overflow:hidden;box-sizing:border-box;margin:0 auto 14px;border:1px solid var(--bd);box-shadow:0 1px 6px #0003;zoom:var(--z,1)}
 .cov.cp{width:210mm;height:297mm}.cov.cl{width:297mm;height:210mm}
 .cov>*{position:absolute}.cov .zp{font-size:11pt}.cov .tt{font-size:27pt;line-height:1.15;margin-top:2mm}.cov .yr{font-size:15pt;margin-top:5mm}
@@ -329,7 +329,8 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .ixt th{font-size:15px;padding:7px 2px}.ixt td{height:10mm;font-size:15px}.ixt td.l{text-align:left;padding-left:8px}
 @page cvp{size:A4 portrait;margin:0}@page cvl{size:A4 landscape;margin:0}
 @media print{main{padding:0!important}.cov{zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important}.cov.cp{page:cvp;height:296mm!important}.cov.cl{page:cvl;height:209mm!important}}
-@media print{.rpg{page:rec;width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}.rpg:last-child{break-after:auto;page-break-after:auto}}
+@media print{.fi{transform-origin:0 0;transform:scale(var(--fit,1));width:calc(100%/var(--fit,1))}
+.rpg{width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;height:280mm!important}.rpg~.rpg{break-before:page;page-break-before:always}}
 @media print{#lp,#sh,#md,#ld,#hd,#ov,#dw,.ab,body::before{display:none!important}body{padding:0}html,body{height:auto!important;min-height:0!important}body{display:block!important}main{flex:none!important}}
 @media print{.np{display:none!important}body{background:#fff;color:#000}.card{border:none;padding:0}th{background:#eee;color:#000}:root{--bd:#444}}
 .rsh{background:#fff;color:#000;width:1060px;box-sizing:border-box;padding:10px 12px;margin:0 auto 14px;border:1px solid var(--bd);box-shadow:0 1px 4px #0002;font-size:11px;line-height:1.25;zoom:var(--z,1)}
@@ -340,7 +341,7 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .rsh-b{display:flex;gap:16px;align-items:flex-end;margin-top:8px}.rsh-b .sm1{flex:0 0 56%}.rsh-b .sg1{flex:1}
 .rsh .rss td,.rsh .rss th{height:5.4mm}.rsh-f{font-size:11px;margin-top:6px;color:#000}
 @page rsh{size:A4 landscape;margin:6mm}
-@media print{.rsh{page:rsh;width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;break-after:page;page-break-after:always}.rsh:last-child{break-after:auto;page-break-after:auto}.rsh .rt tr{break-inside:avoid}}
+@media print{.rsh{width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;height:197mm!important}.rsh~.rsh{break-before:page;page-break-before:always}.rsh .rt tr{break-inside:avoid}}
 .rsh.an .rt td{height:6.4mm;font-size:10px}
 .pcs{display:flex;width:297mm;height:209mm;background:#fff;color:#14263a;margin:0 auto 14px;border:1px solid var(--bd);box-shadow:0 1px 6px #0003;overflow:hidden;zoom:var(--z,1);-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:9.5pt;line-height:1.25;box-sizing:border-box}
 .pcs>div{width:148.5mm;height:209mm;position:relative;box-sizing:border-box;overflow:hidden;flex:none}
@@ -1782,9 +1783,9 @@ function rtable1(x,v2){const R=rwList(),W=v2?[4,13,6,...Array(8).fill(4.4),5,5,5
  <tr><th>विषय</th><th>गुण</th>${[1,2,3,4,5,6,7,8].map(n=>`<th>${n}</th>`).join('')}</tr>${rows}</table>`}
 function rtable2(x,v2){const m=S.dsc[sem+'|'+x.id]||{},R=rwList(),G=[['s10','विशेष प्रगती'],['s11','आवड, छंद<br>कला, क्रीडा, साहित्य इ.'],['s12','सुधारणा आवश्यक'],['s13','व्यक्तिमत्व गुण विशेष<br>(अभिवृत्ती, कला, मुल्ये,<br>स्वभाव गुणविशेष)']];
  return`<table class="rt p2${v2?' s2':''}"><colgroup><col style="width:8%"><col style="width:28%"><col style="width:64%"></colgroup><tr><th>अ. नं.</th><th>विषय</th><th>वर्णनात्मक नोंदी</th></tr>${R.map((r,k)=>`<tr><td class="sn">${k+1}</td><td class="sl">${r.l}</td><td>${r.i<0?'-':esc(m[S.subs[r.i].id]||'')}</td></tr>`).join('')}${G.map((g,j)=>`<tr><td class="sn">${R.length+j+1}</td><td class="sl">${g[1]}</td><td>${esc(m[g[0]]||'')}</td></tr>`).join('')}</table>`}
-V.rec=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.min(1,(innerWidth-30)/740).toFixed(3);
- return`<div class="card np"><h2>नोंदवही</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी पहिले पान गुण तक्ता व दुसरे पान वर्णनात्मक नोंदी. प्रिंट करताना A4 Portrait निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
- <div style="--z:${z}">${L.map(x=>`<div class="rpg">${rhead(x)}${rtable1(x)}${rsign()}</div><div class="rpg">${rhead(x)}${rtable2(x)}${rsign()}</div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
+V.rec=()=>{if(sem===0)sem=1;const L0=sorted(),L=selList(L0),z=Math.min(1,(innerWidth-30)/740).toFixed(3);
+ return`<div class="card np"><h2>नोंदवही</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${batchOpts(L0.length)}${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4)</button>${batchTip(L0.length,2)}</div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी पहिले पान गुण तक्ता व दुसरे पान वर्णनात्मक नोंदी. प्रिंट करताना A4 Portrait निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
+ <div style="--z:${z}">${L.map(x=>`<div class="rpg"><div class="fi">${rhead(x)}${rtable1(x)}${rsign()}</div></div><div class="rpg"><div class="fi">${rhead(x)}${rtable2(x)}${rsign()}</div></div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
 function pcheck(){const d=spd,m=[];if(!(d.name||'').trim())m.push('शाळेचे नाव');if(!(d.ud||'').trim())m.push('UDISE कोड');else if(!/^\d{11}$/.test(d.ud))m.push('UDISE कोड (11 अंकी असावा)');if(!d.year)m.push('शैक्षणिक वर्ष');if(!d.n)m.push('इयत्ता');if(!(d.t||'').trim())m.push('वर्गशिक्षक');if(!(d.hm||'').trim())m.push('मुख्याध्यापक');
  if(m.length){alert('कृपया खालील माहिती भरा (तुकडी वगळता सर्व माहिती आवश्यक आहे):\n• '+m.join('\n• '));return false}return true}
 function Psave(){if(S.spOk){alert('शाळा माहिती आधीच जतन आहे. बदल करण्यासाठी "अपडेट" दाबा.');return}if(!pcheck())return;Pcommit();S.spOk=true;save();alert('शाळा माहिती जतन झाली. आता विद्यार्थी प्रोफाइल भरा.');go('stu')}
@@ -1985,9 +1986,9 @@ V.bk=()=>{gLoad().catch(()=>{});setTimeout(loadPrevBox,60);const g=S.gs,hl=(ghis
  </div>`).join(''):'<div class="text-sm" style="padding:8px 10px;border-radius:10px;background:var(--bg);color:var(--mu)">अजून बॅकअप इतिहास नाही. "⬆ Drive वर जतन" दाबल्यावर येथे मागील ३ आवृत्त्या दिसतील.</div>'}
  <div class="tip">💡 <b>Choose an account</b> (खाते निवडा) पान आल्यावर आधी एकदा <b>Back</b> दाबा, मग खाते निवडा.<br>पहिल्या यशस्वी sync नंतर Gmail पत्ता आठवला जातो, त्यामुळे पुढे हे पान येत नाही.</div></div>`};
 function rlhead(x){return`<div class="rlh"><div><div>इयत्ता : <b>${esc(S.sc.std)}</b> &nbsp; तुकडी : <b>${esc(S.sc.div)}</b></div><div>विद्यार्थ्याचे नाव : <b>${esc(x.name)}</b></div></div><div class="c"><h3>● सातत्यपूर्ण सर्वांकष मूल्यमापन ●</h3><div style="font-size:10.5px">${esc(S.sc.name)} • UDISE कोड: ${esc(S.sc.ud)||'-'}</div><div>हजेरी क्र. : <b>${esc(x.roll)}</b></div></div><div class="r"><div>सन : ${esc(S.sc.year)}</div><div>${sname(sem)}</div></div></div>`}
-V.rec2=()=>{if(sem===0)sem=1;const L0=sorted(),L=cur&&L0.some(x=>x.id===cur)?L0.filter(x=>x.id===cur):L0,z=Math.max(.42,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
- return`<div class="card np"><h2>नोंदवही नमुना 2</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec2')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4 आडवे)</button></div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी एका A4 आडव्या पानावर डावीकडे गुण तक्ता व उजवीकडे वर्णनात्मक नोंदी. प्रिंट करताना A4 Landscape निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
- <div class="sc" style="--z:${z}">${L.map(x=>`<div class="rpl">${rlhead(x)}<div class="rlb"><div class="rlL">${rtable1(x,1)}${rsign()}</div><div class="rlR">${rtable2(x,1)}</div></div></div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
+V.rec2=()=>{if(sem===0)sem=1;const L0=sorted(),L=selList(L0),z=Math.max(.42,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
+ return`<div class="card np"><h2>नोंदवही नमुना 2</h2><div class="flex flex-wrap gap-2 items-center">${semSel(0)}<select onchange="cur=this.value;go('rec2')"><option value="">सर्व विद्यार्थी (${L0.length})</option>${batchOpts(L0.length)}${L0.map(x=>`<option value="${x.id}"${x.id===cur?' selected':''}>${esc(x.sn)} - ${esc(x.name)}</option>`).join('')}</select>${bhWarn()}${tcSel()}<button class="btn" onclick="print()">🖨 प्रिंट (A4 आडवे)</button>${batchTip(L0.length,1)}</div><p class="text-sm" style="color:var(--mu);margin:10px 0 0">प्रत्येक विद्यार्थ्यासाठी एका A4 आडव्या पानावर डावीकडे गुण तक्ता व उजवीकडे वर्णनात्मक नोंदी. प्रिंट करताना A4 Landscape निवडा; सर्व विद्यार्थ्यांची पाने एकत्र छापली जातात.</p></div>
+ <div class="sc" style="--z:${z}">${L.map(x=>`<div class="rpl"><div class="fi">${rlhead(x)}<div class="rlb"><div class="rlL">${rtable1(x,1)}${rsign()}</div><div class="rlR">${rtable2(x,1)}</div></div></div></div>`).join('')||'<div class="card np">या सत्रासाठी विद्यार्थी नाहीत.</div>'}</div>`};
 S.cv=S.cv||{zp:''};
 const dmy=s=>{const m=/^(\d{4})-(\d\d)-(\d\d)/.exec(s||'');return m?m[3]+'-'+m[2]+'-'+m[1]:(s||'')};
 function cover(land){const c=S.sc;return`<div class="cov ${land?'cl':'cp'}"><div class="cvt"><div class="zp">${esc(S.cv.zp)}</div><div class="tt">सातत्यपूर्ण सर्वांकष मूल्यमापन</div><div class="yr">सन : ${esc(c.year)}</div></div><div class="cvg">${LOGO}</div><div class="cvn">नोंदवही</div><div class="cvr"></div>
@@ -2405,8 +2406,8 @@ function rsSum(s,L,C){const rows=C.map((c,k)=>{const cnt=Array(9).fill(0);let n=
  return`<table class="rt rss"><tr><th>अ.नं.</th><th>विषय \\ श्रेणी</th>${RG.map(g=>`<th>${g}</th>`).join('')}<th>एकूण</th></tr>${rows}</table>`}
 function rsPages(s){const L=sorted(s),C=rsCols(),PER=s?15:9,pg=[];for(let i=0;i<L.length;i+=PER)pg.push(L.slice(i,i+PER));
  const sep=pg[pg.length-1].length>(s?6:3),N=pg.length+(sep?1:0),ft=p=>`<div class="rsh-f">पृष्ठ : ${p} /${N} &nbsp; इयत्ता : ${esc(S.sc.std)} | ${s?'सत्र : '+s:'वार्षिक निकाल'}</div>`,sm=()=>`<div class="rsh-b"><div class="sm1">${rsSum(s,L,C)}</div><div class="sg1">${rsign()}</div></div>`;
- let h=pg.map((r,i)=>`<div class="rsh${s?'':' an'}">${rsHead(s)}${rsTable(s,r,C,i*PER)}${!sep&&i===pg.length-1?sm():''}${ft(i+1)}</div>`).join('');
- if(sep)h+=`<div class="rsh${s?'':' an'}">${rsHead(s)}${sm()}${ft(N)}</div>`;return h}
+ let h=pg.map((r,i)=>`<div class="rsh${s?'':' an'}"><div class="fi">${rsHead(s)}${rsTable(s,r,C,i*PER)}${!sep&&i===pg.length-1?sm():''}${ft(i+1)}</div></div>`).join('');
+ if(sep)h+=`<div class="rsh${s?'':' an'}"><div class="fi">${rsHead(s)}${sm()}${ft(N)}</div></div>`;return h}
 function resView(s){
  if(!sorted(s).length)return'<div class="card">या सत्रासाठी विद्यार्थी नाहीत. आधी विद्यार्थी प्रोफाइल भरा.</div>';
  const z=Math.max(.3,Math.min(1,(innerWidth-30)/1060)).toFixed(3);
@@ -2439,10 +2440,10 @@ function pcPage(x){
 <div class="pc-bd"><div class="pc-d1">${r('नाव',x.name)}${r('हजेरी क्र.',x.roll)}${r('रजि. नं.',x.reg)}${r('इयत्ता / तुकडी',cl)}</div>${r('जन्मतारीख',dmy(x.dob))}${r('आईचे नाव',x.mn)}${r('वडिलांचे नाव',x.fn||fatherOf(x.name))}${r('पत्ता',x.ad)}</div>
 <div class="pc-ft">सातत्यपूर्ण सर्वांकष मूल्यमापन (CCE)</div></div></div>`}
 V.pc1=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
  inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
- return`<div class="card np mb-3"><h2>मुखपृष्ठ 1</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc1')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 1</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc1')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">विद्यार्थ्याचा फोटो विद्यार्थी प्रोफाइलमधून येतो. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pcPage).join('')}</div>`};
 /* ---------- प्रगती पत्रक - 2 ---------- */
@@ -2458,9 +2459,9 @@ function pc2Half(x,s,R){const d=S.dsc[s+'|'+x.id]||{},n=R.length,base=Math.floor
 <table class="p2g"><colgroup><col style="width:9%"><col style="width:23%"><col style="width:11%"><col style="width:57%"></colgroup><tr><th>अनं.</th><th>विषय</th><th>श्रेणी</th><th>वर्णनात्मक नोंदी</th></tr>${rows}</table>
 <div class="p2s"><span>वर्गशिक्षक स्वाक्षरी</span><span>मुख्याध्यापक स्वाक्षरी</span><span>पालक स्वाक्षरी</span></div></div>`}
 V.pc2=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),R=pc2Rows().map(r=>r.l==='आ.स.ज 1 व 2'?{...r,l:'आपले सभोवतालचे जग'}:r),th=pc2Th();   // नमुना 2 वर पूर्ण नाव
- return`<div class="card np mb-3"><h2>प्रगती पत्रक</h2><div class="spf" style="margin-bottom:10px"><label class="lbl">🎨 तक्त्याचा रंग</label><select class="w-full" onchange="pc2Col(this.value)">${PC2T.map(c=>`<option value="${c[0]}"${c[0]===th[0]?' selected':''}>${c[1]}</option>`).join('')}</select></div><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc2')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),R=pc2Rows().map(r=>r.l==='आ.स.ज 1 व 2'?{...r,l:'आपले सभोवतालचे जग'}:r),th=pc2Th();   // नमुना 2 वर पूर्ण नाव
+ return`<div class="card np mb-3"><h2>प्रगती पत्रक</h2><div class="spf" style="margin-bottom:10px"><label class="lbl">🎨 तक्त्याचा रंग</label><select class="w-full" onchange="pc2Col(this.value)">${PC2T.map(c=>`<option value="${c[0]}"${c[0]===th[0]?' selected':''}>${c[1]}</option>`).join('')}</select></div><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc2')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">डावीकडे प्रथम सत्र व उजवीकडे द्वितीय सत्र; श्रेणी गुणनोंदीवरून व वर्णनात्मक नोंदी (विशेष प्रगती, आवड/छंद, सुधारणा आवश्यक) शाब्दीक नोंदींमधून आपोआप येतात. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(x=>`<div class="pcs" style="--h:${th[2]};--ln:${th[3]};--ht:${th[4]};--hs:${th[5]}">${pc2Half(x,1,R)}${pc2Half(x,2,R)}</div>`).join('')}</div>`};
 
 /* ---------- प्रगती पत्रक (१ पानी ) : वरतीच शेअरींग बटणे, कार्डवर खाली बटणे नाहीत ---------- */
@@ -2874,10 +2875,10 @@ function pc3Page(x){
 <div class="p3card">${r('नाव',x.name)}${r('हजेरी क्र.',x.roll)}${r('रजि. नं.',x.reg)}${r('इयत्ता / तुकडी',cl)}${r('जन्मतारीख',dmy(x.dob))}${r('आईचे नाव',x.mn)}${r('वडिलांचे नाव',x.fn||fatherOf(x.name))}${r('पत्ता',x.ad)}</div>
 <div class="p3ft">सातत्यपूर्ण सर्वांकष मूल्यमापन (CCE)</div></div></div></div>`}
 V.pc3=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
  inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
- return`<div class="card np mb-3"><h2>मुखपृष्ठ 2 (रंगीत)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc3')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 2 (रंगीत)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc3')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 प्रमाणेच आहे; फक्त रंगीत बाल-मैत्रीपूर्ण डिझाईन. उत्तम रंगासाठी रंगीत प्रिंट घ्या. प्रिंट करताना A4 Landscape (आडवे), Margins : None व "Background graphics" चालू ठेवा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc3Page).join('')}</div>`};
 /* ---------- मुखपृष्ठ 3 ---------- */
@@ -2904,10 +2905,10 @@ function pc4Page(x){
 <div class="p4card">${r('नाव',x.name)}${r('हजेरी क्र.',x.roll)}${r('रजि. नं.',x.reg)}${r('इयत्ता / तुकडी',cl)}${r('जन्मतारीख',dmy(x.dob))}${r('आईचे नाव',x.mn)}${r('वडिलांचे नाव',x.fn||fatherOf(x.name))}${r('पत्ता',x.ad)}</div>
 <div class="p4ft">सातत्यपूर्ण सर्वांकष मूल्यमापन (CCE)</div></div></div></div>`}
 V.pc4=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
  inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
- return`<div class="card np mb-3"><h2>मुखपृष्ठ 3 (सोनेरी)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc4')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 3 (सोनेरी)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc4')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 प्रमाणेच आहे; फक्त नेव्ही-निळा व सोनेरी राजेशाही डिझाईन. रंगीत प्रिंट घ्या. प्रिंट करताना A4 Landscape (आडवे), Margins : None व "Background graphics" चालू ठेवा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc4Page).join('')}</div>`};
 /* ---------- मुखपृष्ठ 4 : चित्रे (SVG) ---------- */
@@ -2960,10 +2961,10 @@ function pc5Page(x){
 <div class="p5ph">${x.ph?`<img src="${x.ph}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 20%">`:'<span style="font-size:26pt;opacity:.4">👤</span>'}</div></div>
 <div class="p5sb"><div>वर्गशिक्षक</div><div>पालक</div><div>मुख्याध्यापक</div></div></div></div></div>`}
 V.pc5=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
  inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
- return`<div class="card np mb-3"><h2>मुखपृष्ठ 4 (चित्रमय)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc5')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 4 (चित्रमय)</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc5')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('rd','निकाल दिनांक','उदा. 01-05-2026')}${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 ते 3 प्रमाणेच आहे; फक्त रंगीत चित्रमय डिझाईन. रंगीत प्रिंट घ्या. प्रिंट करताना A4 Landscape (आडवे), Margins : None व "Background graphics" चालू ठेवा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc5Page).join('')}</div>`};
 
@@ -2987,10 +2988,10 @@ function pc6Page(x){
 <div class="p6hl"><b>● आरोग्यविषयक माहिती ●</b><table><tr><th></th><th>प्रथम सत्र</th><th>द्वितीय सत्र</th></tr><tr><th>वजन (किग्रॅ)</th><td>${hv(a1,'wt')}</td><td>${hv(a2,'wt')}</td></tr><tr><th>उंची (सेमी)</th><td>${hv(a1,'ht')}</td><td>${hv(a2,'ht')}</td></tr></table></div></div></div></div>`;
 }
 V.pc6=()=>{const L=sorted(0);if(!L.length)return'<div class="card">आधी विद्यार्थी प्रोफाइल भरा.</div>';
- if(cur&&!L.some(x=>x.id===cur))cur='';
- const list=cur?L.filter(x=>x.id===cur):L,z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
+ if(cur&&!isBatch()&&!L.some(x=>x.id===cur))cur='';  
+ const list=selList(L),z=Math.max(.3,Math.min(1,(innerWidth-30)/1123)).toFixed(3),
  inp=(k,l,ph)=>`<div class="spf"><label class="lbl">${l}</label><input value="${pcv(k)}" placeholder="${ph}" oninput="pcSet('${k}',this.value)"></div>`;
- return`<div class="card np mb-3"><h2>मुखपृष्ठ 5</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc6')"><option value="">सर्व विद्यार्थी (${L.length})</option>${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
+ return`<div class="card np mb-3"><h2>मुखपृष्ठ 5</h2><div class="flex flex-wrap gap-2 items-center"><select onchange="cur=this.value;go('pc6')"><option value="">सर्व विद्यार्थी (${L.length})</option>${batchOpts(L.length)}${L.map((x,i)=>`<option value="${x.id}"${x.id===cur?' selected':''}>${i+1} - ${esc(x.name)}</option>`).join('')}</select><button class="btn" onclick="print()">🖨 प्रिंट (A4)</button></div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">${inp('ro','शाळा पुन्हा सुरू होण्याची तारीख','उदा. 15 जून 2026')}${inp('sa','शाळेचा पत्ता (ऐच्छिक)','उदा. मु. पो. ..., ता. ..., जि. ...')}</div>
 <p class="text-sm" style="color:var(--mu);margin:8px 0 0">माहिती मुखपृष्ठ 1 ते 4 प्रमाणेच (शाळा प्रोफाइल, विद्यार्थी प्रोफाइल, कामाचे दिवस, हजर दिवस व वजन/उंची) घेतली जाते. "वय" जन्मतारखेवरून व वय तक्त्यातील दिनांकानुसार येते. शाळेचा पत्ता रिकामा ठेवल्यास ती ओळ छापली जात नाही. प्रिंट करताना A4 Landscape (आडवे) व Margins : None निवडा; प्रत्येक विद्यार्थ्याचे एक पान छापले जाते.</p></div><div class="sc" style="--z:${z}">${list.map(pc6Page).join('')}</div>`};
 /* ---------- विविध तक्ते ---------- */
@@ -3615,7 +3616,45 @@ document.addEventListener('keydown',e=>{
 if(document.readyState==='loading')addEventListener('DOMContentLoaded',()=>pinShowLock(true));
 else pinShowLock(true);
 
-function go(t,nv){if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-6]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt'||t==='gt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
+
+
+/* ---------- छापण्यासाठी विद्यार्थ्यांचे गट (10-10) : पाने कमी, प्रिंट प्रिव्ह्यू जलद ---------- */
+const PB=10;
+const isBatch=()=>/^b:\d+$/.test(cur||'');
+function selList(L){
+ if(!cur)return L;
+ if(isBatch()){const i=+cur.slice(2);return L.slice(i*PB,i*PB+PB)}
+ const f=L.filter(x=>x.id===cur);return f.length?f:L;
+}
+function batchOpts(n){
+ if(n<=PB)return '';
+ let o='<optgroup label="छापण्यासाठी गट (पाने कमी, प्रिव्ह्यू जलद)">';
+ for(let i=0;i<Math.ceil(n/PB);i++)o+=`<option value="b:${i}"${cur==='b:'+i?' selected':''}>${i*PB+1} ते ${Math.min(n,(i+1)*PB)} विद्यार्थी</option>`;
+ return o+'</optgroup>';
+}
+function batchTip(n,pp){return (!cur&&n>20)?`<div class="np" style="width:100%;font-size:13px;margin-top:6px;padding:8px 10px;border-radius:10px;background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a">ℹ️ ${n} विद्यार्थी × ${pp} = ${n*pp} पाने. इतकी पाने असताना प्रिंट प्रिव्ह्यू यायला वेळ लागू शकतो. वरच्या यादीतून <b>"1 ते ${PB}"</b> असा गट निवडून गटागटाने छापा.</div>`:''}
+
+/* ---------- @page : टॅबनुसार एकच (नाव नसलेला) नियम - Firefox, Chrome व मोबाईल सर्वत्र सारखा चालतो ---------- */
+const PGR={rec:['A4 portrait','8mm'],idx:['A4 portrait','8mm'],rec2:['A4 landscape','8mm'],res1:['A4 landscape','6mm'],res2:['A4 landscape','6mm'],res0:['A4 landscape','6mm']};
+function setPageRule(t){
+ let st=document.getElementById('pgDyn');
+ if(!st){st=document.createElement('style');st.id='pgDyn';document.head.appendChild(st)}
+ const r=PGR[t];st.textContent=r?`@page{size:${r[0]};margin:${r[1]}}`:'';
+}
+/* ---------- प्रिंट : पान जास्त भरले तरी रिकामे/अतिरिक्त पान येऊ नये (आपोआप बसवणे) ---------- */
+/* ब्राउझर/फॉन्ट (उदा. Windows) नुसार मजकूर थोडा उंच झाला तर पान दुसऱ्या पानावर सांडते व रिकामे पान येते.
+   म्हणून प्रिंटआधी प्रत्येक पानाची उंची मोजून गरज असेल तरच थोडे लहान (--fit) केले जाते. */
+function fitPrintPages(){
+ const fis=[...document.querySelectorAll('.rpg>.fi,.rpl>.fi,.rsh>.fi')];if(!fis.length)return;
+ const AV={rpg:280,rpl:193,rsh:197};   // मिमी : पान-पेटीची उंची (A4 वरील छापता येणारी उंची)
+ const par=fis.map(f=>f.parentElement),kind=par.map(el=>el.classList.contains('rpg')?'rpg':el.classList.contains('rpl')?'rpl':'rsh'),zs=par.map(el=>el.style.zoom);
+ par.forEach(el=>{el.style.zoom='1'});                                   // 1) सर्व लिहा
+ const hs=fis.map(f=>f.getBoundingClientRect().height);                  // 2) एकदाच मोजा (एकच reflow)
+ fis.forEach((f,i)=>{par[i].style.zoom=zs[i];const av=AV[kind[i]]*3.7795*0.965;f.style.setProperty('--fit',(hs[i]>av?Math.max(.55,av/hs[i]):1).toFixed(4))});
+}
+addEventListener('beforeprint',fitPrintPages);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>setTimeout(fitPrintPages,50));
+function go(t,nv){if(/^b:/.test(cur||'')&&!/^(rec|rec2|pc[1-6])$/.test(t))cur='';setTimeout(()=>{if(document.querySelectorAll('.rpg>.fi,.rpl>.fi,.rsh>.fi').length<=12)fitPrintPages()},120);if(t==='res')t='res1';if(t==='card')t='pc1';if(t==='pv'){window.open('https://zpguruji.github.io/cce/privacy','_blank','noopener');t='gd'}tab=t;setPageRule(t);applyTC();document.documentElement.classList.toggle('cvl',t==='cvl');document.documentElement.classList.toggle('pcp',/^pc[1-6]$/.test(t));document.documentElement.classList.toggle('p1pp',t==='pc1p');document.documentElement.classList.toggle('vtp',t==='vt'||t==='gt');document.documentElement.classList.toggle('bfp',t==='bf');document.documentElement.classList.toggle('idp',t==='id');document.documentElement.classList.toggle('agp',t==='age');if(!nv)nvPush();try{drawer()}catch(e){}
  const el=document.getElementById('app');
  if(el){try{el.innerHTML=subbar()+V[t]();requestAnimationFrame(sbCenter)}catch(e){el.innerHTML='<div class="card">पेज लोड करताना त्रुटी आली: '+esc(e.message)+'</div>'}}
 }
