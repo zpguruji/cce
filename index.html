@@ -329,17 +329,21 @@ body{min-height:100vh;display:flex;flex-direction:column}main{flex:1 0 auto;widt
 .ixt th{font-size:15px;padding:7px 2px}.ixt td{height:10mm;font-size:15px}.ixt td.l{text-align:left;padding-left:8px}
 @page cvp{size:A4 portrait;margin:0}@page cvl{size:A4 landscape;margin:0}
 @media print{main{padding:0!important}.cov{zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important}.cov.cp{page:cvp;height:296mm!important}.cov.cl{page:cvl;height:209mm!important}}
-@media print{.fi{transform-origin:0 0;transform:scale(var(--fit,1));width:calc(100%/var(--fit,1))}
+@media print{.fi{transform-origin:0 0;transform:scale(var(--fit,1));width:calc(100%/var(--fit,1));padding-top:1.4mm;box-sizing:border-box}
 .rpg{width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;height:280mm!important}.rpg~.rpg{break-before:page;page-break-before:always}}
 @media print{#lp,#sh,#md,#ld,#hd,#ov,#dw,.ab,body::before{display:none!important}body{padding:0}html,body{height:auto!important;min-height:0!important}body{display:block!important}main{flex:none!important}}
 @media print{.np{display:none!important}body{background:#fff;color:#000}.card{border:none;padding:0}th{background:#eee;color:#000}:root{--bd:#444}}
 .rsh{background:#fff;color:#000;width:1060px;box-sizing:border-box;padding:10px 12px;margin:0 auto 14px;border:1px solid var(--bd);box-shadow:0 1px 4px #0002;font-size:11px;line-height:1.25;zoom:var(--z,1)}
 .rsh .rt th,.rsh .rt td{height:7.4mm;font-size:10.5px;padding:0 1px}
 .rsh .rt th{height:auto;padding:2px 1px}.rsh .rt .vt2{height:82px}.rsh .rt .vt2 span{font-size:10px}
-.rsh-h{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:start;font-size:12.5px;color:#000;margin-bottom:4px}
+.rsh-h{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:start;font-size:12.5px;color:#000;margin-bottom:4px;line-height:1.45}
 .rsh-h .c{text-align:center}.rsh-h .c h3{font-size:19px;margin:0 0 2px;font-weight:700;color:#000}.rsh-h .r{text-align:right}.rsh-h .sn{font-size:15px;font-weight:700}
 .rsh-b{display:flex;gap:16px;align-items:flex-end;margin-top:8px}.rsh-b .sm1{flex:0 0 56%}.rsh-b .sg1{flex:1}
-.rsh .rss td,.rsh .rss th{height:5.4mm}.rsh-f{font-size:11px;margin-top:6px;color:#000}
+.rsh .rss td,.rsh .rss th{height:5.4mm}
+.rsh .rss{width:100%;table-layout:fixed}
+.rsh .rss th:first-child{width:9mm}
+.rsh .rss th:nth-child(2){width:36mm}
+.rsh .rss td.sl{white-space:nowrap;text-align:left;padding-left:1.5mm}.rsh-f{font-size:11px;margin-top:6px;color:#000}
 @page rsh{size:A4 landscape;margin:6mm}
 @media print{.rsh{width:auto!important;zoom:1!important;margin:0!important;border:0!important;box-shadow:none!important;padding:0!important;overflow:hidden!important;box-sizing:border-box!important;height:197mm!important}.rsh~.rsh{break-before:page;page-break-before:always}.rsh .rt tr{break-inside:avoid}}
 .rsh.an .rt td{height:6.4mm;font-size:10px}
